@@ -171,6 +171,14 @@ tr.data-row:hover td{background:#FFFBF8}
 .hm-val{text-align:right;font-weight:500}
 .hm-sales{text-align:right;color:var(--text-secondary)}
 .hm-pct{text-align:right;font-weight:500}
+
+/* ポップアップ */
+.popup-trigger{position:relative;cursor:pointer}
+.popup-trigger:hover .popup-content{display:block}
+.popup-content{display:none;position:absolute;z-index:200;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:10px 14px;min-width:200px;left:0;top:100%;margin-top:4px;font-size:12px}
+.popup-content .popup-title{font-weight:500;margin-bottom:6px;color:var(--text-secondary)}
+.popup-content .popup-row{display:flex;justify-content:space-between;gap:16px;padding:3px 0;border-bottom:1px solid #f5f5f4}
+.popup-content .popup-row:last-child{border-bottom:none}
 </style>
 </head>
 <body>
@@ -488,7 +496,7 @@ tr.data-row:hover td{background:#FFFBF8}
 
     <!-- ===== PAGE: OPERATOR ===== -->
     <div class="page" id="page-operator">
-<div class="card" style="margin-bottom:20px"><div class="card-title">サイト・ランク別 原価率</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div><div style="font-size:12px;font-weight:500;color:var(--orange);margin-bottom:8px">新宿SC</div><table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody><tr><td><span class="rank-badge rank-top">トップ</span></td><td class="r">¥755,000</td><td class="r">¥175,000</td><td class="r c-green">23.2%</td></tr><tr><td><span class="rank-badge rank-mid">ミドル</span></td><td class="r">¥181,000</td><td class="r">¥90,000</td><td class="r c-green">49.7%</td></tr><tr><td><span class="rank-badge rank-rookie">ルーキー</span></td><td class="r">¥30,000</td><td class="r">¥17,000</td><td class="r c-amber">56.7%</td></tr><tr><td><span class="rank-badge rank-mid">管理者</span></td><td class="r">¥88,000</td><td class="r">¥170,833</td><td class="r c-red">194.1%</td></tr></tbody></table></div><div><div style="font-size:12px;font-weight:500;color:var(--orange);margin-bottom:8px">リモートSC</div><table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody><tr><td><span class="rank-badge rank-mid">ミドル</span></td><td class="r">¥120000</td><td class="r">¥56,000</td><td class="r c-green">46.7%</td></tr><tr><td><span class="rank-badge rank-rookie">ルーキープラス</span></td><td class="r">¥20000</td><td class="r">¥19,500</td><td class="r c-red">97.5%</td></tr><tr><td><span class="rank-badge rank-rookie">ルーキー</span></td><td class="r">—</td><td class="r">¥23,000</td><td class="r c-green">—</td></tr></tbody></table></div></div></div>
+<div class="card" style="margin-bottom:20px"><div class="card-title">サイト・ランク別 原価率 <span style="font-size:11px;color:var(--gray);font-weight:400">※ランクにカーソルを合わせるとスタッフ一覧が表示されます</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div><div style="font-size:12px;font-weight:500;color:var(--orange);margin-bottom:8px">新宿SC</div><table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody><tr><td><div class="popup-trigger"><span class="rank-badge rank-top">トップ</span><div class="popup-content"><div class="popup-title">トップ（新宿SC）12名</div><div class="popup-row"><span>平賀健介0202</span><span>¥137000</span></div><div class="popup-row"><span>島田</span><span>¥120000</span></div><div class="popup-row"><span>小林幸司0507</span><span>¥110000</span></div><div class="popup-row"><span>中村光伸1017</span><span>¥101000</span></div><div class="popup-row"><span>硴塚</span><span>¥97000</span></div><div class="popup-row"><span>清水久美子0122</span><span>¥60000</span></div><div class="popup-row"><span>久保浩二0513</span><span>¥52000</span></div><div class="popup-row"><span>木下翔太0424</span><span>¥30000</span></div><div class="popup-row"><span>橋爪朝寿0209</span><span>¥30000</span></div><div class="popup-row"><span>土屋麻佳0405</span><span>¥20000</span></div><div class="popup-row"><span>加藤隆治0210</span><span>¥18000</span></div><div class="popup-row"><span>内藤公誉1212</span><span>¥10000</span></div></div></div></td><td class="r">¥755000</td><td class="r">¥175,000</td><td class="r c-green">23.2%</td></tr><tr><td><div class="popup-trigger"><span class="rank-badge rank-mid">ミドル</span><div class="popup-content"><div class="popup-title">ミドル（新宿SC）7名</div><div class="popup-row"><span>岡本章宏0423</span><span>¥90000</span></div><div class="popup-row"><span>青木くらら0607</span><span>¥23000</span></div><div class="popup-row"><span>大友晶五0317</span><span>¥18000</span></div><div class="popup-row"><span>小橋正佳0706</span><span>—</span></div><div class="popup-row"><span>石塚</span><span>—</span></div><div class="popup-row"><span>川村義之0108</span><span>—</span></div><div class="popup-row"><span>君塚綾子1104</span><span>—</span></div></div></div></td><td class="r">¥181000</td><td class="r">¥90,000</td><td class="r c-green">49.7%</td></tr><tr><td><div class="popup-trigger"><span class="rank-badge rank-rookie">ルーキー</span><div class="popup-content"><div class="popup-title">ルーキー（新宿SC）2名</div><div class="popup-row"><span>橋爪朝寿0209</span><span>¥30000</span></div><div class="popup-row"><span>田中千賀0209</span><span>—</span></div></div></div></td><td class="r">¥30000</td><td class="r">¥17,000</td><td class="r c-amber">56.7%</td></tr><tr><td><div class="popup-trigger"><span class="rank-badge rank-mid">管理者</span><div class="popup-content"><div class="popup-title">管理者（新宿SC）3名</div><div class="popup-row"><span>原田航0225</span><span>—</span></div><div class="popup-row"><span>木村明日美1116</span><span>—</span></div><div class="popup-row"><span>山田健太0425</span><span>—</span></div></div></div></td><td class="r">¥88000</td><td class="r">¥105,416</td><td class="r c-red">119.8%</td></tr></tbody></table></div><div><div style="font-size:12px;font-weight:500;color:var(--orange);margin-bottom:8px">リモートSC</div><table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody><tr><td><div class="popup-trigger"><span class="rank-badge rank-mid">ミドル</span><div class="popup-content"><div class="popup-title">ミドル（リモートSC）6名</div><div class="popup-row"><span>松浦美紀0423</span><span>¥100000</span></div><div class="popup-row"><span>坪井有美0922</span><span>¥20000</span></div><div class="popup-row"><span>仁浦魁人0512</span><span>—</span></div><div class="popup-row"><span>伏見優孝0304</span><span>—</span></div><div class="popup-row"><span>横川祥玲0210</span><span>—</span></div><div class="popup-row"><span>津田唯佳0916</span><span>—</span></div></div></div></td><td class="r">¥120000</td><td class="r">¥56,000</td><td class="r c-green">46.7%</td></tr><tr><td><div class="popup-trigger"><span class="rank-badge rank-rookie">ルーキープラス</span><div class="popup-content"><div class="popup-title">ルーキープラス（リモートSC）2名</div><div class="popup-row"><span>日高竹晴0825</span><span>¥20000</span></div><div class="popup-row"><span>佐々木真美0922</span><span>—</span></div></div></div></td><td class="r">¥20000</td><td class="r">¥19,500</td><td class="r c-red">97.5%</td></tr><tr><td><div class="popup-trigger"><span class="rank-badge rank-rookie">ルーキー</span><div class="popup-content"><div class="popup-title">ルーキー（リモートSC）2名</div><div class="popup-row"><span>上田奈津子1014</span><span>—</span></div><div class="popup-row"><span>中井歩0707</span><span>—</span></div></div></div></td><td class="r">—</td><td class="r">¥23,000</td><td class="r c-green">—</td></tr></tbody></table></div></div></div>
       <div class="row3" style="margin-bottom:20px">
         <div class="card" style="margin-bottom:0">
           <div class="card-title">ランク別稼働単価</div>
@@ -753,91 +761,134 @@ tr.data-row:hover td{background:#FFFBF8}
 </div>
 </div>
 
+
 <script>
+// ===== サイト別データ =====
+const SITE_DATA = {
+  all:      {sales:1023000, apo:61, cancel:8, valid:53, cancelRate:13.1, labor:592225, costRate:57.9, ops:34, unit:30088, calls:4057, apoRate:2.1, target:33000000},
+  shinjuku: {sales:947000,  apo:47, cancel:4, valid:43, cancelRate:8.5,  labor:456362, costRate:48.2, ops:23, unit:41173, calls:0,    apoRate:0,   target:24090000},
+  remote:   {sales:76000,   apo:9,  cancel:4, valid:5,  cancelRate:44.4, labor:116696, costRate:153.5,ops:10, unit:7600,  calls:0,    apoRate:0,   target:8910000},
+  ai:       {sales:0,       apo:5,  cancel:0, valid:5,  cancelRate:0.0,  labor:19166,  costRate:0,    ops:1,  unit:0,     calls:0,    apoRate:0,   target:0}
+};
+
+let currentSite = 'all';
+
 // ===== ページ切替 =====
 function showPage(id, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
   document.getElementById('page-' + id).classList.add('active');
   el.classList.add('active');
-
-  const titles = {
-    dashboard: 'ダッシュボード',
-    daily: '日次明細',
-    operator: 'OP個人実績',
-    import: 'データ取込',
-    master: 'マスター管理',
-    settings: '設定'
-  };
+  var titles = {dashboard:'ダッシュボード', daily:'日次明細', operator:'OP個人実績', import:'データ取込', master:'マスター管理', settings:'設定'};
   document.getElementById('pageTitle').textContent = titles[id] || id;
-
-  // サイトタブの表示制御
-  const showTabs = ['dashboard','daily','operator'].includes(id);
+  var showTabs = ['dashboard','daily','operator'].indexOf(id) >= 0;
   document.getElementById('siteTabs').style.display = showTabs ? 'flex' : 'none';
 }
 
-// ===== サイト切替 =====
-function switchSite(site, el) {
-  document.querySelectorAll('.site-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ===== 日次チャート（空） =====
-const ctx = document.getElementById('dailyChart').getContext('2d');
-new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['5/1','5/2','5/7','5/8','5/9','5/12','5/13','5/14','5/15','5/16','5/19','5/20','5/21','5/22','5/23','5/26','5/27','5/28','5/29','5/30'],
-    datasets: [{
-      label: '売上（万円）',
-      data: [102.3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      backgroundColor: ['#E8711A','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22'],
-      borderColor: '#E8711A',
-      borderWidth: 1,
-      borderRadius: 3
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: d => `¥${(d.raw * 10000).toLocaleString()}` } }
-    },
-    scales: {
-      x: { ticks: { font: { size: 10 }, color: '#AAA' }, grid: { display: false }, border: { display: false } },
-      y: { ticks: { font: { size: 10 }, color: '#AAA', callback: v => `${v}万` }, grid: { color: 'rgba(0,0,0,.04)' }, border: { display: false } }
-    }
-  }
-});
-
-// 初期化
-document.getElementById('siteTabs').style.display = 'flex';
-
 // ===== サイトタブ切替 =====
 function switchSite(site, el) {
-  document.querySelectorAll('.site-tab').forEach(t => t.classList.remove('active'));
+  currentSite = site;
+  document.querySelectorAll('.site-tab').forEach(function(t) { t.classList.remove('active'); });
   el.classList.add('active');
+  updateDashboardKPI(site);
+  updateDailyPage(site);
+  updateOperatorFilter(site);
+}
 
-  // OP個人実績ページのフィルタリング
-  const rows = document.querySelectorAll('#page-operator tbody tr');
-  rows.forEach(row => {
-    const cells = row.querySelectorAll('td');
+// ===== ダッシュボードKPI更新 =====
+function updateDashboardKPI(site) {
+  var d = SITE_DATA[site];
+  if (!d) return;
+  var t = d.target;
+  var pct = t > 0 ? (d.sales/t*100).toFixed(1) : '0.0';
+  var landing = Math.round(d.sales * 18);
+  var landingPct = t > 0 ? (landing/t*100).toFixed(1) : '0.0';
+  var cards = document.querySelectorAll('#page-dashboard .kpi-card');
+  if (cards.length < 4) return;
+  // 売上合計
+  cards[0].querySelector('.kpi-value').textContent = '¥' + Math.round(d.sales/10000) + '万';
+  cards[0].querySelector('.kpi-sub').textContent = '目標 ¥' + Math.round(t/10000) + '万　進捗 ' + pct + '%';
+  // 残売上
+  cards[1].querySelector('.kpi-value').textContent = t > 0 ? '−¥' + Math.round((t-d.sales)/10000) + '万' : '—';
+  // 1日あたり平均
+  cards[2].querySelector('.kpi-value').textContent = '¥' + Math.round(d.sales/10000) + '万';
+  // 着地見込み
+  cards[3].querySelector('.kpi-value').textContent = '¥' + Math.round(landing/10000) + '万';
+  cards[3].querySelector('.kpi-badge').textContent = '達成率 ' + landingPct + '%';
+  // 原価率（7番目）
+  if (cards[6]) {
+    cards[6].querySelector('.kpi-value').textContent = d.sales > 0 ? d.costRate.toFixed(1) + '%' : '—';
+    cards[6].querySelector('.kpi-sub').textContent = '人件費 ¥' + Math.round(d.labor/10000) + '万';
+  }
+  // 稼働単価（8番目）
+  if (cards[7]) {
+    cards[7].querySelector('.kpi-value').textContent = d.unit > 0 ? '¥' + d.unit.toLocaleString() : '—';
+  }
+}
+
+// ===== 日次明細更新 =====
+function updateDailyPage(site) {
+  var d = SITE_DATA[site];
+  if (!d) return;
+  var tbody = document.getElementById('dailyTableBody');
+  if (!tbody) return;
+  tbody.innerHTML =
+    '<tr>' +
+    '<td class="daily-date-col">1営業日</td>' +
+    '<td>2026/05/01</td>' +
+    '<td class="r">¥' + d.sales.toLocaleString() + '</td>' +
+    '<td class="r">' + d.apo + '</td>' +
+    '<td class="r c-red">' + d.cancel + '</td>' +
+    '<td class="r">' + d.valid + '</td>' +
+    '<td class="r">' + d.ops + '</td>' +
+    '<td class="r">' + (d.calls > 0 ? d.calls.toLocaleString() : '—') + '</td>' +
+    '<td class="r">' + (d.valid > 0 ? '¥' + Math.round(d.sales/d.valid).toLocaleString() : '—') + '</td>' +
+    '</tr>';
+}
+
+// ===== OP個人実績フィルター =====
+function updateOperatorFilter(site) {
+  var rows = document.querySelectorAll('#page-operator tbody tr');
+  var siteLabel = {shinjuku:'新宿SC', remote:'リモートSC', ai:'AI'};
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
     if (cells.length < 3) return;
-    const rowSite = cells[2].textContent.trim();
+    var rowSite = cells[2].textContent.trim();
     if (site === 'all') {
       row.style.display = '';
-    } else if (site === 'shinjuku' && rowSite === '新宿SC') {
-      row.style.display = '';
-    } else if (site === 'remote' && rowSite === 'リモートSC') {
-      row.style.display = '';
-    } else if (site === 'ai' && rowSite === 'AI') {
-      row.style.display = '';
     } else {
-      row.style.display = 'none';
+      row.style.display = rowSite === siteLabel[site] ? '' : 'none';
     }
   });
 }
+
+// ===== 日次チャート =====
+var ctx = document.getElementById('dailyChart');
+if (ctx) {
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['5/1','5/2','5/7','5/8','5/9','5/12','5/13','5/14','5/15','5/16','5/19','5/20','5/21','5/22','5/23','5/26','5/27','5/28','5/29','5/30'],
+      datasets: [{
+        label: '売上（万円）',
+        data: [102.3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        backgroundColor: ['#E8711A','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22','#E8711A22'],
+        borderColor: '#E8711A', borderWidth: 1, borderRadius: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, color: '#AAA' }, grid: { display: false }, border: { display: false } },
+        y: { ticks: { font: { size: 10 }, color: '#AAA', callback: function(v) { return v + '万'; } }, grid: { color: 'rgba(0,0,0,.04)' }, border: { display: false } }
+      }
+    }
+  });
+}
+
+// ===== 初期化 =====
+document.getElementById('siteTabs').style.display = 'flex';
 </script>
 </body>
 </html>
