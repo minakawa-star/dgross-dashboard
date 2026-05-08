@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PT事業部 売上管理ダッシュボード</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --orange: #E8711A;
+  --orange-light: #FFF4EC;
+  --orange-mid: #F5A05A;
+  --red: #C0392B;
+  --red-light: #FFEBEE;
+  --green: #2E7D32;
+  --green-light: #EDF7ED;
+  --gray: #888;
+  --border: #EBEBEA;
+  --bg: #F7F7F5;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-secondary: #555;
+  --text-muted: #AAA;
+  --sidebar-w: 220px;
+  --header-h: 56px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
+
+/* ===== LAYOUT ===== */
+.layout{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50}
+.content{padding:24px;flex:1}
+
+/* ===== SIDEBAR ===== */
+.sidebar-logo{padding:18px 20px 16px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:8px}
+.logo-icon{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:18px;fill:#fff}
+.logo-text{font-size:14px;font-weight:700;letter-spacing:-.02em}
+.logo-sub{font-size:10px;color:var(--gray);margin-top:1px}
+.nav{padding:12px 0;flex:1}
+.nav-section{font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;padding:10px 20px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--text-secondary);transition:all .15s;border-left:2px solid transparent;font-size:13px}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{color:var(--orange);font-weight:500;border-left-color:var(--orange);background:var(--orange-light)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border)}
+.user-info{display:flex;align-items:center;gap:8px}
+.user-avatar{width:30px;height:30px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:500;flex-shrink:0}
+.user-name{font-size:12px;font-weight:500}
+.user-role{font-size:10px;color:var(--gray)}
+
+/* ===== HEADER ===== */
+.page-title{font-size:15px;font-weight:500}
+.header-right{display:flex;align-items:center;gap:12px}
+.period-badge{font-size:12px;background:var(--orange-light);color:var(--orange);padding:4px 12px;border-radius:20px;font-weight:500}
+.update-time{font-size:11px;color:var(--text-muted)}
+.site-tabs{display:flex;gap:2px;background:#F0F0EE;border-radius:7px;padding:3px}
+.site-tab{font-size:12px;padding:5px 14px;border-radius:5px;cursor:pointer;color:var(--text-secondary);transition:all .15s;white-space:nowrap}
+.site-tab.active{background:var(--white);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* ===== PAGE ===== */
+.page{display:none}
+.page.active{display:block}
+
+/* ===== KPI CARDS ===== */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+.kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.kpi-card.orange::after{background:var(--orange)}
+.kpi-card.red::after{background:var(--red)}
+.kpi-card.green::after{background:var(--green)}
+.kpi-card.gray::after{background:#CCC}
+.kpi-label{font-size:11px;color:var(--gray);margin-bottom:6px;font-weight:500}
+.kpi-value{font-size:22px;font-weight:500;line-height:1.1;color:var(--text)}
+.kpi-value.empty{color:var(--text-muted);font-size:18px}
+.kpi-sub{font-size:11px;color:var(--text-muted);margin-top:5px}
+.kpi-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;margin-top:4px}
+.badge-orange{background:var(--orange-light);color:var(--orange)}
+.badge-red{background:var(--red-light);color:var(--red)}
+.badge-green{background:var(--green-light);color:var(--green)}
+.prog{display:flex;align-items:center;gap:6px;margin-top:6px}
+.prog-bg{flex:1;height:3px;background:#F0F0EE;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+
+/* ===== SECTION ===== */
+.section-label{font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:20px}
+.card-title{font-size:13px;font-weight:500;margin-bottom:16px;color:var(--text-secondary)}
+
+/* ===== TABLE ===== */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px 12px;font-size:11px;font-weight:500;color:var(--gray);border-bottom:1px solid var(--border);white-space:nowrap}
+th.r{text-align:right}
+td{padding:9px 12px;border-bottom:1px solid #F5F5F4;font-size:13px;white-space:nowrap}
+td.r{text-align:right}
+tr:last-child td{border-bottom:none}
+tr.sec-head td{background:#FAFAF8;font-size:10px;font-weight:500;color:var(--orange);padding:5px 12px;letter-spacing:.06em;border-bottom:1px solid var(--border)}
+tr.subtotal td{font-weight:500;background:#FFFAF7}
+tr.data-row:hover td{background:#FFFBF8}
+.rank-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
+.rank-top{background:#EBF3FB;color:#1A5FAD}
+.rank-mid{background:var(--green-light);color:var(--green)}
+.rank-rookie{background:#F4F4F2;color:#666}
+
+/* ===== PROGRESS BARS ===== */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-row:last-child{margin-bottom:0}
+.prog-name{font-size:12px;width:100px;flex-shrink:0;color:var(--text-secondary)}
+.prog-bar-bg{flex:1;height:5px;background:#F0F0EE;border-radius:3px;overflow:hidden}
+.prog-bar-fill{height:100%;border-radius:3px}
+.prog-val{font-size:12px;font-weight:500;width:44px;text-align:right;flex-shrink:0}
+
+/* ===== COLORS ===== */
+.c-orange{color:var(--orange)}
+.c-red{color:var(--red)}
+.c-amber{color:#C06010}
+.c-green{color:var(--green)}
+.c-muted{color:var(--text-muted)}
+.c-blue{color:#1A5FAD}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-icon{font-size:36px;margin-bottom:10px;opacity:.4}
+.empty-text{font-size:13px;margin-bottom:4px}
+.empty-sub{font-size:11px}
+
+/* ===== ALERT ===== */
+.alert{background:#FEF8F0;border:1px solid #F0C88A;border-radius:8px;padding:10px 16px;font-size:12px;color:#7A4A10;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.alert-dot{width:7px;height:7px;border-radius:50%;background:#D4860A;flex-shrink:0}
+
+/* ===== IMPORT PAGE ===== */
+.import-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.import-type-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.import-type-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.import-type-card.t-apo::before{background:var(--orange)}
+.import-type-card.t-kintai::before{background:var(--green)}
+.import-type-card.t-call::before{background:#1A5FAD}
+.import-type-card.t-callsum::before{background:#7B3FA0}
+.import-type-card:hover{border-color:#DDD;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.import-type-card.selected{border-color:var(--orange);box-shadow:0 0 0 2px rgba(232,113,26,.15)}
+.import-type-icon{font-size:20px;margin-bottom:8px}
+.import-type-name{font-size:12px;font-weight:500;margin-bottom:3px}
+.import-type-desc{font-size:11px;color:var(--gray);line-height:1.4}
+.drop-zone{border:1.5px dashed #DDD;border-radius:8px;padding:32px;text-align:center;cursor:pointer;transition:all .15s;background:#FAFAF8}
+.drop-zone:hover{border-color:var(--orange);background:var(--orange-light)}
+.browse-btn{display:inline-block;margin-top:10px;font-size:12px;padding:6px 14px;border:1px solid var(--orange);color:var(--orange);border-radius:6px;cursor:pointer;background:var(--white)}
+.action-bar{display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:16px}
+.btn{padding:8px 20px;border-radius:7px;font-size:13px;cursor:pointer;font-weight:500}
+.btn-secondary{background:var(--white);border:1px solid var(--border);color:var(--text-secondary)}
+.btn-primary{background:var(--orange);border:1px solid var(--orange);color:#fff}
+.btn-primary:disabled{background:#F0C090;border-color:#F0C090;cursor:not-allowed}
+.log-table th,.log-table td{padding:8px 14px}
+.status-success{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;background:var(--green-light);color:var(--green);font-weight:500}
+
+/* ===== DAILY TABLE ===== */
+.daily-date-col{color:var(--text-secondary);font-size:12px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+      </div>
+      <div>
+        <div class="logo-text">PT事業部</div>
+        <div class="logo-sub">売上管理システム</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">メイン</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      ダッシュボード
+    </div>
+    <div class="nav-item" onclick="showPage('daily',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+      日次明細
+    </div>
+    <div class="nav-item" onclick="showPage('operator',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      OP個人実績
+    </div>
+    <div class="nav-section">管理</div>
+    <div class="nav-item" onclick="showPage('import',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      データ取込
+    </div>
+    <div class="nav-item" onclick="showPage('master',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      マスター管理
+    </div>
+    <div class="nav-section">設定</div>
+    <div class="nav-item" onclick="showPage('settings',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      設定
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar">皆</div>
+      <div>
+        <div class="user-name">皆川 大輔</div>
+        <div class="user-role">管理者</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="header">
+    <div class="page-title" id="pageTitle">ダッシュボード</div>
+    <div class="header-right">
+      <span class="update-time" id="updateTime">最終更新: 05/07 09:00</span>
+      <span class="period-badge">2026年5月</span>
+      <div class="site-tabs" id="siteTabs">
+        <div class="site-tab active" onclick="switchSite('all',this)">全体</div>
+        <div class="site-tab" onclick="switchSite('shinjuku',this)">新宿SC</div>
+        <div class="site-tab" onclick="switchSite('remote',this)">リモートSC</div>
+        <div class="site-tab" onclick="switchSite('ai',this)">AI</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== PAGE: DASHBOARD ===== -->
+    <div class="page active" id="page-dashboard">
+      <div class="alert">
+        <div class="alert-dot"></div>
+        5月1日のデータを反映済みです。最終更新: 2026/05/07
+      </div>
+
+      <div class="section-label">月次KPI サマリー</div>
+      <div class="kpi-grid">
+        <div class="kpi-card orange">
+          <div class="kpi-label">売上合計</div>
+          <div class="kpi-value empty">¥ —</div>
+          <div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:0%;background:var(--orange)"></div></div><span style="font-size:11px;color:var(--text-muted)">— %</span></div>
+          <div class="kpi-sub">目標 ¥33,000,000</div>
+        </div>
+        <div class="kpi-card red">
+          <div class="kpi-label">残売上</div>
+          <div class="kpi-value empty">— 円</div>
+          <div class="kpi-badge badge-red">着地見込み —</div>
+          <div class="kpi-sub">目標差 —</div>
+        </div>
+        <div class="kpi-card red">
+          <div class="kpi-label">粗利率</div>
+          <div class="kpi-value empty">— %</div>
+          <div class="kpi-badge badge-red">原価率 —</div>
+          <div class="kpi-sub">人件費 —</div>
+        </div>
+        <div class="kpi-card orange">
+          <div class="kpi-label">請求アポ / キャンセル率</div>
+          <div class="kpi-value empty">— 件</div>
+          <div class="kpi-badge badge-orange">キャンセル — %</div>
+          <div class="kpi-sub">獲得 — 件　取消 — 件</div>
+        </div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card orange">
+          <div class="kpi-label">稼働単価（全体）</div>
+          <div class="kpi-value empty">¥ —</div>
+          <div class="kpi-sub">管理要基準 ¥30,000</div>
+        </div>
+        <div class="kpi-card gray">
+          <div class="kpi-label">稼働単価（管理要）</div>
+          <div class="kpi-value empty">¥ —</div>
+          <div class="kpi-sub">基準 ¥30,000</div>
+        </div>
+        <div class="kpi-card gray">
+          <div class="kpi-label">稼働人数 / 工数</div>
+          <div class="kpi-value empty">— 人</div>
+          <div class="kpi-sub">工数 — / 目標 —</div>
+        </div>
+        <div class="kpi-card gray">
+          <div class="kpi-label">着地見込み達成率</div>
+          <div class="kpi-value empty">— %</div>
+          <div class="kpi-sub">¥— / ¥33,000,000</div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">サイト別進捗 / 原価率</div>
+          <div class="prog-row">
+            <div class="prog-name">新宿SC 進捗</div>
+            <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%;background:var(--orange)"></div></div>
+            <div class="prog-val c-muted">— %</div>
+          </div>
+          <div class="prog-row">
+            <div class="prog-name">リモートSC 進捗</div>
+            <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%;background:var(--orange)"></div></div>
+            <div class="prog-val c-muted">— %</div>
+          </div>
+          <div class="prog-row">
+            <div class="prog-name">AI 進捗</div>
+            <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%;background:#CCC"></div></div>
+            <div class="prog-val c-muted">—</div>
+          </div>
+          <div style="height:12px"></div>
+          <div class="prog-row">
+            <div class="prog-name">新宿SC 原価率</div>
+            <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%;background:#AAA"></div></div>
+            <div class="prog-val c-muted">— %</div>
+          </div>
+          <div class="prog-row">
+            <div class="prog-name">リモートSC 原価率</div>
+            <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%;background:#AAA"></div></div>
+            <div class="prog-val c-muted">— %</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">稼働単価（ランク別）</div>
+          <table>
+            <thead><tr><th>ランク</th><th class="r">新宿SC</th><th class="r">リモートSC</th></tr></thead>
+            <tbody>
+              <tr><td><span class="rank-badge rank-top">トップ</span></td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr><td><span class="rank-badge rank-mid">ミドル</span></td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr><td><span class="rank-badge rank-rookie">ルーキー</span></td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">日次売上推移</div>
+        <div style="height:200px;display:flex;align-items:center;justify-content:center">
+          <div class="empty-state">
+            <div class="empty-icon">📊</div>
+            <div class="empty-text">データ取込後に表示されます</div>
+            <div class="empty-sub">データ取込ページからファイルをアップロードしてください</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">詳細データ</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:160px">項目</th>
+                <th class="r">パートナー事業部</th>
+                <th class="r">新宿SC</th>
+                <th class="r">リモートSC</th>
+                <th class="r">AI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="sec-head"><td colspan="5">SALES｜売上</td></tr>
+              <tr class="data-row"><td>売上目標</td><td class="r">¥33,000,000</td><td class="r">¥24,090,000</td><td class="r">¥8,910,000</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>売上合計</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>売上進捗率</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>残売上</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>着地見込み</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="sec-head"><td colspan="5">COST｜原価・人件費</td></tr>
+              <tr class="data-row"><td>原価率目標</td><td class="r">50.0%</td><td class="r">50.0%</td><td class="r">50.0%</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>原価率（実績）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>人件費</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>粗利額</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="sec-head"><td colspan="5">APO｜アポイント</td></tr>
+              <tr class="data-row"><td>アポ数（獲得）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>キャンセル数</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="subtotal data-row"><td>請求ベース（アポ数）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>キャンセル率</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="sec-head"><td colspan="5">WORK｜稼働・工数</td></tr>
+              <tr class="data-row"><td>稼働人数</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>稼働工数</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>1日あたり工数</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="sec-head"><td colspan="5">UNIT｜稼働単価</td></tr>
+              <tr class="data-row"><td>単価目標</td><td class="r">¥35,000</td><td class="r">¥45,000</td><td class="r">¥25,000</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>稼働単価（全体）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>稼働単価（管理要）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>稼働単価（トップ）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>稼働単価（ミドル）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr class="data-row"><td>稼働単価（ルーキー）</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: DAILY ===== -->
+    <div class="page" id="page-daily">
+      <div class="card">
+        <div class="card-title">日次売上推移（5月）</div>
+        <div style="height:220px;position:relative">
+          <canvas id="dailyChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">日別明細</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>営業日</th><th>日付</th>
+                <th class="r">売上合計</th>
+                <th class="r">アポ数</th>
+                <th class="r">キャンセル</th>
+                <th class="r">有効アポ</th>
+                <th class="r">稼働人数</th>
+                <th class="r">コール数</th>
+                <th class="r">アポ単価</th>
+              </tr>
+            </thead>
+            <tbody id="dailyTableBody">
+              <tr><td colspan="9"><div class="empty-state" style="padding:24px"><div class="empty-icon">📅</div><div class="empty-text">データ取込後に表示されます</div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: OPERATOR ===== -->
+    <div class="page" id="page-operator">
+      <div class="row3" style="margin-bottom:20px">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">ランク別稼働単価</div>
+          <table>
+            <thead><tr><th>ランク</th><th class="r">目標</th><th class="r">実績</th></tr></thead>
+            <tbody>
+              <tr><td><span class="rank-badge rank-top">トップ</span></td><td class="r">¥47,000</td><td class="r c-muted">—</td></tr>
+              <tr><td><span class="rank-badge rank-mid">ミドル</span></td><td class="r">¥32,000</td><td class="r c-muted">—</td></tr>
+              <tr><td><span class="rank-badge rank-rookie">ルーキー</span></td><td class="r">¥19,000</td><td class="r c-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">サイト別稼働人数</div>
+          <table>
+            <thead><tr><th>サイト</th><th class="r">稼働人数</th><th class="r">工数</th></tr></thead>
+            <tbody>
+              <tr><td>新宿SC</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr><td>リモートSC</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr><td>AI</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">コール実績</div>
+          <table>
+            <thead><tr><th>サイト</th><th class="r">コール数</th><th class="r">アポ率</th></tr></thead>
+            <tbody>
+              <tr><td>新宿SC</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr><td>リモートSC</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+              <tr><td>AI</td><td class="r c-muted">—</td><td class="r c-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">OP個人実績一覧</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>氏名</th><th>ランク</th><th>サイト</th>
+                <th class="r">売上</th>
+                <th class="r">アポ数</th>
+                <th class="r">キャンセル</th>
+                <th class="r">有効アポ</th>
+                <th class="r">稼働時間</th>
+                <th class="r">稼働単価</th>
+                <th class="r">コール数</th>
+                <th class="r">アポ率</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="11"><div class="empty-state" style="padding:24px"><div class="empty-icon">👤</div><div class="empty-text">データ取込後に表示されます</div><div class="empty-sub">アポイントデータ・勤怠データ・コールデータを取り込んでください</div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: IMPORT ===== -->
+    <div class="page" id="page-import">
+      <div class="import-type-grid">
+        <div class="import-type-card t-apo">
+          <div class="import-type-icon">📋</div>
+          <div class="import-type-name">アポイントデータ</div>
+          <div class="import-type-desc">DGLOSSアポイント一覧<br>Excel形式（.xlsx）</div>
+        </div>
+        <div class="import-type-card t-kintai">
+          <div class="import-type-icon">🕐</div>
+          <div class="import-type-name">勤怠データ</div>
+          <div class="import-type-desc">jinjer勤怠CSV<br>ZIP・フォルダ・CSV対応</div>
+        </div>
+        <div class="import-type-card t-call">
+          <div class="import-type-icon">📞</div>
+          <div class="import-type-name">コール詳細</div>
+          <div class="import-type-desc">CTIレポート(5)<br>Excel形式（.xlsx）</div>
+        </div>
+        <div class="import-type-card t-callsum">
+          <div class="import-type-icon">📊</div>
+          <div class="import-type-name">コールサマリー</div>
+          <div class="import-type-desc">CTI生産性レポート(4)<br>CSV形式（.csv）</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="drop-zone">
+          <div style="font-size:32px;opacity:.4;margin-bottom:10px">📂</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:4px">ファイル・フォルダをドラッグ＆ドロップ</div>
+          <div style="font-size:11px;color:var(--text-muted)">または</div>
+          <span class="browse-btn">ファイルを選択</span>
+        </div>
+      </div>
+      <div class="action-bar">
+        <span style="font-size:12px;color:var(--text-muted)">ファイルを選択してください</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary">リセット</button>
+          <button class="btn btn-primary" disabled>取込実行</button>
+        </div>
+      </div>
+      <div style="margin-top:24px">
+        <div class="card">
+          <div class="card-title">取込履歴</div>
+          <table class="log-table">
+            <thead><tr><th>日時</th><th>種別</th><th>ファイル名</th><th class="r">取込件数</th><th class="r">エラー</th><th>実行者</th><th>結果</th></tr></thead>
+            <tbody>
+              <tr><td colspan="7"><div class="empty-state" style="padding:20px"><div class="empty-text">取込履歴がありません</div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: MASTER ===== -->
+    <div class="page" id="page-master">
+      <div class="row2">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">ランクマスター</div>
+          <div class="empty-state" style="padding:24px">
+            <div class="empty-icon">🏆</div>
+            <div class="empty-text">スタッフのランクを設定してください</div>
+            <div class="empty-sub">スタッフデータ取込後に設定できます</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">時給マスター</div>
+          <div class="empty-state" style="padding:24px">
+            <div class="empty-icon">💰</div>
+            <div class="empty-text">スタッフの時給を設定してください</div>
+            <div class="empty-sub">スタッフデータ取込後に設定できます</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: SETTINGS ===== -->
+    <div class="page" id="page-settings">
+      <div class="card">
+        <div class="card-title">目標設定</div>
+        <table>
+          <thead><tr><th>項目</th><th>全体</th><th>新宿SC</th><th>リモートSC</th></tr></thead>
+          <tbody>
+            <tr class="data-row"><td>月次売上目標</td><td>¥33,000,000</td><td>¥24,090,000</td><td>¥8,910,000</td></tr>
+            <tr class="data-row"><td>原価率目標</td><td>50.0%</td><td>50.0%</td><td>50.0%</td></tr>
+            <tr class="data-row"><td>単価目標（全体）</td><td>¥35,000</td><td>¥45,000</td><td>¥25,000</td></tr>
+            <tr class="data-row"><td>目標アポ数</td><td>2,160件</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+// ===== ページ切替 =====
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+
+  const titles = {
+    dashboard: 'ダッシュボード',
+    daily: '日次明細',
+    operator: 'OP個人実績',
+    import: 'データ取込',
+    master: 'マスター管理',
+    settings: '設定'
+  };
+  document.getElementById('pageTitle').textContent = titles[id] || id;
+
+  // サイトタブの表示制御
+  const showTabs = ['dashboard','daily','operator'].includes(id);
+  document.getElementById('siteTabs').style.display = showTabs ? 'flex' : 'none';
+}
+
+// ===== サイト切替 =====
+function switchSite(site, el) {
+  document.querySelectorAll('.site-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== 日次チャート（空） =====
+const ctx = document.getElementById('dailyChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['5/1','5/2','5/7','5/8','5/9','5/12','5/13','5/14','5/15','5/16','5/19','5/20','5/21','5/22','5/23','5/26','5/27','5/28','5/29','5/30'],
+    datasets: [{
+      label: '売上（万円）',
+      data: new Array(20).fill(0),
+      backgroundColor: '#E8711A22',
+      borderColor: '#E8711A55',
+      borderWidth: 1,
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: d => `¥${(d.raw * 10000).toLocaleString()}` } }
+    },
+    scales: {
+      x: { ticks: { font: { size: 10 }, color: '#AAA' }, grid: { display: false }, border: { display: false } },
+      y: { ticks: { font: { size: 10 }, color: '#AAA', callback: v => `${v}万` }, grid: { color: 'rgba(0,0,0,.04)' }, border: { display: false } }
+    }
+  }
+});
+
+
+// ===== 5月実績データ（確定値）=====
+const ACTUAL_DATA = {
+  all:      {sales:1023000,  apo:61, cancel:8, valid:53, cancelRate:13.1, labor:592225, costRate:57.9, ops:34, hours:282.4, unit:30088},
+  shinjuku: {sales:947000,   apo:47, cancel:4, valid:43, cancelRate:8.5,  labor:456362, costRate:48.2, ops:23, hours:204.4, unit:41173},
+  remote:   {sales:76000,    apo:9,  cancel:4, valid:5,  cancelRate:44.4, labor:116696, costRate:153.5,ops:10, hours:70.0,  unit:7600},
+  ai:       {sales:0,        apo:5,  cancel:0, valid:5,  cancelRate:0.0,  labor:19166,  costRate:0.0,  ops:1,  hours:8.0,   unit:0},
+};
+const TARGETS = {
+  all:      {sales:33000000},
+  shinjuku: {sales:24090000},
+  remote:   {sales:8910000},
+  ai:       {sales:0}
+};
+const WORKING_DAYS_TOTAL = 18;
+const WORKED_DAYS = 1;
+
+function updateDashboard(site) {
+  const d = ACTUAL_DATA[site];
+  const t = TARGETS[site];
+  const pct = t.sales > 0 ? Math.round(d.sales / t.sales * 100) : 0;
+  const landing = Math.round(d.sales / WORKED_DAYS * WORKING_DAYS_TOTAL);
+  const landingPct = t.sales > 0 ? Math.round(landing / t.sales * 100) : 0;
+  const nokori = t.sales - d.sales;
+  const gross = d.sales - d.labor;
+  const grossRate = d.sales > 0 ? (gross / d.sales * 100).toFixed(1) : 0;
+
+  // KPIカード更新
+  const cards = document.querySelectorAll('.kpi-card');
+
+  // 売上合計
+  cards[0].querySelector('.kpi-value').textContent = '¥' + (d.sales/10000).toFixed(0) + '万';
+  cards[0].querySelector('.kpi-value').classList.remove('empty');
+  cards[0].querySelector('.prog-fill').style.width = pct + '%';
+  cards[0].querySelector('.kpi-sub').textContent = '目標 ¥' + (t.sales/10000).toFixed(0) + '万　進捗 ' + pct + '%';
+
+  // 残売上
+  cards[1].querySelector('.kpi-value').textContent = '−¥' + (nokori/10000).toFixed(0) + '万';
+  cards[1].querySelector('.kpi-value').classList.remove('empty');
+  cards[1].querySelector('.kpi-badge').textContent = '着地見込み ¥' + (landing/10000).toFixed(0) + '万（' + landingPct + '%）';
+
+  // 粗利率
+  cards[2].querySelector('.kpi-value').textContent = grossRate + '%';
+  cards[2].querySelector('.kpi-value').classList.remove('empty');
+  cards[2].querySelector('.kpi-badge').textContent = '原価率 ' + d.costRate.toFixed(1) + '%';
+  cards[2].querySelector('.kpi-sub').textContent = '人件費 ¥' + (d.labor/10000).toFixed(0) + '万';
+
+  // アポ
+  cards[3].querySelector('.kpi-value').textContent = d.valid + '件';
+  cards[3].querySelector('.kpi-value').classList.remove('empty');
+  cards[3].querySelector('.kpi-badge').textContent = 'キャンセル ' + d.cancelRate.toFixed(1) + '%';
+  cards[3].querySelector('.kpi-sub').textContent = '獲得 ' + d.apo + '件　取消 ' + d.cancel + '件';
+
+  // 稼働単価
+  cards[4].querySelector('.kpi-value').textContent = '¥' + d.unit.toLocaleString();
+  cards[4].querySelector('.kpi-value').classList.remove('empty');
+
+  // 稼働人数
+  cards[6].querySelector('.kpi-value').textContent = d.ops + '名';
+  cards[6].querySelector('.kpi-value').classList.remove('empty');
+  cards[6].querySelector('.kpi-sub').textContent = '工数 ' + d.ops + ' / 目標 ' + (site==='all'?'—':d.ops);
+
+  // 着地見込み達成率
+  cards[7].querySelector('.kpi-value').textContent = landingPct + '%';
+  cards[7].querySelector('.kpi-value').classList.remove('empty');
+  cards[7].querySelector('.kpi-sub').textContent = '¥' + (landing/10000).toFixed(0) + '万 / ¥' + (t.sales/10000).toFixed(0) + '万';
+
+  // プログレスバー更新
+  updateProgressBars(site);
+
+  // 詳細テーブル更新
+  updateTable(site);
+
+  // アラート更新
+  document.querySelector('.alert').style.display = 'none';
+}
+
+function updateProgressBars(site) {
+  const siteKeys = ['shinjuku', 'remote', 'ai'];
+  const siteNames = ['新宿SC', 'リモートSC', 'AI'];
+  const progRows = document.querySelectorAll('.prog-row');
+
+  [0,1,2].forEach(i => {
+    const d = ACTUAL_DATA[siteKeys[i]];
+    const t = TARGETS[siteKeys[i]];
+    const pct = t.sales > 0 ? Math.min(Math.round(d.sales/t.sales*100), 100) : 0;
+    if (progRows[i]) {
+      progRows[i].querySelector('.prog-bar-fill').style.width = pct + '%';
+      progRows[i].querySelector('.prog-bar-fill').style.background = pct < 50 ? '#C0392B' : '#E8711A';
+      progRows[i].querySelector('.prog-val').textContent = pct + '%';
+      progRows[i].querySelector('.prog-val').className = 'prog-val ' + (pct < 50 ? 'c-red' : 'c-orange');
+    }
+    if (progRows[i+3]) {
+      const cr = ACTUAL_DATA[siteKeys[i]].costRate;
+      progRows[i+3].querySelector('.prog-bar-fill').style.width = Math.min(cr, 100) + '%';
+      progRows[i+3].querySelector('.prog-val').textContent = cr.toFixed(1) + '%';
+    }
+  });
+
+  // ランク別単価テーブル
+  const rankTable = document.querySelector('.card:nth-child(2) table tbody');
+  if (rankTable) {
+    rankTable.innerHTML = `
+      <tr><td><span class="rank-badge rank-top">トップ</span></td><td class="r">¥—</td><td class="r">¥—</td></tr>
+      <tr><td><span class="rank-badge rank-mid">ミドル</span></td><td class="r">¥—</td><td class="r">¥—</td></tr>
+      <tr><td><span class="rank-badge rank-rookie">ルーキー</span></td><td class="r">¥—</td><td class="r">¥—</td></tr>
+    `;
+  }
+}
+
+function updateTable(site) {
+  const d = site === 'all' ? {
+    shinjuku: ACTUAL_DATA.shinjuku,
+    remote: ACTUAL_DATA.remote,
+    ai: ACTUAL_DATA.ai,
+    all: ACTUAL_DATA.all
+  } : null;
+
+  const getVal = (s, key) => {
+    if (site === 'all') return ACTUAL_DATA[s][key];
+    return site === s ? ACTUAL_DATA[s][key] : '—';
+  };
+
+  // 詳細テーブルの数値セルを更新
+  const tds = document.querySelectorAll('.card:last-child tbody td.r');
+  // テーブルは複雑なので行ごとに直接更新
+  const allD = ACTUAL_DATA.all;
+  const sjD = ACTUAL_DATA.shinjuku;
+  const rmD = ACTUAL_DATA.remote;
+  const aiD = ACTUAL_DATA.ai;
+
+  // 売上合計行を探して更新
+  document.querySelectorAll('.data-row').forEach(row => {
+    const label = row.querySelector('.label-td');
+    if (!label) return;
+    const cells = row.querySelectorAll('td.r');
+    const text = label.textContent.trim();
+
+    const fmt = v => typeof v === 'number' ? '¥' + v.toLocaleString() : v;
+    const fmtN = v => typeof v === 'number' ? v.toLocaleString() : v;
+    const fmtP = v => typeof v === 'number' ? v.toFixed(1) + '%' : v;
+
+    if (text === '売上合計') {
+      if(cells[0]) cells[0].textContent = fmt(allD.sales);
+      if(cells[1]) cells[1].textContent = fmt(sjD.sales);
+      if(cells[2]) cells[2].textContent = fmt(rmD.sales);
+      if(cells[3]) cells[3].textContent = '—';
+    } else if (text === '売上進捗率') {
+      const p = (s) => TARGETS[s].sales > 0 ? (ACTUAL_DATA[s].sales/TARGETS[s].sales*100).toFixed(1)+'%' : '—';
+      if(cells[0]) cells[0].innerHTML = '<div class="prog-cell"><div class="mini-bar"><div class="mini-fill" style="width:'+Math.round(ACTUAL_DATA.all.sales/TARGETS.all.sales*100)+'%;background:#E8711A"></div></div><span class="pval c-orange">'+p('all')+'</span></div>';
+      if(cells[1]) cells[1].innerHTML = '<div class="prog-cell"><div class="mini-bar"><div class="mini-fill" style="width:'+Math.round(sjD.sales/TARGETS.shinjuku.sales*100)+'%;background:#E8711A"></div></div><span class="pval c-orange">'+p('shinjuku')+'</span></div>';
+      if(cells[2]) cells[2].innerHTML = '<div class="prog-cell"><div class="mini-bar"><div class="mini-fill" style="width:'+Math.round(rmD.sales/TARGETS.remote.sales*100)+'%;background:#C0392B"></div></div><span class="pval c-red">'+p('remote')+'</span></div>';
+    } else if (text === '残売上') {
+      if(cells[0]) cells[0].textContent = '−¥'+(TARGETS.all.sales-allD.sales).toLocaleString();
+      if(cells[1]) cells[1].textContent = '−¥'+(TARGETS.shinjuku.sales-sjD.sales).toLocaleString();
+      if(cells[2]) cells[2].textContent = '−¥'+(TARGETS.remote.sales-rmD.sales).toLocaleString();
+    } else if (text === '原価率（実績）') {
+      if(cells[0]) { cells[0].textContent = fmtP(allD.costRate); cells[0].className='r c-red'; }
+      if(cells[1]) { cells[1].textContent = fmtP(sjD.costRate); cells[1].className='r c-red'; }
+      if(cells[2]) { cells[2].textContent = fmtP(rmD.costRate); cells[2].className='r c-red'; }
+    } else if (text === '人件費') {
+      if(cells[0]) cells[0].textContent = fmt(allD.labor);
+      if(cells[1]) cells[1].textContent = fmt(sjD.labor);
+      if(cells[2]) cells[2].textContent = fmt(rmD.labor);
+      if(cells[3]) cells[3].textContent = fmt(aiD.labor);
+    } else if (text === 'アポ数（獲得）') {
+      if(cells[0]) cells[0].textContent = fmtN(allD.apo);
+      if(cells[1]) cells[1].textContent = fmtN(sjD.apo);
+      if(cells[2]) cells[2].textContent = fmtN(rmD.apo);
+      if(cells[3]) cells[3].textContent = fmtN(aiD.apo);
+    } else if (text === 'キャンセル数') {
+      if(cells[0]) { cells[0].textContent = fmtN(allD.cancel); cells[0].className='r c-red'; }
+      if(cells[1]) { cells[1].textContent = fmtN(sjD.cancel); cells[1].className='r c-red'; }
+      if(cells[2]) { cells[2].textContent = fmtN(rmD.cancel); cells[2].className='r c-red'; }
+      if(cells[3]) { cells[3].textContent = '0'; }
+    } else if (text === '請求ベース（アポ数）') {
+      if(cells[0]) cells[0].textContent = fmtN(allD.valid);
+      if(cells[1]) cells[1].textContent = fmtN(sjD.valid);
+      if(cells[2]) cells[2].textContent = fmtN(rmD.valid);
+      if(cells[3]) cells[3].textContent = fmtN(aiD.valid);
+    } else if (text === 'キャンセル率') {
+      if(cells[0]) { cells[0].textContent = fmtP(allD.cancelRate); cells[0].className='r c-amber'; }
+      if(cells[1]) { cells[1].textContent = fmtP(sjD.cancelRate); cells[1].className='r c-amber'; }
+      if(cells[2]) { cells[2].textContent = fmtP(rmD.cancelRate); cells[2].className='r c-red'; }
+      if(cells[3]) { cells[3].textContent = fmtP(aiD.cancelRate); cells[3].className='r c-green'; }
+    } else if (text === '稼働人数') {
+      if(cells[0]) cells[0].textContent = fmtN(allD.ops);
+      if(cells[1]) cells[1].textContent = fmtN(sjD.ops);
+      if(cells[2]) cells[2].textContent = fmtN(rmD.ops);
+      if(cells[3]) cells[3].textContent = fmtN(aiD.ops);
+    } else if (text === '稼働工数') {
+      if(cells[0]) cells[0].textContent = fmtN(allD.ops);
+      if(cells[1]) cells[1].textContent = fmtN(sjD.ops);
+      if(cells[2]) cells[2].textContent = fmtN(rmD.ops);
+    } else if (text === '稼働単価（全体）') {
+      if(cells[0]) cells[0].textContent = fmt(allD.unit);
+      if(cells[1]) cells[1].textContent = fmt(sjD.unit);
+      if(cells[2]) { cells[2].textContent = fmt(rmD.unit); cells[2].className='r c-amber'; }
+    }
+  });
+}
+
+// サイト切替時に更新
+function switchSite(site, el) {
+  currentSite = site;
+  document.querySelectorAll('.site-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  updateDashboard(site);
+}
+
+// 初期表示
+let currentSite = 'all';
+document.addEventListener('DOMContentLoaded', () => {
+  updateDashboard('all');
+});
+
+document.getElementById('siteTabs').style.display = 'flex';
+</script>
+</body>
+</html>
