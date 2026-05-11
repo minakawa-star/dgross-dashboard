@@ -836,7 +836,6 @@ function showPage(id, el) {
   document.getElementById('pageTitle').textContent = titles[id] || id;
   var showTabs = ['dashboard','daily','operator'].indexOf(id) >= 0;
   document.getElementById('siteTabs').style.display = showTabs ? 'flex' : 'none';
-  if (id === 'master')
 }
 
 // ===== サイトタブ切替 =====
