@@ -282,6 +282,25 @@ tr.data-row:hover td{background:#FFFBF8}
 
     <!-- PAGE: OPERATOR -->
     <div class="page" id="page-operator">
+
+      <!-- サマリーカード -->
+      <div class="row3" style="margin-bottom:16px">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">ランク別原価率 <span style="font-size:10px;color:var(--text-muted)">※ランクにカーソルを合わせるとスタッフ一覧</span></div>
+          <div id="op-rank-cost"></div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">ランク別稼働単価</div>
+          <div id="op-rank-unit"></div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">サイト別稼働人数</div>
+          <div id="op-site-ops"></div>
+        </div>
+      </div>
+
+      <!-- OP個人実績一覧 -->
+      <div class="card-title" style="margin-bottom:8px">OP個人実績一覧</div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
         <input type="text" id="op-search" placeholder="氏名で検索..."
           oninput="renderOperatorTable(currentSite)"
@@ -393,7 +412,7 @@ function showPage(id, el) {
   var showTabs = ['dashboard','daily','operator'].indexOf(id) >= 0;
   document.getElementById('siteTabs').style.display = showTabs ? 'flex' : 'none';
   if (id === 'daily')    renderDailyPage(currentSite);
-  if (id === 'operator') renderOperatorTable(currentSite);
+  if (id === 'operator') { renderOperatorSummary(currentSite); renderOperatorTable(currentSite); }
 }
 
 // ===== サイト切替 =====
@@ -403,6 +422,7 @@ function switchSite(site, el) {
   if (el) el.classList.add('active');
   renderDashboard(site);
   renderDailyPage(site);
+  renderOperatorSummary(site);
   renderOperatorTable(site);
 }
 
@@ -613,6 +633,74 @@ function renderDailyPage(site) {
   if (el) el.innerHTML = html;
 }
 
+// ===== OPページサマリー =====
+function renderOperatorSummary(site) {
+  var siteFilter = {'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[site];
+  var rankOrder  = ['トップ','ミドル','ルーキープラス','ルーキー','管理者','社員'];
+  var rankClass  = {'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
+
+  // サイトフィルター適用
+  var ops = PT_DATA.operators.filter(function(op){
+    return !siteFilter || op.site === siteFilter;
+  });
+
+  // ランク別集計
+  var byRank = {};
+  ops.forEach(function(op) {
+    var r = op.rank || '—';
+    if (!byRank[r]) byRank[r] = {sales:0,labor:0,members:[],unitSum:0,unitCnt:0};
+    byRank[r].sales  += op.sales  || 0;
+    byRank[r].labor  += op.labor  || 0;
+    byRank[r].members.push(op.name);
+    if (op.sales > 0) { byRank[r].unitSum += op.sales; byRank[r].unitCnt++; }
+  });
+
+  // ランク別原価率
+  var costHtml = '<table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody>';
+  rankOrder.forEach(function(rank) {
+    var g = byRank[rank]; if (!g || g.members.length===0) return;
+    var cr = g.sales>0 ? (g.labor/g.sales*100).toFixed(1)+'%' : '—';
+    var crCls = g.sales>0 ? costCls(g.labor/g.sales*100) : '';
+    var popup = '<div class="popup-content"><div class="popup-title">'+rank+' '+g.members.length+'名</div>'+
+      g.members.map(function(n){return '<div class="popup-row">'+n+'</div>';}).join('')+'</div>';
+    costHtml += '<tr class="data-row"><td><div class="popup-trigger"><span class="rank-badge '+rankClass[rank]+'">'+rank+'</span>'+popup+'</div></td>'+
+      '<td class="r">'+(g.sales>0?'¥'+g.sales.toLocaleString():g.sales<0?'−¥'+Math.abs(g.sales).toLocaleString():'—')+'</td>'+
+      '<td class="r">¥'+g.labor.toLocaleString()+'</td>'+
+      '<td class="r '+crCls+'">'+cr+'</td></tr>';
+  });
+  costHtml += '</tbody></table>';
+  var el1 = document.getElementById('op-rank-cost');
+  if (el1) el1.innerHTML = costHtml;
+
+  // ランク別稼働単価
+  var unitHtml = '<table><thead><tr><th>ランク</th><th class="r">新宿SC</th><th class="r">リモートSC</th></tr></thead><tbody>';
+  rankOrder.forEach(function(rank) {
+    var sj = PT_DATA.operators.filter(function(op){return op.rank===rank&&op.site==='新宿SC'&&op.sales>0;});
+    var rm = PT_DATA.operators.filter(function(op){return op.rank===rank&&op.site==='リモートSC'&&op.sales>0;});
+    if (sj.length===0&&rm.length===0) return;
+    var sjUnit = sj.length>0?'¥'+Math.round(sj.reduce(function(a,b){return a+b.sales;},0)/sj.length).toLocaleString():'—';
+    var rmUnit = rm.length>0?'¥'+Math.round(rm.reduce(function(a,b){return a+b.sales;},0)/rm.length).toLocaleString():'—';
+    unitHtml += '<tr class="data-row"><td><span class="rank-badge '+rankClass[rank]+'">'+rank+'</span></td>'+
+      '<td class="r c-orange">'+sjUnit+'</td><td class="r">'+rmUnit+'</td></tr>';
+  });
+  unitHtml += '</tbody></table>';
+  var el2 = document.getElementById('op-rank-unit');
+  if (el2) el2.innerHTML = unitHtml;
+
+  // サイト別稼働人数
+  var siteDef = [['新宿SC','新宿SC'],['リモートSC','リモートSC'],['AI','AI']];
+  var siteOpsHtml = '<table><thead><tr><th>サイト</th><th class="r">稼働人数</th><th class="r">工数</th></tr></thead><tbody>';
+  siteDef.forEach(function(pair) {
+    var sn = pair[0];
+    var cnt = PT_DATA.operators.filter(function(op){return op.site===sn&&(op.workH>0||op.apo>0);}).length;
+    if (cnt===0) return;
+    siteOpsHtml += '<tr class="data-row"><td>'+sn+'</td><td class="r">'+cnt+'名</td><td class="r">'+cnt+'</td></tr>';
+  });
+  siteOpsHtml += '</tbody></table>';
+  var el3 = document.getElementById('op-site-ops');
+  if (el3) el3.innerHTML = siteOpsHtml;
+}
+
 // ===== OPテーブル =====
 function renderOperatorTable(site) {
   var q = ((document.getElementById('op-search')||{}).value||'').toLowerCase();
@@ -714,6 +802,7 @@ document.getElementById('periodBadge').textContent = PT_DATA.meta.month;
 document.getElementById('alertText').textContent   = PT_DATA.meta.alertText;
 renderDashboard('all');
 renderDailyPage('all');
+renderOperatorSummary('all');
 renderOperatorTable('all');
 renderCharts();
 initSettings();
