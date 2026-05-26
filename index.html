@@ -3,473 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PT事業部 売上管理ダッシュボード v28</title>
+<title>PT事業部 売上管理ダッシュボード</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root{--orange:#E8711A;--orange-light:#FFF4EC;--red:#C0392B;--red-light:#FFEBEE;--green:#2E7D32;--green-light:#EDF7ED;--gray:#888;--border:#EBEBEA;--bg:#F7F7F5;--white:#FFFFFF;--text:#1A1A1A;--text-secondary:#555;--text-muted:#AAA;--sidebar-w:220px;--header-h:56px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
-.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
-.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50}
-.content{padding:24px;flex:1}
-.sidebar-logo{padding:18px 20px 16px;border-bottom:1px solid var(--border)}
-.logo-mark{display:flex;align-items:center;gap:8px}
-.logo-icon{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center}
-.logo-icon svg{width:18px;height:18px;fill:#fff}
-.logo-text{font-size:14px;font-weight:700}
-.logo-sub{font-size:10px;color:var(--gray);margin-top:1px}
-.nav{padding:12px 0;flex:1}
-.nav-section{font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;padding:10px 20px 4px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--text-secondary);transition:all .15s;border-left:2px solid transparent;font-size:13px}
-.nav-item:hover{background:var(--bg);color:var(--text)}
-.nav-item.active{color:var(--orange);font-weight:500;border-left-color:var(--orange);background:var(--orange-light)}
-.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
-.nav-item.active svg{opacity:1}
-.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border)}
-.user-info{display:flex;align-items:center;gap:8px}
-.user-avatar{width:30px;height:30px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:500;flex-shrink:0}
-.user-name{font-size:12px;font-weight:500}
-.user-role{font-size:10px;color:var(--gray)}
-.page-title{font-size:15px;font-weight:500}
-.header-right{display:flex;align-items:center;gap:12px}
-.period-badge{font-size:12px;background:var(--orange-light);color:var(--orange);padding:4px 12px;border-radius:20px;font-weight:500}
-.update-time{font-size:11px;color:var(--text-muted)}
-.site-tabs{display:flex;gap:2px;background:#F0F0EE;border-radius:7px;padding:3px}
-.site-tab{font-size:12px;padding:5px 14px;border-radius:5px;cursor:pointer;color:var(--text-secondary);transition:all .15s;white-space:nowrap}
-.site-tab.active{background:var(--white);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.page{display:none}.page.active{display:block}
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
-.kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
-.kpi-card.orange::after{background:var(--orange)}.kpi-card.red::after{background:var(--red)}.kpi-card.green::after{background:var(--green)}.kpi-card.gray::after{background:#CCC}
-.kpi-label{font-size:11px;color:var(--gray);margin-bottom:6px;font-weight:500}
-.kpi-value{font-size:22px;font-weight:500;line-height:1.1;color:var(--text)}
-.kpi-sub{font-size:11px;color:var(--text-muted);margin-top:5px}
-.kpi-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;margin-top:4px}
-.badge-orange{background:var(--orange-light);color:var(--orange)}.badge-red{background:var(--red-light);color:var(--red)}.badge-green{background:var(--green-light);color:var(--green)}
-.prog{display:flex;align-items:center;gap:6px;margin-top:6px}
-.prog-bg{flex:1;height:3px;background:#F0F0EE;border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;border-radius:2px}
-.section-label{font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
-.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:20px}
-.card-title{font-size:13px;font-weight:500;margin-bottom:16px;color:var(--text-secondary)}
-.tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;padding:8px 12px;font-size:11px;font-weight:500;color:var(--gray);border-bottom:1px solid var(--border);white-space:nowrap}
-th.r{text-align:right}
-td{padding:9px 12px;border-bottom:1px solid #F5F5F4;font-size:13px;white-space:nowrap}
-td.r{text-align:right}
-tr:last-child td{border-bottom:none}
-tr.sec-head td{background:#FAFAF8;font-size:10px;font-weight:500;color:var(--orange);padding:5px 12px;letter-spacing:.06em;border-bottom:1px solid var(--border)}
-tr.subtotal td{font-weight:500;background:#FFFAF7}
-tr.data-row:hover td{background:#FFFBF8}
-.rank-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
-.rank-top{background:#EBF3FB;color:#1A5FAD}.rank-mid{background:var(--green-light);color:var(--green)}.rank-rookie{background:#F4F4F2;color:#666}
-.c-orange{color:var(--orange)}.c-red{color:var(--red)}.c-amber{color:#C06010}.c-green{color:var(--green)}.c-muted{color:var(--text-muted)}
-.alert{background:#FEF8F0;border:1px solid #F0C88A;border-radius:8px;padding:10px 16px;font-size:12px;color:#7A4A10;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.alert-dot{width:7px;height:7px;border-radius:50%;background:#D4860A;flex-shrink:0}
-.daily-date-col{color:var(--text-secondary);font-size:12px}
-.hm-row{display:grid;grid-template-columns:20px 1fr 40px 60px 50px;gap:6px;padding:5px 4px;border-radius:4px;font-size:11px;align-items:center}
-.hm-rank{font-weight:700;color:var(--gray);text-align:center}.hm-id{color:var(--text-secondary);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hm-val,.hm-sales,.hm-pct{text-align:right}.hm-val{font-weight:500}.hm-sales{color:var(--text-secondary)}.hm-pct{font-weight:500}
-.popup-trigger{position:relative;cursor:pointer}
-.popup-trigger:hover .popup-content{display:block}
-.popup-content{display:none;position:absolute;z-index:200;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:10px 14px;min-width:200px;left:0;top:100%;margin-top:4px;font-size:12px}
-.popup-content .popup-title{font-weight:500;margin-bottom:6px;color:var(--text-secondary)}
-.popup-content .popup-row{padding:3px 0;border-bottom:1px solid #f5f5f4}
-.popup-content .popup-row:last-child{border-bottom:none}
-.btn{padding:8px 20px;border-radius:7px;font-size:13px;cursor:pointer;font-weight:500}
-.btn-secondary{background:var(--white);border:1px solid var(--border);color:var(--text-secondary)}
-.btn-primary{background:var(--orange);border:1px solid var(--orange);color:#fff}
-.setting-input{width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:13px;font-family:inherit}
-.setting-input:focus{outline:none;border-color:var(--orange)}
+body{font-family:'Noto Sans JP',sans-serif;background:#F7F7F5;color:#1A1A1A;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+.container{width:100%;max-width:640px}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.logo-icon{width:44px;height:44px;background:#E8711A;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:24px;height:24px;fill:#fff}
+.logo-text{font-size:20px;font-weight:700}
+.logo-sub{font-size:12px;color:#888;margin-top:2px}
+.title{font-size:15px;font-weight:500;color:#555;margin-bottom:20px;letter-spacing:.02em}
+.month-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.month-card{background:#fff;border:1px solid #EBEBEA;border-radius:12px;padding:24px;cursor:pointer;text-decoration:none;display:block;transition:all .15s;position:relative;overflow:hidden}
+.month-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0;background:#E8711A}
+.month-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px)}
+.month-card.inactive::after{background:#CCC}
+.month-card.inactive{opacity:.6;cursor:default;pointer-events:none}
+.month-label{font-size:13px;color:#888;margin-bottom:6px}
+.month-name{font-size:22px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
+.month-status{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
+.status-active{background:#FFF4EC;color:#E8711A}
+.status-done{background:#EDF7ED;color:#2E7D32}
+.status-future{background:#F4F4F2;color:#888}
+.month-meta{font-size:11px;color:#AAA;margin-top:8px}
+.footer{margin-top:32px;font-size:11px;color:#BBB;text-align:center}
 </style>
 </head>
 <body>
-<div class="layout">
-<div class="sidebar">
-  <div class="sidebar-logo"><div class="logo-mark"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg></div><div><div class="logo-text">PT事業部</div><div class="logo-sub">売上管理システム</div></div></div></div>
-  <nav class="nav">
-    <div class="nav-section">メイン</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>ダッシュボード</div>
-    <div class="nav-item" onclick="showPage('daily',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>日次明細</div>
-    <div class="nav-item" onclick="showPage('operator',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>OP個人実績</div>
-    <div class="nav-section">管理</div>
-    <div class="nav-item" onclick="showPage('import',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>データ取込</div>
-    <div class="nav-section">設定</div>
-    <div class="nav-item" onclick="showPage('settings',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>設定</div>
-  </nav>
-  <div class="sidebar-footer"><div class="user-info"><div class="user-avatar">皆</div><div><div class="user-name">皆川 大輔</div><div class="user-role">管理者</div></div></div></div>
-</div>
-<div class="main">
-  <div class="header">
-    <div style="display:flex;align-items:center;gap:16px"><div class="page-title" id="pageTitle">ダッシュボード</div><span class="update-time" id="updateTime"></span></div>
-    <div class="header-right"><span class="period-badge" id="periodBadge"></span>
-      <div class="site-tabs" id="siteTabs">
-        <div class="site-tab active" onclick="switchSite('all',this)">全体</div>
-        <div class="site-tab" onclick="switchSite('shinjuku',this)">新宿SC</div>
-        <div class="site-tab" onclick="switchSite('remote',this)">リモートSC</div>
-        <div class="site-tab" onclick="switchSite('ai',this)">AI</div>
-      </div>
+<div class="container">
+  <div class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg></div>
+    <div>
+      <div class="logo-text">PT事業部</div>
+      <div class="logo-sub">売上管理システム | 株式会社ディグロス</div>
     </div>
   </div>
-  <div class="content">
-    <div class="page active" id="page-dashboard">
-      <div class="alert"><div class="alert-dot"></div><span id="alertText"></span></div>
-      <div class="section-label">SALES｜売上</div><div class="kpi-grid" id="kpi-sales-grid"></div>
-      <div class="section-label">COST｜原価</div><div class="kpi-grid" id="kpi-cost-grid"></div>
-      <div class="section-label">WORK &amp; APO｜稼働・アポイント</div><div class="kpi-grid" id="kpi-work-grid"></div>
-      <div class="row2">
-        <div class="card" style="margin-bottom:0"><div class="card-title">日次売上推移（万円）</div><div style="height:160px"><canvas id="dailyChart"></canvas></div></div>
-        <div class="card" style="margin-bottom:0"><div class="card-title">案件別ヒートマップ TOP10</div>
-          <div style="display:flex;flex-direction:column;gap:2px">
-            <div style="display:grid;grid-template-columns:20px 1fr 40px 60px 50px;gap:6px;font-size:10px;color:var(--gray);font-weight:500;padding:0 4px"><span>#</span><span>案件名</span><span style="text-align:right">有効</span><span style="text-align:right">売上</span><span style="text-align:right">構成比</span></div>
-            <div id="heatmap-container"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:20px"><div class="card-title">詳細データ</div><div class="tbl-wrap"><table><thead><tr><th>項目</th><th class="r">全体</th><th class="r">新宿SC</th><th class="r">リモートSC</th><th class="r">AI</th></tr></thead><tbody id="detail-tbody"></tbody></table></div></div>
-      <div class="card"><div class="card-title">ランク別原価率</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">全体</div><div id="rank-cost-all"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">新宿SC</div><div id="rank-cost-shinjuku"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">リモートSC</div><div id="rank-cost-remote"></div></div></div></div>
-      <div class="card"><div class="card-title">ランク別稼働単価（1出勤日あたり）</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">全体</div><div id="rank-unit-all"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">新宿SC</div><div id="rank-unit-shinjuku"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">リモートSC</div><div id="rank-unit-remote"></div></div></div></div>
+
+  <div class="title">月次ダッシュボード一覧</div>
+
+  <div class="month-grid">
+    <a href="./2026-05/" class="month-card">
+      <div class="month-label">2026年</div>
+      <div class="month-name">5月</div>
+      <span class="month-status status-done">✅ 更新済み</span>
+      <div class="month-meta">営業日数 18日</div>
+    </a>
+    <a href="./2026-06/" class="month-card">
+      <div class="month-label">2026年</div>
+      <div class="month-name">6月</div>
+      <span class="month-status status-active">▶ 稼働中</span>
+      <div class="month-meta">営業日数 22日</div>
+    </a>
+    <div class="month-card inactive">
+      <div class="month-label">2026年</div>
+      <div class="month-name">7月</div>
+      <span class="month-status status-future">準備中</span>
+      <div class="month-meta">—</div>
     </div>
-    <div class="page" id="page-daily">
-      <div class="row2">
-        <div class="card" style="margin-bottom:0"><div class="card-title">日次売上推移（万円）</div><div style="height:180px"><canvas id="dailyChart2"></canvas></div></div>
-        <div class="card" style="margin-bottom:0"><div class="card-title">日次明細</div><div class="tbl-wrap"><table><thead><tr><th>営業日</th><th>日付</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">稼働</th><th class="r">コール</th><th class="r">単価</th></tr></thead><tbody id="daily-tbody"></tbody></table></div></div>
-      </div>
-    </div>
-    <div class="page" id="page-operator">
-      <div class="row3" style="margin-bottom:16px">
-        <div class="card" style="margin-bottom:0"><div class="card-title">ランク別原価率 <span style="font-size:10px;color:var(--text-muted)">※ランクにカーソルを合わせるとスタッフ一覧</span></div><div id="op-rank-cost"></div></div>
-        <div class="card" style="margin-bottom:0"><div class="card-title">ランク別稼働単価</div><div id="op-rank-unit"></div></div>
-        <div class="card" style="margin-bottom:0"><div class="card-title">サイト別稼働人数</div><div id="op-site-ops"></div></div>
-      </div>
-      <div class="card-title" style="margin-bottom:8px">OP個人実績一覧</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <input type="text" id="op-search" placeholder="氏名で検索..." oninput="renderOperatorTable(currentSite)" style="border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:13px;width:200px;font-family:inherit">
-        <span id="op-count" style="font-size:12px;color:var(--text-muted)"></span>
-      </div>
-      <div class="card" style="padding:0;overflow:hidden"><div class="tbl-wrap"><table><thead><tr><th>氏名</th><th>ランク</th><th>サイト</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">コール</th><th class="r">アポ率</th><th class="r">稼働単価</th><th class="r">労働時間</th><th class="r">原価率</th></tr></thead><tbody id="op-tbody"></tbody></table></div></div>
-    </div>
-    <div class="page" id="page-import">
-      <div class="card"><div class="card-title">データ取込</div><div class="alert" style="margin-top:8px"><div class="alert-dot"></div>毎営業日、以下の4ファイルをチャットで共有してください。① アポイントリスト（xlsx）　② 生産性レポート（csv）　③ レポート（csv）　④ 勤務データ（csv）</div></div>
-    </div>
-    <div class="page" id="page-settings">
-      <div class="card"><div class="card-title" style="display:flex;align-items:center;justify-content:space-between">目標設定<div style="display:flex;gap:8px"><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="cancelSettings()">キャンセル</button><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="saveSettings()">保存する</button></div></div>
-        <table><thead><tr><th>項目</th><th>全体</th><th>新宿SC</th><th>リモートSC</th><th>備考</th></tr></thead><tbody>
-          <tr class="data-row"><td>月次売上目標</td><td><input type="number" id="s-sales-all" class="setting-input"></td><td><input type="number" id="s-sales-sj" class="setting-input"></td><td><input type="number" id="s-sales-rm" class="setting-input"></td><td style="color:var(--text-muted);font-size:11px">円</td></tr>
-          <tr class="data-row"><td>原価率目標</td><td><input type="number" id="s-cost-all" class="setting-input"></td><td><input type="number" id="s-cost-sj" class="setting-input"></td><td><input type="number" id="s-cost-rm" class="setting-input"></td><td style="color:var(--text-muted);font-size:11px">%</td></tr>
-          <tr class="data-row"><td>稼働単価目標</td><td><input type="number" id="s-unit-all" class="setting-input"></td><td><input type="number" id="s-unit-sj" class="setting-input"></td><td><input type="number" id="s-unit-rm" class="setting-input"></td><td style="color:var(--text-muted);font-size:11px">円</td></tr>
-          <tr class="data-row"><td>当月営業日数</td><td><input type="number" id="s-days" class="setting-input"></td><td colspan="3" style="color:var(--text-muted);font-size:11px">日（着地計算に使用）</td></tr>
-        </tbody></table>
-      </div>
+    <div class="month-card inactive">
+      <div class="month-label">2026年</div>
+      <div class="month-name">8月</div>
+      <span class="month-status status-future">準備中</span>
+      <div class="month-meta">—</div>
     </div>
   </div>
+
+  <div class="footer">最終更新: 2026/05/26　|　閲覧は社内限定でお願いします</div>
 </div>
-</div>
-<script>
-var PT_DATA = {"meta": {"month": "2026年5月", "lastUpdate": "2026/05/26", "lastUpdateLabel": "05/26（5/22分反映済）", "elapsedDays": 13, "workingDays": 18, "alertText": "5月22日のデータを反映済みです（累計13営業日）。最終更新: 2026/05/26"}, "targets": {"all": {"sales": 33000000, "costRate": 50.0, "unit": 35000}, "shinjuku": {"sales": 24090000, "costRate": 50.0, "unit": 45000}, "remote": {"sales": 8910000, "costRate": 50.0, "unit": 25000}, "ai": {"sales": 0, "costRate": 0, "unit": 0}}, "sites": {"all": {"sales": 14067000, "apo": 1000, "cancel": 186, "valid": 814, "cancelRate": 18.6, "labor": 9713968, "costRate": 69.1, "gross": 4353032, "ops": 35, "unit": 31457, "calls": 54303, "apoRate": 1.84}, "shinjuku": {"sales": 11586000, "apo": 686, "cancel": 122, "valid": 564, "cancelRate": 17.8, "labor": 6934951, "costRate": 59.9, "gross": 4651049, "ops": 23, "unit": 34670, "calls": 0, "apoRate": 0}, "remote": {"sales": 2406000, "apo": 199, "cancel": 60, "valid": 139, "cancelRate": 30.2, "labor": 1577003, "costRate": 65.5, "gross": 828997, "ops": 10, "unit": 21774, "calls": 0, "apoRate": 0}, "ai": {"sales": 0, "apo": 103, "cancel": 2, "valid": 101, "cancelRate": 1.9, "labor": 1202014, "costRate": 0, "gross": -1202014, "ops": 2, "unit": 0, "calls": 0, "apoRate": 0}}, "daily": {"all": [{"day": "1営業日", "date": "2026/05/01", "sales": 1023000, "apo": 61, "cancel": 8, "valid": 53, "ops": 34, "calls": 4057}, {"day": "2営業日", "date": "2026/05/07", "sales": 1183000, "apo": 88, "cancel": 12, "valid": 76, "ops": 32, "calls": 3843}, {"day": "3営業日", "date": "2026/05/08", "sales": 1276000, "apo": 80, "cancel": 12, "valid": 68, "ops": 34, "calls": 3725}, {"day": "4営業日", "date": "2026/05/11", "sales": 1224000, "apo": 88, "cancel": 13, "valid": 75, "ops": 38, "calls": 4592}, {"day": "5営業日", "date": "2026/05/12", "sales": 1297000, "apo": 96, "cancel": 25, "valid": 71, "ops": 40, "calls": 4608}, {"day": "6営業日", "date": "2026/05/13", "sales": 1581000, "apo": 94, "cancel": 13, "valid": 81, "ops": 36, "calls": 3861}, {"day": "7営業日", "date": "2026/05/14", "sales": 779000, "apo": 76, "cancel": 26, "valid": 50, "ops": 37, "calls": 4467}, {"day": "8営業日", "date": "2026/05/15", "sales": 1119000, "apo": 65, "cancel": 16, "valid": 49, "ops": 38, "calls": 4703}, {"day": "9営業日", "date": "2026/05/18", "sales": 1115000, "apo": 84, "cancel": 13, "valid": 71, "ops": 37, "calls": 4165}, {"day": "10営業日", "date": "2026/05/19", "sales": 1002000, "apo": 70, "cancel": 12, "valid": 58, "ops": 35, "calls": 4308}, {"day": "11営業日", "date": "2026/05/20", "sales": 799000, "apo": 58, "cancel": 14, "valid": 44, "ops": 33, "calls": 4114}, {"day": "12営業日", "date": "2026/05/21", "sales": 828000, "apo": 72, "cancel": 11, "valid": 61, "ops": 36, "calls": 3934}, {"day": "13営業日", "date": "2026/05/22", "sales": 1041000, "apo": 76, "cancel": 11, "valid": 65, "ops": 35, "calls": 3959}], "shinjuku": [{"day": "1営業日", "date": "2026/05/01", "sales": 947000, "apo": 47, "cancel": 4, "valid": 43, "ops": 23, "calls": 0}, {"day": "2営業日", "date": "2026/05/07", "sales": 1044000, "apo": 63, "cancel": 6, "valid": 57, "ops": 20, "calls": 0}, {"day": "3営業日", "date": "2026/05/08", "sales": 1009000, "apo": 52, "cancel": 7, "valid": 45, "ops": 23, "calls": 0}, {"day": "4営業日", "date": "2026/05/11", "sales": 1104000, "apo": 60, "cancel": 8, "valid": 52, "ops": 23, "calls": 0}, {"day": "5営業日", "date": "2026/05/12", "sales": 931000, "apo": 63, "cancel": 20, "valid": 43, "ops": 23, "calls": 0}, {"day": "6営業日", "date": "2026/05/13", "sales": 1303000, "apo": 66, "cancel": 8, "valid": 58, "ops": 23, "calls": 0}, {"day": "7営業日", "date": "2026/05/14", "sales": 600000, "apo": 49, "cancel": 18, "valid": 31, "ops": 23, "calls": 0}, {"day": "8営業日", "date": "2026/05/15", "sales": 1038000, "apo": 51, "cancel": 8, "valid": 43, "ops": 23, "calls": 0}, {"day": "9営業日", "date": "2026/05/18", "sales": 962000, "apo": 57, "cancel": 9, "valid": 48, "ops": 23, "calls": 0}, {"day": "10営業日", "date": "2026/05/19", "sales": 690000, "apo": 47, "cancel": 9, "valid": 38, "ops": 23, "calls": 0}, {"day": "11営業日", "date": "2026/05/20", "sales": 633000, "apo": 41, "cancel": 8, "valid": 33, "ops": 23, "calls": 0}, {"day": "12営業日", "date": "2026/05/21", "sales": 641000, "apo": 46, "cancel": 7, "valid": 39, "ops": 23, "calls": 0}, {"day": "13営業日", "date": "2026/05/22", "sales": 884000, "apo": 52, "cancel": 10, "valid": 42, "ops": 23, "calls": 0}], "remote": [{"day": "1営業日", "date": "2026/05/01", "sales": 76000, "apo": 9, "cancel": 4, "valid": 5, "ops": 10, "calls": 0}, {"day": "2営業日", "date": "2026/05/07", "sales": 139000, "apo": 14, "cancel": 6, "valid": 8, "ops": 12, "calls": 0}, {"day": "3営業日", "date": "2026/05/08", "sales": 232000, "apo": 17, "cancel": 5, "valid": 12, "ops": 10, "calls": 0}, {"day": "4営業日", "date": "2026/05/11", "sales": 120000, "apo": 13, "cancel": 5, "valid": 8, "ops": 10, "calls": 0}, {"day": "5営業日", "date": "2026/05/12", "sales": 366000, "apo": 22, "cancel": 4, "valid": 18, "ops": 10, "calls": 0}, {"day": "6営業日", "date": "2026/05/13", "sales": 303000, "apo": 23, "cancel": 4, "valid": 19, "ops": 10, "calls": 0}, {"day": "7営業日", "date": "2026/05/14", "sales": 154000, "apo": 18, "cancel": 8, "valid": 10, "ops": 10, "calls": 0}, {"day": "8営業日", "date": "2026/05/15", "sales": 31000, "apo": 9, "cancel": 8, "valid": 1, "ops": 10, "calls": 0}, {"day": "9営業日", "date": "2026/05/18", "sales": 153000, "apo": 10, "cancel": 3, "valid": 7, "ops": 10, "calls": 0}, {"day": "10営業日", "date": "2026/05/19", "sales": 342000, "apo": 18, "cancel": 2, "valid": 16, "ops": 10, "calls": 0}, {"day": "11営業日", "date": "2026/05/20", "sales": 146000, "apo": 13, "cancel": 6, "valid": 7, "ops": 10, "calls": 0}, {"day": "12営業日", "date": "2026/05/21", "sales": 187000, "apo": 20, "cancel": 4, "valid": 16, "ops": 10, "calls": 0}, {"day": "13営業日", "date": "2026/05/22", "sales": 157000, "apo": 13, "cancel": 1, "valid": 12, "ops": 10, "calls": 0}], "ai": [{"day": "1営業日", "date": "2026/05/01", "sales": 0, "apo": 5, "cancel": 0, "valid": 5, "ops": 1, "calls": 0}, {"day": "2営業日", "date": "2026/05/07", "sales": 0, "apo": 11, "cancel": 0, "valid": 11, "ops": 2, "calls": 0}, {"day": "3営業日", "date": "2026/05/08", "sales": 0, "apo": 9, "cancel": 0, "valid": 9, "ops": 2, "calls": 0}, {"day": "4営業日", "date": "2026/05/11", "sales": 0, "apo": 13, "cancel": 0, "valid": 13, "ops": 2, "calls": 0}, {"day": "5営業日", "date": "2026/05/12", "sales": 0, "apo": 11, "cancel": 1, "valid": 10, "ops": 2, "calls": 0}, {"day": "6営業日", "date": "2026/05/13", "sales": 0, "apo": 3, "cancel": 0, "valid": 3, "ops": 2, "calls": 0}, {"day": "7営業日", "date": "2026/05/14", "sales": 0, "apo": 8, "cancel": 0, "valid": 8, "ops": 2, "calls": 0}, {"day": "8営業日", "date": "2026/05/15", "sales": 0, "apo": 3, "cancel": 0, "valid": 3, "ops": 2, "calls": 0}, {"day": "9営業日", "date": "2026/05/18", "sales": 0, "apo": 17, "cancel": 1, "valid": 16, "ops": 2, "calls": 0}, {"day": "10営業日", "date": "2026/05/19", "sales": 0, "apo": 5, "cancel": 0, "valid": 5, "ops": 2, "calls": 0}, {"day": "11営業日", "date": "2026/05/20", "sales": 0, "apo": 3, "cancel": 0, "valid": 3, "ops": 2, "calls": 0}, {"day": "12営業日", "date": "2026/05/21", "sales": 0, "apo": 6, "cancel": 0, "valid": 6, "ops": 2, "calls": 0}, {"day": "13営業日", "date": "2026/05/22", "sales": 0, "apo": 8, "cancel": 0, "valid": 8, "ops": 2, "calls": 0}]}, "chart": {"labels": ["5/1", "5/7", "5/8", "5/11", "5/12", "5/13", "5/14", "5/15", "5/18", "5/19", "5/20", "5/21", "5/22", "5/25", "5/26", "5/27", "5/28", "5/29"], "data": [102.3, 118.3, 127.6, 122.4, 129.7, 158.1, 77.9, 111.9, 111.5, 100.2, 79.9, 82.8, 104.1, 0, 0, 0, 0, 0]}, "heatmap": [{"rank": 1, "name": "Seamth", "valid": 54, "sales": 972000, "pct": 6.9}, {"rank": 2, "name": "シップヘルスケアフード関東", "valid": 37, "sales": 814000, "pct": 5.8}, {"rank": 3, "name": "キャディアン", "valid": 27, "sales": 810000, "pct": 5.8}, {"rank": 4, "name": "エッジテクノロジー", "valid": 29, "sales": 638000, "pct": 4.5}, {"rank": 5, "name": "ケイアイスター", "valid": 20, "sales": 600000, "pct": 4.3}, {"rank": 6, "name": "Nishika_SecureMemoCLハウスリスト", "valid": 38, "sales": 570000, "pct": 4.1}, {"rank": 7, "name": "スタッフ満足", "valid": 19, "sales": 475000, "pct": 3.4}, {"rank": 8, "name": "スタンダードファクトリー", "valid": 20, "sales": 428000, "pct": 3.0}, {"rank": 9, "name": "グリニッジ", "valid": 19, "sales": 380000, "pct": 2.7}, {"rank": 10, "name": "ライフイノベーション", "valid": 14, "sales": 378000, "pct": 2.7}], "incentive": {"若松": 86290, "硴塚": 58416, "島田": 147742, "中村光伸1017": 89495, "川村義之0108": 9912, "青木くらら0607": 78301, "合田": 14641, "外山哲朗1205": 85637, "木下翔太0424": 46440, "平賀健介0202": 98445, "清水久美子0122": 49773, "松澤傑0115": 137863, "小林幸司0507": 72083, "土屋大興0512": 18255, "橋本陽平0901": 17749, "坂本杏奈1208": 34788, "守繁日美子0707": 5645, "伏見優孝0304": 79913}, "operators": [{"name": "小林幸司0507", "site": "新宿SC", "rank": "トップ", "sales": 999000, "sales_dash": 999000, "apo": 44, "cancel": 5, "valid": 39, "calls": 1014, "apoRate": 4.3, "workH": 104.5, "labor": 313228, "labor_base": 261168, "incentive_daily": 52060, "costRate": 31.4, "days": 13.0, "unitPerDay": 76846}, {"name": "土屋麻佳0405", "site": "新宿SC", "rank": "トップ", "sales": 902000, "sales_dash": 924000, "apo": 47, "cancel": 6, "valid": 41, "calls": 1513, "apoRate": 3.1, "workH": 96.3, "labor": 240668, "labor_base": 240668, "incentive_daily": 0, "costRate": 26.7, "days": 13.0, "unitPerDay": 69385}, {"name": "平賀健介0202", "site": "新宿SC", "rank": "トップ", "sales": 775000, "sales_dash": 775000, "apo": 54, "cancel": 20, "valid": 34, "calls": 526, "apoRate": 10.3, "workH": 78.6, "labor": 267516, "labor_base": 196417, "incentive_daily": 71099, "costRate": 34.5, "days": 10.0, "unitPerDay": 77500}, {"name": "久保浩二0513", "site": "新宿SC", "rank": "トップ", "sales": 726000, "sales_dash": 726000, "apo": 44, "cancel": 6, "valid": 38, "calls": 1292, "apoRate": 3.4, "workH": 96.0, "labor": 240000, "labor_base": 240000, "incentive_daily": 0, "costRate": 33.1, "days": 12.0, "unitPerDay": 60500}, {"name": "島田", "site": "新宿SC", "rank": "トップ", "sales": 674000, "sales_dash": 674000, "apo": 30, "cancel": 2, "valid": 28, "calls": 534, "apoRate": 5.6, "workH": 85.8, "labor": 321078, "labor_base": 214375, "incentive_daily": 106703, "costRate": 47.6, "days": 13.0, "unitPerDay": 51846}, {"name": "木下翔太0424", "site": "新宿SC", "rank": "トップ", "sales": 668000, "sales_dash": 668000, "apo": 39, "cancel": 2, "valid": 37, "calls": 1102, "apoRate": 3.5, "workH": 104.0, "labor": 293540, "labor_base": 260000, "incentive_daily": 33540, "costRate": 43.9, "days": 13.0, "unitPerDay": 51385}, {"name": "木村明日美1116", "site": "新宿SC", "rank": "管理者", "sales": 660000, "sales_dash": 660000, "apo": 37, "cancel": 4, "valid": 33, "calls": 955, "apoRate": 3.9, "workH": 137.5, "labor": 498333, "labor_base": 498333, "incentive_daily": 0, "costRate": 75.5, "days": 13.0, "unitPerDay": 50769}, {"name": "幸野有希子CRM", "site": "新宿SC", "rank": "ミドル", "sales": 615000, "sales_dash": 615000, "apo": 30, "cancel": 4, "valid": 26, "calls": 725, "apoRate": 4.1, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "岡本章宏0423", "site": "新宿SC", "rank": "ミドル", "sales": 598000, "sales_dash": 598000, "apo": 25, "cancel": 2, "valid": 23, "calls": 500, "apoRate": 5.0, "workH": 79.8, "labor": 167475, "labor_base": 167475, "incentive_daily": 0, "costRate": 28.0, "days": 12.0, "unitPerDay": 49833}, {"name": "中村光伸1017", "site": "新宿SC", "rank": "トップ", "sales": 556000, "sales_dash": 556000, "apo": 26, "cancel": 2, "valid": 24, "calls": 761, "apoRate": 3.4, "workH": 103.9, "labor": 324303, "labor_base": 259668, "incentive_daily": 64635, "costRate": 58.3, "days": 13.0, "unitPerDay": 42769}, {"name": "土屋大興0512", "site": "新宿SC", "rank": "ミドル", "sales": 548000, "sales_dash": 570000, "apo": 21, "cancel": 1, "valid": 20, "calls": 882, "apoRate": 2.4, "workH": 72.5, "labor": 187184, "labor_base": 174000, "incentive_daily": 13184, "costRate": 34.2, "days": 10.0, "unitPerDay": 54800}, {"name": "仁浦魁人0512", "site": "リモートSC", "rank": "ミドル", "sales": 519000, "sales_dash": 519000, "apo": 23, "cancel": 2, "valid": 21, "calls": 848, "apoRate": 2.7, "workH": 104.0, "labor": 208000, "labor_base": 208000, "incentive_daily": 0, "costRate": 40.1, "days": 13.0, "unitPerDay": 39923}, {"name": "松浦美紀0423", "site": "リモートSC", "rank": "ミドル", "sales": 480000, "sales_dash": 480000, "apo": 45, "cancel": 18, "valid": 27, "calls": 1181, "apoRate": 3.8, "workH": 88.2, "labor": 185325, "labor_base": 185325, "incentive_daily": 0, "costRate": 38.6, "days": 11.0, "unitPerDay": 43636}, {"name": "山田健太0425", "site": "新宿SC", "rank": "管理者", "sales": 424000, "sales_dash": 424000, "apo": 33, "cancel": 6, "valid": 27, "calls": 492, "apoRate": 6.7, "workH": 137.2, "labor": 498333, "labor_base": 498333, "incentive_daily": 0, "costRate": 117.5, "days": 13.0, "unitPerDay": 32615}, {"name": "若松", "site": "新宿SC", "rank": "社員", "sales": 415000, "sales_dash": 415000, "apo": 18, "cancel": 4, "valid": 14, "calls": 992, "apoRate": 1.8, "workH": 95.9, "labor": 377932, "labor_base": 315611, "incentive_daily": 62321, "costRate": 91.1, "days": 13.0, "unitPerDay": 31923}, {"name": "清水久美子0122", "site": "新宿SC", "rank": "トップ", "sales": 403000, "sales_dash": 425000, "apo": 32, "cancel": 6, "valid": 26, "calls": 790, "apoRate": 4.1, "workH": 88.0, "labor": 255947, "labor_base": 220000, "incentive_daily": 35947, "costRate": 63.5, "days": 13.0, "unitPerDay": 31000}, {"name": "硴塚", "site": "新宿SC", "rank": "トップ", "sales": 347000, "sales_dash": 347000, "apo": 21, "cancel": 6, "valid": 15, "calls": 947, "apoRate": 2.2, "workH": 80.0, "labor": 242189, "labor_base": 200000, "incentive_daily": 42189, "costRate": 69.8, "days": 10.0, "unitPerDay": 34700}, {"name": "外山哲朗1205", "site": "新宿SC", "rank": "トップ", "sales": 337000, "sales_dash": 337000, "apo": 19, "cancel": 3, "valid": 16, "calls": 678, "apoRate": 2.8, "workH": 70.0, "labor": 236849, "labor_base": 175000, "incentive_daily": 61849, "costRate": 70.3, "days": 13.0, "unitPerDay": 25923}, {"name": "松澤傑0115", "site": "新宿SC", "rank": "トップ", "sales": 314000, "sales_dash": 314000, "apo": 20, "cancel": 2, "valid": 18, "calls": 135, "apoRate": 14.8, "workH": 72.0, "labor": 279568, "labor_base": 180000, "incentive_daily": 99568, "costRate": 89.0, "days": 12.0, "unitPerDay": 26167}, {"name": "安部聡一郎0922", "site": "新宿SC", "rank": "ルーキープラス", "sales": 302000, "sales_dash": 302000, "apo": 14, "cancel": 3, "valid": 11, "calls": 456, "apoRate": 3.1, "workH": 80.0, "labor": 160000, "labor_base": 160000, "incentive_daily": 0, "costRate": 53.0, "days": 12.0, "unitPerDay": 25167}, {"name": "大友晶五0317", "site": "新宿SC", "rank": "ミドル", "sales": 301000, "sales_dash": 301000, "apo": 23, "cancel": 3, "valid": 20, "calls": 450, "apoRate": 5.1, "workH": 73.9, "labor": 132961, "labor_base": 132961, "incentive_daily": 0, "costRate": 44.2, "days": 10.0, "unitPerDay": 30100}, {"name": "守繁日美子0707", "site": "リモートSC", "rank": "ミドル", "sales": 260000, "sales_dash": 260000, "apo": 43, "cancel": 8, "valid": 35, "calls": 1206, "apoRate": 3.6, "workH": 96.0, "labor": 205782, "labor_base": 201705, "incentive_daily": 4077, "costRate": 79.1, "days": 13.0, "unitPerDay": 20000}, {"name": "石塚", "site": "新宿SC", "rank": "ミドル", "sales": 254000, "sales_dash": 254000, "apo": 11, "cancel": 0, "valid": 11, "calls": 1166, "apoRate": 0.9, "workH": 86.5, "labor": 173000, "labor_base": 173000, "incentive_daily": 0, "costRate": 68.1, "days": 12.0, "unitPerDay": 21167}, {"name": "加藤隆治0210", "site": "新宿SC", "rank": "トップ", "sales": 253000, "sales_dash": 253000, "apo": 17, "cancel": 4, "valid": 13, "calls": 405, "apoRate": 4.2, "workH": 88.0, "labor": 211200, "labor_base": 211200, "incentive_daily": 0, "costRate": 83.5, "days": 13.0, "unitPerDay": 19462}, {"name": "坪井有美0922", "site": "リモートSC", "rank": "ミドル", "sales": 220000, "sales_dash": 220000, "apo": 11, "cancel": 2, "valid": 9, "calls": 973, "apoRate": 1.1, "workH": 93.8, "labor": 150080, "labor_base": 150080, "incentive_daily": 0, "costRate": 68.2, "days": 13.0, "unitPerDay": 16923}, {"name": "内藤公誉1212", "site": "新宿SC", "rank": "トップ", "sales": 206000, "sales_dash": 206000, "apo": 16, "cancel": 1, "valid": 15, "calls": 524, "apoRate": 3.1, "workH": 58.0, "labor": 145000, "labor_base": 145000, "incentive_daily": 0, "costRate": 70.4, "days": 11.0, "unitPerDay": 18727}, {"name": "柿﨑貴美子0512", "site": "リモートSC", "rank": "ルーキープラス", "sales": 204000, "sales_dash": 204000, "apo": 14, "cancel": 3, "valid": 11, "calls": 589, "apoRate": 2.4, "workH": 65.5, "labor": 85150, "labor_base": 85150, "incentive_daily": 0, "costRate": 41.7, "days": 10.0, "unitPerDay": 20400}, {"name": "橋本陽平0901", "site": "新宿SC", "rank": "ミドル", "sales": 203000, "sales_dash": 203000, "apo": 28, "cancel": 10, "valid": 18, "calls": 671, "apoRate": 4.2, "workH": 84.7, "labor": 207514, "labor_base": 194695, "incentive_daily": 12819, "costRate": 102.2, "days": 13.0, "unitPerDay": 15615}, {"name": "岡崎裕美0818", "site": "リモートSC", "rank": "ルーキープラス", "sales": 187000, "sales_dash": 187000, "apo": 11, "cancel": 2, "valid": 9, "calls": 920, "apoRate": 1.2, "workH": 58.7, "labor": 76288, "labor_base": 76288, "incentive_daily": 0, "costRate": 40.8, "days": 11.0, "unitPerDay": 17000}, {"name": "坂本杏奈1208", "site": "新宿SC", "rank": "トップ", "sales": 183000, "sales_dash": 183000, "apo": 17, "cancel": 7, "valid": 10, "calls": 1290, "apoRate": 1.3, "workH": 83.2, "labor": 233250, "labor_base": 208125, "incentive_daily": 25125, "costRate": 127.5, "days": 11.0, "unitPerDay": 16636}, {"name": "橋爪朝寿0209", "site": "新宿SC", "rank": "ルーキー", "sales": 179000, "sales_dash": 179000, "apo": 12, "cancel": 5, "valid": 7, "calls": 922, "apoRate": 1.3, "workH": 85.6, "labor": 171166, "labor_base": 171166, "incentive_daily": 0, "costRate": 95.6, "days": 12.0, "unitPerDay": 14917}, {"name": "原田航0225", "site": "リモートSC", "rank": "管理者", "sales": 168000, "sales_dash": 168000, "apo": 16, "cancel": 9, "valid": 7, "calls": 490, "apoRate": 3.3, "workH": 121.8, "labor": 273125, "labor_base": 273125, "incentive_daily": 0, "costRate": 162.6, "days": 9.5, "unitPerDay": 17684}, {"name": "船崎凜0916", "site": "リモートSC", "rank": "ミドル", "sales": 146000, "sales_dash": 146000, "apo": 18, "cancel": 10, "valid": 8, "calls": 333, "apoRate": 5.4, "workH": 72.0, "labor": 108000, "labor_base": 108000, "incentive_daily": 0, "costRate": 74.0, "days": 10.0, "unitPerDay": 14600}, {"name": "青木くらら0607", "site": "新宿SC", "rank": "ミドル", "sales": 133000, "sales_dash": 133000, "apo": 12, "cancel": 6, "valid": 6, "calls": 679, "apoRate": 1.8, "workH": 63.0, "labor": 201527, "labor_base": 144976, "incentive_daily": 56551, "costRate": 151.5, "days": 8.0, "unitPerDay": 16625}, {"name": "横川祥玲0210", "site": "リモートSC", "rank": "ミドル", "sales": 122000, "sales_dash": 122000, "apo": 10, "cancel": 5, "valid": 5, "calls": 911, "apoRate": 1.1, "workH": 82.5, "labor": 123750, "labor_base": 123750, "incentive_daily": 0, "costRate": 101.4, "days": 11.0, "unitPerDay": 11091}, {"name": "君塚綾子1104", "site": "新宿SC", "rank": "ミドル", "sales": 120000, "sales_dash": 120000, "apo": 15, "cancel": 3, "valid": 12, "calls": 1064, "apoRate": 1.4, "workH": 96.0, "labor": 211200, "labor_base": 211200, "incentive_daily": 0, "costRate": 176.0, "days": 12.0, "unitPerDay": 10000}, {"name": "日高竹晴0825", "site": "リモートSC", "rank": "ルーキープラス", "sales": 100000, "sales_dash": 100000, "apo": 6, "cancel": 1, "valid": 5, "calls": 246, "apoRate": 2.4, "workH": 45.5, "labor": 63700, "labor_base": 63700, "incentive_daily": 0, "costRate": 63.7, "days": 9.0, "unitPerDay": 11111}, {"name": "加藤隆治", "site": "", "rank": "", "sales": 75000, "sales_dash": 75000, "apo": 3, "cancel": 0, "valid": 3, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "佐藤誠0605", "site": "新宿SC", "rank": "ミドル", "sales": 35000, "sales_dash": 35000, "apo": 3, "cancel": 1, "valid": 2, "calls": 594, "apoRate": 0.5, "workH": 75.0, "labor": 97457, "labor_base": 97457, "incentive_daily": 0, "costRate": 278.4, "days": 10.0, "unitPerDay": 3500}, {"name": "川村義之0108", "site": "新宿SC", "rank": "ミドル", "sales": 30000, "sales_dash": 30000, "apo": 8, "cancel": 6, "valid": 2, "calls": 815, "apoRate": 1.0, "workH": 104.0, "labor": 235959, "labor_base": 228800, "incentive_daily": 7159, "costRate": 786.5, "days": 13.0, "unitPerDay": 2308}, {"name": " 坂本杏奈1208", "site": "", "rank": "", "sales": 20000, "sales_dash": 20000, "apo": 1, "cancel": 0, "valid": 1, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "藤公誉1212", "site": "", "rank": "", "sales": 10000, "sales_dash": 10000, "apo": 1, "cancel": 0, "valid": 1, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "幸野有希子", "site": "", "rank": "", "sales": 5000, "sales_dash": 5000, "apo": 1, "cancel": 0, "valid": 1, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "合田", "site": "新宿SC", "rank": "トップ", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 10574, "labor_base": 0, "incentive_daily": 10574, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "山崎琴美1117", "site": "リモートSC", "rank": "ルーキー", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "大木勇武0316", "site": "新宿SC", "rank": "トップ", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "中井歩0707", "site": "AI", "rank": "ルーキー", "sales": 0, "sales_dash": 0, "apo": 8, "cancel": 1, "valid": 7, "calls": 0, "apoRate": null, "workH": 82.5, "labor": 115500, "labor_base": 115500, "incentive_daily": 0, "costRate": null, "days": 11.0, "unitPerDay": 0}, {"name": "堀川", "site": "", "rank": "", "sales": 0, "sales_dash": 0, "apo": 1, "cancel": 0, "valid": 1, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "津田唯佳0916", "site": "リモートSC", "rank": "ミドル", "sales": 0, "sales_dash": 0, "apo": 2, "cancel": 0, "valid": 2, "calls": 74, "apoRate": 2.7, "workH": 75.2, "labor": 97803, "labor_base": 97803, "incentive_daily": 0, "costRate": null, "days": 12.0, "unitPerDay": 0}, {"name": "髙橋千里1217", "site": "リモートSC", "rank": "ルーキー", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "小橋正佳0706", "site": "AI", "rank": "ミドル", "sales": 0, "sales_dash": 0, "apo": 23, "cancel": 1, "valid": 22, "calls": 0, "apoRate": null, "workH": 93.5, "labor": 196350, "labor_base": 196350, "incentive_daily": 0, "costRate": null, "days": 13.0, "unitPerDay": 0}, {"name": "伏見優孝0304", "site": "AI", "rank": "ミドル", "sales": 0, "sales_dash": 0, "apo": 29, "cancel": 0, "valid": 29, "calls": 0, "apoRate": null, "workH": 102.5, "labor": 272965, "labor_base": 215250, "incentive_daily": 57715, "costRate": null, "days": 13.0, "unitPerDay": 0}, {"name": "中島翔太朗0924", "site": "新宿SC", "rank": "トップ", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "田中千賀0209", "site": "AI", "rank": "ルーキー", "sales": 0, "sales_dash": 0, "apo": 10, "cancel": 0, "valid": 10, "calls": 0, "apoRate": null, "workH": 95.0, "labor": 171000, "labor_base": 171000, "incentive_daily": 0, "costRate": null, "days": 13.0, "unitPerDay": 0}, {"name": "岡本美穂0901", "site": "リモートSC", "rank": "ルーキープラス", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "大原昌彦0609", "site": "AI", "rank": "ルーキープラス", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "佐々木真美0922", "site": "AI", "rank": "ルーキープラス", "sales": 0, "sales_dash": 0, "apo": 5, "cancel": 0, "valid": 5, "calls": 0, "apoRate": null, "workH": 70.2, "labor": 98350, "labor_base": 98350, "incentive_daily": 0, "costRate": null, "days": 11.0, "unitPerDay": 0}, {"name": "竹内実範0703", "site": "AI", "rank": "社員", "sales": 0, "sales_dash": 0, "apo": 12, "cancel": 0, "valid": 12, "calls": 0, "apoRate": null, "workH": 100.0, "labor": 239583, "labor_base": 239583, "incentive_daily": 0, "costRate": null, "days": 12.5, "unitPerDay": 0}, {"name": "長友郁真0412", "site": "新宿SC", "rank": "ミドル", "sales": 0, "sales_dash": 0, "apo": 0, "cancel": 0, "valid": 0, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0.0, "unitPerDay": 0}, {"name": "堀川璃歩", "site": "", "rank": "", "sales": 0, "sales_dash": 0, "apo": 6, "cancel": 0, "valid": 6, "calls": 0, "apoRate": null, "workH": 0.0, "labor": 0, "labor_base": 0, "incentive_daily": 0, "costRate": null, "days": 0, "unitPerDay": 0}, {"name": "上田奈津子1014", "site": "AI", "rank": "ルーキー", "sales": 0, "sales_dash": 0, "apo": 15, "cancel": 0, "valid": 15, "calls": 0, "apoRate": null, "workH": 77.3, "labor": 108266, "labor_base": 108266, "incentive_daily": 0, "costRate": null, "days": 11.0, "unitPerDay": 0}], "prev_calls": {"平賀健介0202": 334, "島田": 291, "小林幸司0507": 478, "中村光伸1017": 330, "松浦美紀0423": 624, "岡本章宏0423": 215, "清水久美子0122": 361, "硴塚": 652, "久保浩二0513": 652, "木下翔太0424": 791, "橋爪朝寿0209": 311, "青木くらら0607": 361, "土屋麻佳0405": 693, "加藤隆治0210": 260, "内藤公誉1212": 524, "坪井有美0922": 407, "日高竹晴0825": 166, "小橋正佳0706": 0, "仁浦魁人0512": 407, "上田奈津子1014": 0, "伏見優孝0304": 0, "石塚": 524, "木村明日美1116": 406, "山田健太0425": 260, "君塚綾子1104": 524, "田中千賀0209": 0, "原田航0225": 406, "竹内実範0703": 0, "中井歩0707": 0, "横川祥玲0210": 406, "津田唯佳0916": 74, "佐々木真美0922": 0, "大友晶五0317": 406, "川村義之0108": 406, "幸野有希子CRM": 275, "守繁日美子0707": 624, "岡崎裕美0818": 624, "坂本杏奈1208": 624, "土屋大興0512": 524, "橋本陽平0901": 407, "柿﨑貴美子0512": 407, "若松": 407, "佐藤誠0605": 407, "船崎凜0916": 0}};
-
-var currentSite='all';
-function fm(v){return v!=null&&v!==''?'¥'+Math.round(v).toLocaleString():'—';}
-function fp(v){return v!=null?v.toFixed(1)+'%':'—';}
-function costCls(v){if(v==null)return '';if(v<=50)return 'c-green';if(v<=80)return 'c-amber';return 'c-red';}
-
-function showPage(id,el){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  document.getElementById('page-'+id).classList.add('active');
-  if(el)el.classList.add('active');
-  var titles={dashboard:'ダッシュボード',daily:'日次明細',operator:'OP個人実績',import:'データ取込',settings:'設定'};
-  document.getElementById('pageTitle').textContent=titles[id]||id;
-  document.getElementById('siteTabs').style.display=['dashboard','daily','operator'].indexOf(id)>=0?'flex':'none';
-  if(id==='daily')renderDailyPage(currentSite);
-  if(id==='operator'){renderOperatorSummary(currentSite);renderOperatorTable(currentSite);}
-}
-
-function switchSite(site,el){
-  currentSite=site;
-  document.querySelectorAll('.site-tab').forEach(function(t){t.classList.remove('active');});
-  if(el)el.classList.add('active');
-  renderDashboard(site);renderDailyPage(site);renderOperatorSummary(site);renderOperatorTable(site);
-}
-
-function renderDashboard(site){
-  var d=PT_DATA.sites[site],t=PT_DATA.targets[site],m=PT_DATA.meta;
-  if(!d||!t)return;
-  var el=m.elapsedDays,wd=m.workingDays;
-  var salesPct=t.sales>0?d.sales/t.sales*100:0;
-  var landing=el>0?Math.round(d.sales/el*wd):0;
-  var landingPct=t.sales>0?landing/t.sales*100:0;
-  var avg=el>0?Math.round(d.sales/el):0;
-
-  document.getElementById('kpi-sales-grid').innerHTML=
-    kpiCard('orange','売上合計','<span class="c-orange">¥'+Math.round(d.sales/10000)+'万</span>',
-      '<div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:'+Math.min(salesPct,100).toFixed(1)+'%;background:var(--orange)"></div></div><span style="font-size:11px;color:var(--orange)">'+salesPct.toFixed(1)+'%</span></div>',
-      '目標 ¥'+Math.round(t.sales/10000)+'万　進捗 '+salesPct.toFixed(1)+'%')+
-    kpiCard('red','残売上','<span class="c-red">−¥'+Math.round((t.sales-d.sales)/10000)+'万</span>','','残稼働 '+(wd-el)+'日')+
-    kpiCard('orange','1日あたり売上平均','<span class="c-orange">¥'+Math.round(avg/10000)+'万</span>','','目標日次 ¥'+Math.round(t.sales/wd/10000)+'万（'+el+'日時点）')+
-    kpiCard('orange','着地見込み','<span class="c-amber">¥'+Math.round(landing/10000)+'万</span>',
-      '<span class="kpi-badge '+(landingPct>=80?'badge-green':landingPct>=50?'badge-orange':'badge-red')+'">達成率 '+landingPct.toFixed(1)+'%</span>',
-      '¥'+Math.round(landing/10000)+'万 / ¥'+Math.round(t.sales/10000)+'万');
-
-  var crCls=d.costRate<=50?'c-green':d.costRate<=70?'c-amber':'c-red';
-  document.getElementById('kpi-cost-grid').innerHTML=
-    kpiCard('red','原価率','<span class="'+crCls+'">'+fp(d.costRate)+'</span>',
-      '<span class="kpi-badge '+(d.costRate<=50?'badge-green':'badge-red')+'">目標 '+fp(t.costRate)+'</span>','人件費 '+fm(d.labor))+
-    kpiCard('orange','粗利額','<span class="'+(d.gross>=0?'c-orange':'c-red')+'">'+fm(d.gross)+'</span>','','売上 - 人件費')+
-    kpiCard('orange','稼働単価','<span class="c-orange">'+(d.unit>0?'¥'+d.unit.toLocaleString():'—')+'</span>',
-      '<span class="kpi-badge '+(d.unit>=t.unit?'badge-green':'badge-red')+'">目標 ¥'+t.unit.toLocaleString()+'</span>','最新稼働日ベース')+
-    kpiCard('gray','稼働人数','<span>'+d.ops+'名</span>','',el+'営業日平均');
-
-  document.getElementById('kpi-work-grid').innerHTML=
-    kpiCard('gray','獲得アポ数','<span>'+d.apo+'件</span>','','再送除外済み（累計）※幸野除外')+
-    kpiCard('red','キャンセル数 / キャンセル率','<span class="c-red">'+d.cancel+'件</span>',
-      '<span class="kpi-badge badge-red">キャンセル率 '+fp(d.cancelRate)+'</span>','有効アポ '+d.valid+'件')+
-    kpiCard('gray','コール数 / アポ率','<span>'+(d.calls>0?d.calls.toLocaleString()+'件':'—')+'</span>',
-      d.apoRate>0?'<span class="kpi-badge badge-orange">アポ率 '+d.apoRate.toFixed(2)+'%</span>':'','アポイント（累計）※幸野除外')+
-    kpiCard('gray','単日MAX売上','<span class="c-green">'+getDailyMax(site).label+'</span>','',getDailyMax(site).date);
-
-  renderHeatmap();renderDetailTable();renderRankCost();
-}
-
-function kpiCard(color,label,valueHtml,badgeHtml,subText){
-  return '<div class="kpi-card '+color+'"><div class="kpi-label">'+label+'</div><div class="kpi-value">'+valueHtml+'</div>'+(badgeHtml||'')+'<div class="kpi-sub">'+subText+'</div></div>';
-}
-function getDailyMax(site){
-  var rows=PT_DATA.daily[site]||PT_DATA.daily['all'];
-  if(!rows||rows.length===0)return{label:'—',date:'—'};
-  var max=rows.reduce(function(a,b){return a.sales>b.sales?a:b;});
-  return{label:'¥'+Math.round(max.sales/10000)+'万',date:max.date};
-}
-
-function renderHeatmap(){
-  var bgs=['#FFF0E0','#FFF4E8','#FFF4E8','#FFF8F0','#FFF8F0','#FFFAF4','#FFFAF4','#FFFCF8','#FFFCF8','#FEFEFE'];
-  document.getElementById('heatmap-container').innerHTML=PT_DATA.heatmap.map(function(h,i){
-    var pc=i<3?'color:var(--orange)':'color:var(--text-secondary)';
-    return '<div class="hm-row" style="background:'+bgs[i]+'"><div class="hm-rank">'+h.rank+'</div><div class="hm-id">'+h.name+'</div><div class="hm-val">'+h.valid+'件</div><div class="hm-sales">¥'+h.sales.toLocaleString()+'</div><div class="hm-pct" style="'+pc+';font-weight:500">'+h.pct+'%</div></div>';
-  }).join('');
-}
-
-function renderDetailTable(){
-  var sites=['all','shinjuku','remote','ai'],m=PT_DATA.meta;
-  var rows=[
-    ['sec','SALES｜売上（累計'+m.elapsedDays+'営業日）'],
-    ['data','売上目標',sites.map(function(s){return fm(PT_DATA.targets[s].sales);})],
-    ['sub','売上合計',sites.map(function(s){return fm(PT_DATA.sites[s].sales);})],
-    ['data','売上進捗率',sites.map(function(s){var d=PT_DATA.sites[s],t=PT_DATA.targets[s];return t.sales>0?(d.sales/t.sales*100).toFixed(1)+'%':'—';})],
-    ['data','残売上',sites.map(function(s){var d=PT_DATA.sites[s],t=PT_DATA.targets[s];return t.sales>0?'−'+fm(t.sales-d.sales):'—';})],
-    ['data','着地見込み',sites.map(function(s){var d=PT_DATA.sites[s],t=PT_DATA.targets[s],l=m.elapsedDays>0?Math.round(d.sales/m.elapsedDays*m.workingDays):0;return '¥'+Math.round(l/10000)+'万'+(t.sales>0?' ('+(l/t.sales*100).toFixed(1)+'%)':'');})],
-    ['sec','COST｜原価・人件費'],
-    ['data','原価率目標',sites.map(function(s){return PT_DATA.targets[s].costRate+'%';})],
-    ['data','原価率（実績）',sites.map(function(s){return fp(PT_DATA.sites[s].costRate);})],
-    ['data','人件費',sites.map(function(s){return fm(PT_DATA.sites[s].labor);})],
-    ['data','粗利額',sites.map(function(s){return fm(PT_DATA.sites[s].gross);})],
-    ['sec','APO｜アポイント（累計'+m.elapsedDays+'営業日）'],
-    ['data','アポ数（獲得）',sites.map(function(s){return PT_DATA.sites[s].apo||'—';})],
-    ['data','キャンセル数',sites.map(function(s){return PT_DATA.sites[s].cancel||'—';})],
-    ['sub','請求ベース',sites.map(function(s){return PT_DATA.sites[s].valid||'—';})],
-    ['data','キャンセル率',sites.map(function(s){return fp(PT_DATA.sites[s].cancelRate);})],
-    ['sec','WORK｜稼働'],
-    ['data','稼働人数',sites.map(function(s){return PT_DATA.sites[s].ops+'名';})],
-    ['sec','UNIT｜稼働単価'],
-    ['data','単価目標',sites.map(function(s){return PT_DATA.targets[s].unit>0?'¥'+PT_DATA.targets[s].unit.toLocaleString():'—';})],
-    ['data','稼働単価（最新日）',sites.map(function(s){var d=PT_DATA.sites[s];return d.unit>0?'¥'+d.unit.toLocaleString():'—';})],
-    ['data','稼働単価（日割り平均）',sites.map(function(s){
-      var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[s];
-      var ops=PT_DATA.operators.filter(function(op){return(!filter||op.site===filter)&&op.unitPerDay>0;});
-      if(ops.length===0)return '—';
-      var avg=Math.round(ops.reduce(function(a,b){return a+b.unitPerDay;},0)/ops.length);
-      return '¥'+avg.toLocaleString();
-    })],
-    ['sec','CALL｜コール（累計'+m.elapsedDays+'営業日）'],
-    ['data','コール数',sites.map(function(s){var d=PT_DATA.sites[s];return d.calls>0?d.calls.toLocaleString():'—';})],
-    ['data','アポ率',sites.map(function(s){var d=PT_DATA.sites[s];return d.apoRate>0?d.apoRate.toFixed(2)+'%':'—';})],
-  ];
-  document.getElementById('detail-tbody').innerHTML=rows.map(function(r){
-    if(r[0]==='sec')return '<tr class="sec-head"><td colspan="5">'+r[1]+'</td></tr>';
-    return '<tr class="'+(r[0]==='sub'?'subtotal ':'')+'data-row"><td class="label-td">'+r[1]+'</td>'+r[2].map(function(v){return '<td class="r">'+v+'</td>';}).join('')+'</tr>';
-  }).join('');
-}
-
-function renderRankCost(){
-  var rankOrder=['トップ','ミドル','ルーキープラス','ルーキー','管理者','社員'];
-  var rankClass={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
-  ['all','shinjuku','remote'].forEach(function(siteKey){
-    var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC'}[siteKey];
-    var byRank={};
-    PT_DATA.operators.forEach(function(op){
-      if(filter&&op.site!==filter)return;
-      var r=op.rank||'—';
-      if(!byRank[r])byRank[r]={sales:0,labor:0,members:[]};
-      byRank[r].sales+=op.sales||0;byRank[r].labor+=op.labor||0;byRank[r].members.push(op.name);
-    });
-    var html='<table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody>';
-    rankOrder.forEach(function(rank){
-      var g=byRank[rank];if(!g||g.members.length===0)return;
-      var cr=g.sales>0?(g.labor/g.sales*100).toFixed(1)+'%':'—';
-      var crCls=g.sales>0?costCls(g.labor/g.sales*100):'';
-      var popup='<div class="popup-content"><div class="popup-title">'+rank+' '+g.members.length+'名</div>'+g.members.map(function(n){return '<div class="popup-row">'+n+'</div>';}).join('')+'</div>';
-      html+='<tr class="data-row"><td><div class="popup-trigger"><span class="rank-badge '+rankClass[rank]+'">'+rank+'</span>'+popup+'</div></td><td class="r">'+(g.sales>0?'¥'+g.sales.toLocaleString():g.sales<0?'−¥'+Math.abs(g.sales).toLocaleString():'—')+'</td><td class="r">¥'+g.labor.toLocaleString()+'</td><td class="r '+crCls+'">'+cr+'</td></tr>';
-    });
-    html+='</tbody></table>';
-    document.getElementById('rank-cost-'+siteKey).innerHTML=html;
-  });
-
-  // ダッシュボード用ランク別稼働単価（売上合計÷日数合計）
-  ['all','shinjuku','remote'].forEach(function(siteKey){
-    var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC'}[siteKey];
-    var html='<table><thead><tr><th>ランク</th><th class="r">単価/日</th><th class="r">最高</th><th class="r">最低</th></tr></thead><tbody>';
-    rankOrder.forEach(function(rank){
-      var ops=PT_DATA.operators.filter(function(op){
-        return op.rank===rank&&op.unitPerDay>0&&(!filter||op.site===filter);
-      });
-      if(ops.length===0)return;
-      var ts=ops.reduce(function(a,b){return a+(b.sales||0);},0);
-      var td=ops.reduce(function(a,b){return a+(b.days||0);},0);
-      var avg=td>0?Math.round(ts/td):0;
-      var units=ops.map(function(op){return op.unitPerDay;});
-      var max=Math.max.apply(null,units);
-      var min=Math.min.apply(null,units);
-      var rc={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'}[rank]||'rank-mid';
-      html+='<tr class="data-row">'+
-        '<td><span class="rank-badge '+rc+'">'+rank+'</span></td>'+
-        '<td class="r c-orange">¥'+avg.toLocaleString()+'</td>'+
-        '<td class="r c-green">¥'+max.toLocaleString()+'</td>'+
-        '<td class="r c-muted">¥'+min.toLocaleString()+'</td>'+
-        '</tr>';
-    });
-    html+='</tbody></table>';
-    var el=document.getElementById('rank-unit-'+siteKey);
-    if(el)el.innerHTML=html;
-  });
-}
-
-function renderDailyPage(site){
-  var rows=PT_DATA.daily[site]||PT_DATA.daily['all'];
-  document.getElementById('daily-tbody').innerHTML=rows.map(function(r){
-    var unit=r.valid>0?'¥'+Math.round(r.sales/r.valid).toLocaleString():'—';
-    return '<tr class="data-row"><td class="daily-date-col">'+r.day+'</td><td>'+r.date+'</td><td class="r">'+fm(r.sales)+'</td><td class="r">'+r.apo+'</td><td class="r c-red">'+r.cancel+'</td><td class="r">'+r.valid+'</td><td class="r">'+r.ops+'</td><td class="r">'+(r.calls>0?r.calls.toLocaleString():'—')+'</td><td class="r">'+unit+'</td></tr>';
-  }).join('');
-}
-
-function renderOperatorSummary(site){
-  var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[site];
-  var rankOrder=['トップ','ミドル','ルーキープラス','ルーキー','管理者','社員'];
-  var rankClass={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
-  var ops=PT_DATA.operators.filter(function(op){return !filter||op.site===filter;});
-  var byRank={};
-  ops.forEach(function(op){
-    var r=op.rank||'—';
-    if(!byRank[r])byRank[r]={sales:0,labor:0,members:[],unitSum:0,unitCnt:0};
-    byRank[r].sales+=op.sales||0;byRank[r].labor+=op.labor||0;byRank[r].members.push(op.name);
-    if(op.sales>0){byRank[r].unitSum+=op.sales;byRank[r].unitCnt++;}
-  });
-  var costHtml='<table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody>';
-  rankOrder.forEach(function(rank){
-    var g=byRank[rank];if(!g||g.members.length===0)return;
-    var cr=g.sales>0?(g.labor/g.sales*100).toFixed(1)+'%':'—';
-    var crCls=g.sales>0?costCls(g.labor/g.sales*100):'';
-    var popup='<div class="popup-content"><div class="popup-title">'+rank+' '+g.members.length+'名</div>'+g.members.map(function(n){return '<div class="popup-row">'+n+'</div>';}).join('')+'</div>';
-    costHtml+='<tr class="data-row"><td><div class="popup-trigger"><span class="rank-badge '+rankClass[rank]+'">'+rank+'</span>'+popup+'</div></td><td class="r">'+(g.sales>0?'¥'+g.sales.toLocaleString():g.sales<0?'−¥'+Math.abs(g.sales).toLocaleString():'—')+'</td><td class="r">¥'+g.labor.toLocaleString()+'</td><td class="r '+crCls+'">'+cr+'</td></tr>';
-  });
-  costHtml+='</tbody></table>';
-  var el1=document.getElementById('op-rank-cost');if(el1)el1.innerHTML=costHtml;
-  // ランク別稼働単価：全体行＋ルーキー系合算（売上合計÷日数合計の重み付き平均）
-  var unitRows=[
-    {label:'全体',    cls:'rank-mid',    filter:function(op){return op.unitPerDay>0;}},
-    {label:'トップ',  cls:'rank-top',    filter:function(op){return op.rank==='トップ'&&op.unitPerDay>0;}},
-    {label:'ミドル',  cls:'rank-mid',    filter:function(op){return op.rank==='ミドル'&&op.unitPerDay>0;}},
-    {label:'ルーキー',cls:'rank-rookie', filter:function(op){return (op.rank==='ルーキー'||op.rank==='ルーキープラス')&&op.unitPerDay>0;}},
-    {label:'管理者',  cls:'rank-mid',    filter:function(op){return op.rank==='管理者'&&op.unitPerDay>0;}},
-    {label:'社員',    cls:'rank-mid',    filter:function(op){return op.rank==='社員'&&op.unitPerDay>0;}}
-  ];
-  function weightedUnit(ops){
-    var ts=ops.reduce(function(a,b){return a+(b.sales||0);},0);
-    var td=ops.reduce(function(a,b){return a+(b.days||0);},0);
-    return td>0?Math.round(ts/td):0;
-  }
-  var unitHtml='<table><thead><tr><th>ランク</th><th class="r">全体</th><th class="r">新宿SC</th><th class="r">リモートSC</th></tr></thead><tbody>';
-  unitRows.forEach(function(row){
-    var all=PT_DATA.operators.filter(row.filter);
-    var sj =PT_DATA.operators.filter(function(op){return row.filter(op)&&op.site==='新宿SC';});
-    var rm =PT_DATA.operators.filter(function(op){return row.filter(op)&&op.site==='リモートSC';});
-    if(all.length===0)return;
-    var aA=weightedUnit(all),aS=weightedUnit(sj),aR=weightedUnit(rm);
-    unitHtml+='<tr class="data-row">'+
-      '<td><span class="rank-badge '+row.cls+'">'+row.label+'</span></td>'+
-      '<td class="r c-orange">'+(aA>0?'¥'+aA.toLocaleString():'—')+'</td>'+
-      '<td class="r">'+(aS>0?'¥'+aS.toLocaleString():'—')+'</td>'+
-      '<td class="r">'+(aR>0?'¥'+aR.toLocaleString():'—')+'</td>'+
-      '</tr>';
-  });
-  unitHtml+='</tbody></table>';
-  var el2=document.getElementById('op-rank-unit');if(el2)el2.innerHTML=unitHtml;
-  var siteDef=[['新宿SC','新宿SC'],['リモートSC','リモートSC'],['AI','AI']];
-  var sOpsHtml='<table><thead><tr><th>サイト</th><th class="r">稼働人数</th><th class="r">工数</th></tr></thead><tbody>';
-  siteDef.forEach(function(pair){
-    var cnt=PT_DATA.operators.filter(function(op){return op.site===pair[0]&&(op.workH>0||op.apo>0);}).length;
-    if(cnt===0)return;
-    sOpsHtml+='<tr class="data-row"><td>'+pair[0]+'</td><td class="r">'+cnt+'名</td><td class="r">'+cnt+'</td></tr>';
-  });
-  sOpsHtml+='</tbody></table>';
-  var el3=document.getElementById('op-site-ops');if(el3)el3.innerHTML=sOpsHtml;
-}
-
-function renderOperatorTable(site){
-  var q=((document.getElementById('op-search')||{}).value||'').toLowerCase();
-  var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[site];
-  var rankClass={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
-  var data=PT_DATA.operators.filter(function(op){return(!filter||op.site===filter)&&(!q||op.name.toLowerCase().indexOf(q)>=0);});
-  var cntEl=document.getElementById('op-count');if(cntEl)cntEl.textContent=data.length+'名';
-  var el=document.getElementById('op-tbody');if(!el)return;
-  el.innerHTML=data.map(function(op){
-    var rc=rankClass[op.rank]||'rank-mid';
-    var cxlCls=op.cancel>0?' c-red':'';
-    return '<tr class="data-row"><td style="font-weight:500">'+op.name+'</td><td><span class="rank-badge '+rc+'">'+(op.rank||'—')+'</span></td><td style="color:var(--text-secondary)">'+(op.site||'—')+'</td><td class="r">'+(op.sales>0?'¥'+op.sales.toLocaleString():op.sales<0?'−¥'+Math.abs(op.sales).toLocaleString():'—')+'</td><td class="r">'+(op.apo>0?op.apo:'—')+'</td><td class="r'+cxlCls+'">'+op.cancel+'</td><td class="r">'+(op.valid>0?op.valid:'—')+'</td><td class="r">'+(op.calls>0?op.calls:'—')+'</td><td class="r">'+(op.apoRate!=null?op.apoRate.toFixed(1)+'%':'—')+'</td><td class="r c-orange">'+(op.unitPerDay>0?'¥'+op.unitPerDay.toLocaleString():'—')+'</td><td class="r">'+(op.workH>0?op.workH.toFixed(1)+'h':'—')+'</td><td class="r '+(op.costRate!=null?costCls(op.costRate):'')+'">'+(op.costRate!=null?op.costRate.toFixed(1)+'%':'—')+'</td></tr>';
-  }).join('');
-}
-
-var chartI1=null,chartI2=null;
-function renderCharts(){
-  var cd=PT_DATA.chart;
-  var bg=cd.data.map(function(v){return v>0?'#E8711A':'#E8711A22';});
-  var opts={type:'bar',data:{labels:cd.labels,datasets:[{label:'売上（万円）',data:cd.data,backgroundColor:bg,borderColor:'#E8711A',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(d){return '¥'+(d.raw*10000).toLocaleString();}}}},scales:{x:{ticks:{font:{size:10},color:'#AAA'},grid:{display:false},border:{display:false}},y:{ticks:{font:{size:10},color:'#AAA',callback:function(v){return v+'万';}},grid:{color:'rgba(0,0,0,.04)'},border:{display:false}}}}};
-  var c1=document.getElementById('dailyChart');if(c1){if(chartI1)chartI1.destroy();chartI1=new Chart(c1,JSON.parse(JSON.stringify(opts)));}
-  var c2=document.getElementById('dailyChart2');if(c2){if(chartI2)chartI2.destroy();chartI2=new Chart(c2,JSON.parse(JSON.stringify(opts)));}
-}
-
-function initSettings(){
-  var t=PT_DATA.targets,m=PT_DATA.meta;
-  document.getElementById('s-sales-all').value=t.all.sales;document.getElementById('s-sales-sj').value=t.shinjuku.sales;document.getElementById('s-sales-rm').value=t.remote.sales;
-  document.getElementById('s-cost-all').value=t.all.costRate;document.getElementById('s-cost-sj').value=t.shinjuku.costRate;document.getElementById('s-cost-rm').value=t.remote.costRate;
-  document.getElementById('s-unit-all').value=t.all.unit;document.getElementById('s-unit-sj').value=t.shinjuku.unit;document.getElementById('s-unit-rm').value=t.remote.unit;
-  document.getElementById('s-days').value=m.workingDays;
-}
-function saveSettings(){
-  PT_DATA.targets.all.sales=parseInt(document.getElementById('s-sales-all').value)||0;
-  PT_DATA.targets.shinjuku.sales=parseInt(document.getElementById('s-sales-sj').value)||0;
-  PT_DATA.targets.remote.sales=parseInt(document.getElementById('s-sales-rm').value)||0;
-  PT_DATA.targets.all.costRate=parseFloat(document.getElementById('s-cost-all').value)||0;
-  PT_DATA.targets.shinjuku.costRate=parseFloat(document.getElementById('s-cost-sj').value)||0;
-  PT_DATA.targets.remote.costRate=parseFloat(document.getElementById('s-cost-rm').value)||0;
-  PT_DATA.targets.all.unit=parseInt(document.getElementById('s-unit-all').value)||0;
-  PT_DATA.targets.shinjuku.unit=parseInt(document.getElementById('s-unit-sj').value)||0;
-  PT_DATA.targets.remote.unit=parseInt(document.getElementById('s-unit-rm').value)||0;
-  PT_DATA.meta.workingDays=parseInt(document.getElementById('s-days').value)||18;
-  renderDashboard(currentSite);alert('保存しました');
-}
-function cancelSettings(){initSettings();}
-
-document.getElementById('updateTime').textContent='最終更新: '+PT_DATA.meta.lastUpdateLabel;
-document.getElementById('periodBadge').textContent=PT_DATA.meta.month;
-document.getElementById('alertText').textContent=PT_DATA.meta.alertText;
-renderDashboard('all');renderDailyPage('all');renderOperatorSummary('all');renderOperatorTable('all');renderCharts();initSettings();
-</script>
 </body>
 </html>
