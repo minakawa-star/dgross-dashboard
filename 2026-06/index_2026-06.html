@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PT事業部 売上管理ダッシュボード v28 - 2026年6月</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--orange:#E8711A;--orange-light:#FFF4EC;--red:#C0392B;--red-light:#FFEBEE;--green:#2E7D32;--green-light:#EDF7ED;--gray:#888;--border:#EBEBEA;--bg:#F7F7F5;--white:#FFFFFF;--text:#1A1A1A;--text-secondary:#555;--text-muted:#AAA;--sidebar-w:220px;--header-h:56px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50}
+.content{padding:24px;flex:1}
+.sidebar-logo{padding:18px 20px 16px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:8px}
+.logo-icon{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:18px;height:18px;fill:#fff}
+.logo-text{font-size:14px;font-weight:700}
+.logo-sub{font-size:10px;color:var(--gray);margin-top:1px}
+.nav{padding:12px 0;flex:1}
+.nav-section{font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;padding:10px 20px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--text-secondary);transition:all .15s;border-left:2px solid transparent;font-size:13px}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{color:var(--orange);font-weight:500;border-left-color:var(--orange);background:var(--orange-light)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border)}
+.user-info{display:flex;align-items:center;gap:8px}
+.user-avatar{width:30px;height:30px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:500;flex-shrink:0}
+.user-name{font-size:12px;font-weight:500}
+.user-role{font-size:10px;color:var(--gray)}
+.page-title{font-size:15px;font-weight:500}
+.header-right{display:flex;align-items:center;gap:12px}
+.period-badge{font-size:12px;background:var(--orange-light);color:var(--orange);padding:4px 12px;border-radius:20px;font-weight:500}
+.update-time{font-size:11px;color:var(--text-muted)}
+.site-tabs{display:flex;gap:2px;background:#F0F0EE;border-radius:7px;padding:3px}
+.site-tab{font-size:12px;padding:5px 14px;border-radius:5px;cursor:pointer;color:var(--text-secondary);transition:all .15s;white-space:nowrap}
+.site-tab.active{background:var(--white);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.page{display:none}.page.active{display:block}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+.kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.kpi-card.orange::after{background:var(--orange)}.kpi-card.red::after{background:var(--red)}.kpi-card.green::after{background:var(--green)}.kpi-card.gray::after{background:#CCC}
+.kpi-label{font-size:11px;color:var(--gray);margin-bottom:6px;font-weight:500}
+.kpi-value{font-size:22px;font-weight:500;line-height:1.1;color:var(--text)}
+.kpi-sub{font-size:11px;color:var(--text-muted);margin-top:5px}
+.kpi-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;margin-top:4px}
+.badge-orange{background:var(--orange-light);color:var(--orange)}.badge-red{background:var(--red-light);color:var(--red)}.badge-green{background:var(--green-light);color:var(--green)}
+.prog{display:flex;align-items:center;gap:6px;margin-top:6px}
+.prog-bg{flex:1;height:3px;background:#F0F0EE;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+.section-label{font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:20px}
+.card-title{font-size:13px;font-weight:500;margin-bottom:16px;color:var(--text-secondary)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px 12px;font-size:11px;font-weight:500;color:var(--gray);border-bottom:1px solid var(--border);white-space:nowrap}
+th.r{text-align:right}
+td{padding:9px 12px;border-bottom:1px solid #F5F5F4;font-size:13px;white-space:nowrap}
+td.r{text-align:right}
+tr:last-child td{border-bottom:none}
+tr.sec-head td{background:#FAFAF8;font-size:10px;font-weight:500;color:var(--orange);padding:5px 12px;letter-spacing:.06em;border-bottom:1px solid var(--border)}
+tr.subtotal td{font-weight:500;background:#FFFAF7}
+tr.data-row:hover td{background:#FFFBF8}
+.rank-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
+.rank-top{background:#EBF3FB;color:#1A5FAD}.rank-mid{background:var(--green-light);color:var(--green)}.rank-rookie{background:#F4F4F2;color:#666}
+.c-orange{color:var(--orange)}.c-red{color:var(--red)}.c-amber{color:#C06010}.c-green{color:var(--green)}.c-muted{color:var(--text-muted)}
+.alert{background:#FEF8F0;border:1px solid #F0C88A;border-radius:8px;padding:10px 16px;font-size:12px;color:#7A4A10;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.alert-dot{width:7px;height:7px;border-radius:50%;background:#D4860A;flex-shrink:0}
+.daily-date-col{color:var(--text-secondary);font-size:12px}
+.hm-row{display:grid;grid-template-columns:20px 1fr 40px 60px 50px;gap:6px;padding:5px 4px;border-radius:4px;font-size:11px;align-items:center}
+.hm-rank{font-weight:700;color:var(--gray);text-align:center}.hm-id{color:var(--text-secondary);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hm-val,.hm-sales,.hm-pct{text-align:right}.hm-val{font-weight:500}.hm-sales{color:var(--text-secondary)}.hm-pct{font-weight:500}
+.popup-trigger{position:relative;cursor:pointer}
+.popup-trigger:hover .popup-content{display:block}
+.popup-content{display:none;position:absolute;z-index:200;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:10px 14px;min-width:200px;left:0;top:100%;margin-top:4px;font-size:12px}
+.popup-content .popup-title{font-weight:500;margin-bottom:6px;color:var(--text-secondary)}
+.popup-content .popup-row{padding:3px 0;border-bottom:1px solid #f5f5f4}
+.popup-content .popup-row:last-child{border-bottom:none}
+.btn{padding:8px 20px;border-radius:7px;font-size:13px;cursor:pointer;font-weight:500}
+.btn-secondary{background:var(--white);border:1px solid var(--border);color:var(--text-secondary)}
+.btn-primary{background:var(--orange);border:1px solid var(--orange);color:#fff}
+.setting-input{width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:13px;font-family:inherit}
+.setting-input:focus{outline:none;border-color:var(--orange)}
+</style>
+</head>
+<body>
+<div class="layout">
+<div class="sidebar">
+  <div class="sidebar-logo"><div class="logo-mark"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg></div><div><div class="logo-text">PT事業部</div><div class="logo-sub">売上管理システム</div></div></div></div>
+  <nav class="nav">
+    <div class="nav-section">メイン</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>ダッシュボード</div>
+    <div class="nav-item" onclick="showPage('daily',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>日次明細</div>
+    <div class="nav-item" onclick="showPage('operator',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>OP個人実績</div>
+    <div class="nav-section">管理</div>
+    <div class="nav-item" onclick="showPage('import',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>データ取込</div>
+    <div class="nav-section">設定</div>
+    <div class="nav-item" onclick="showPage('settings',this)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>設定</div>
+  </nav>
+  <div class="sidebar-footer"><div class="user-info"><div class="user-avatar">皆</div><div><div class="user-name">皆川 大輔</div><div class="user-role">管理者</div></div></div></div>
+</div>
+<div class="main">
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:16px"><div class="page-title" id="pageTitle">ダッシュボード</div><span class="update-time" id="updateTime"></span></div>
+    <div class="header-right"><span class="period-badge" id="periodBadge"></span>
+      <div class="site-tabs" id="siteTabs">
+        <div class="site-tab active" onclick="switchSite('all',this)">全体</div>
+        <div class="site-tab" onclick="switchSite('shinjuku',this)">新宿SC</div>
+        <div class="site-tab" onclick="switchSite('remote',this)">リモートSC</div>
+        <div class="site-tab" onclick="switchSite('ai',this)">AI</div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="page active" id="page-dashboard">
+      <div class="alert"><div class="alert-dot"></div><span id="alertText"></span></div>
+      <div class="section-label">SALES｜売上</div><div class="kpi-grid" id="kpi-sales-grid"></div>
+      <div class="section-label">COST｜原価</div><div class="kpi-grid" id="kpi-cost-grid"></div>
+      <div class="section-label">WORK &amp; APO｜稼働・アポイント</div><div class="kpi-grid" id="kpi-work-grid"></div>
+      <div class="row2">
+        <div class="card" style="margin-bottom:0"><div class="card-title">日次売上推移（万円）</div><div style="height:160px"><canvas id="dailyChart"></canvas></div></div>
+        <div class="card" style="margin-bottom:0"><div class="card-title">案件別ヒートマップ TOP10</div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <div style="display:grid;grid-template-columns:20px 1fr 40px 60px 50px;gap:6px;font-size:10px;color:var(--gray);font-weight:500;padding:0 4px"><span>#</span><span>案件名</span><span style="text-align:right">有効</span><span style="text-align:right">売上</span><span style="text-align:right">構成比</span></div>
+            <div id="heatmap-container"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px"><div class="card-title">詳細データ</div><div class="tbl-wrap"><table><thead><tr><th>項目</th><th class="r">全体</th><th class="r">新宿SC</th><th class="r">リモートSC</th><th class="r">AI</th></tr></thead><tbody id="detail-tbody"></tbody></table></div></div>
+      <div class="card"><div class="card-title">ランク別原価率</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">全体</div><div id="rank-cost-all"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">新宿SC</div><div id="rank-cost-shinjuku"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">リモートSC</div><div id="rank-cost-remote"></div></div></div></div>
+      <div class="card"><div class="card-title">ランク別稼働単価（1出勤日あたり）</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">全体</div><div id="rank-unit-all"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">新宿SC</div><div id="rank-unit-shinjuku"></div></div><div><div style="font-size:11px;color:var(--gray);margin-bottom:8px">リモートSC</div><div id="rank-unit-remote"></div></div></div></div>
+    </div>
+    <div class="page" id="page-daily">
+      <div class="row2">
+        <div class="card" style="margin-bottom:0"><div class="card-title">日次売上推移（万円）</div><div style="height:180px"><canvas id="dailyChart2"></canvas></div></div>
+        <div class="card" style="margin-bottom:0"><div class="card-title">日次明細</div><div class="tbl-wrap"><table><thead><tr><th>営業日</th><th>日付</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">稼働</th><th class="r">コール</th><th class="r">単価</th></tr></thead><tbody id="daily-tbody"></tbody></table></div></div>
+      </div>
+    </div>
+    <div class="page" id="page-operator">
+      <div class="row3" style="margin-bottom:16px">
+        <div class="card" style="margin-bottom:0"><div class="card-title">ランク別原価率 <span style="font-size:10px;color:var(--text-muted)">※ランクにカーソルを合わせるとスタッフ一覧</span></div><div id="op-rank-cost"></div></div>
+        <div class="card" style="margin-bottom:0"><div class="card-title">ランク別稼働単価</div><div id="op-rank-unit"></div></div>
+        <div class="card" style="margin-bottom:0"><div class="card-title">サイト別稼働人数</div><div id="op-site-ops"></div></div>
+      </div>
+      <div class="card-title" style="margin-bottom:8px">OP個人実績一覧</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <input type="text" id="op-search" placeholder="氏名で検索..." oninput="renderOperatorTable(currentSite)" style="border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:13px;width:200px;font-family:inherit">
+        <span id="op-count" style="font-size:12px;color:var(--text-muted)"></span>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden"><div class="tbl-wrap"><table><thead><tr><th>氏名</th><th>ランク</th><th>サイト</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">コール</th><th class="r">アポ率</th><th class="r">稼働単価</th><th class="r">労働時間</th><th class="r">原価率</th></tr></thead><tbody id="op-tbody"></tbody></table></div></div>
+    </div>
+    <div class="page" id="page-import">
+      <div class="card"><div class="card-title">データ取込</div><div class="alert" style="margin-top:8px"><div class="alert-dot"></div>毎営業日、以下の4ファイルをチャットで共有してください。① アポイントリスト（xlsx）　② 生産性レポート（csv）　③ レポート（csv）　④ 勤務データ（csv）</div></div>
+    </div>
+    <div class="page" id="page-settings">
+      <div class="card"><div class="card-title" style="display:flex;align-items:center;justify-content:space-between">目標設定<div style="display:flex;gap:8px"><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="cancelSettings()">キャンセル</button><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="saveSettings()">保存する</button></div></div>
+        <table><thead><tr><th>項目</th><th>全体</th><th>新宿SC</th><th>リモートSC</th><th>備考</th></tr></thead><tbody>
+          <tr class="data-row"><td>月次売上目標</td>
+            <td><input type="number" id="s-sales-all" class="setting-input" oninput="allocateSales()" placeholder="全体目標を入力"></td>
+            <td><input type="number" id="s-sales-sj" class="setting-input"></td>
+            <td><input type="number" id="s-sales-rm" class="setting-input"></td>
+            <td style="color:var(--text-muted);font-size:11px">円<br><span style="font-size:10px">全体入力で自動按分<br>新宿82.8%/リモート17.2%</span></td></tr>
+          <tr class="data-row"><td>原価率目標</td><td><input type="number" id="s-cost-all" class="setting-input"></td><td><input type="number" id="s-cost-sj" class="setting-input"></td><td><input type="number" id="s-cost-rm" class="setting-input"></td><td style="color:var(--text-muted);font-size:11px">%</td></tr>
+          <tr class="data-row"><td>稼働単価目標</td><td><input type="number" id="s-unit-all" class="setting-input"></td><td><input type="number" id="s-unit-sj" class="setting-input"></td><td><input type="number" id="s-unit-rm" class="setting-input"></td><td style="color:var(--text-muted);font-size:11px">円</td></tr>
+          <tr class="data-row"><td>当月営業日数</td><td><input type="number" id="s-days" class="setting-input"></td><td colspan="3" style="color:var(--text-muted);font-size:11px">日（着地計算に使用）</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+var PT_DATA = {"meta": {"month": "2026年6月", "lastUpdate": "2026/05/26", "lastUpdateLabel": "—", "elapsedDays": 0, "workingDays": 22, "alertText": "6月度の管理表です。稼働開始後にデータを更新してください。"}, "targets": {"all": {"sales": 33000000, "costRate": 50.0, "unit": 35000}, "shinjuku": {"sales": 27192000, "costRate": 50.0, "unit": 45000}, "remote": {"sales": 5808000, "costRate": 50.0, "unit": 25000}, "ai": {"sales": 0, "costRate": 0, "unit": 0}}, "sites": {"all": {"sales": 0, "apo": 0, "cancel": 0, "valid": 0, "cancelRate": 0, "labor": 0, "costRate": 0, "gross": 0, "ops": 0, "unit": 0, "calls": 0, "apoRate": 0}, "shinjuku": {"sales": 0, "apo": 0, "cancel": 0, "valid": 0, "cancelRate": 0, "labor": 0, "costRate": 0, "gross": 0, "ops": 0, "unit": 0, "calls": 0, "apoRate": 0}, "remote": {"sales": 0, "apo": 0, "cancel": 0, "valid": 0, "cancelRate": 0, "labor": 0, "costRate": 0, "gross": 0, "ops": 0, "unit": 0, "calls": 0, "apoRate": 0}, "ai": {"sales": 0, "apo": 0, "cancel": 0, "valid": 0, "cancelRate": 0, "labor": 0, "costRate": 0, "gross": 0, "ops": 0, "unit": 0, "calls": 0, "apoRate": 0}}, "daily": {"all": [], "shinjuku": [], "remote": [], "ai": []}, "chart": {"labels": ["6/1", "6/2", "6/3", "6/4", "6/5", "6/8", "6/9", "6/10", "6/11", "6/12", "6/15", "6/16", "6/17", "6/18", "6/19", "6/22", "6/23", "6/24", "6/25", "6/26", "6/29", "6/30"], "data": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, "heatmap": [], "incentive": {}, "operators": [], "prev_calls": {}};
+
+var currentSite='all';
+function fm(v){return v!=null&&v!==''?'¥'+Math.round(v).toLocaleString():'—';}
+function fp(v){return v!=null?v.toFixed(1)+'%':'—';}
+function costCls(v){if(v==null)return '';if(v<=50)return 'c-green';if(v<=80)return 'c-amber';return 'c-red';}
+
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  var titles={dashboard:'ダッシュボード',daily:'日次明細',operator:'OP個人実績',import:'データ取込',settings:'設定'};
+  document.getElementById('pageTitle').textContent=titles[id]||id;
+  document.getElementById('siteTabs').style.display=['dashboard','daily','operator'].indexOf(id)>=0?'flex':'none';
+  if(id==='daily')renderDailyPage(currentSite);
+  if(id==='operator'){renderOperatorSummary(currentSite);renderOperatorTable(currentSite);}
+}
+
+function switchSite(site,el){
+  currentSite=site;
+  document.querySelectorAll('.site-tab').forEach(function(t){t.classList.remove('active');});
+  if(el)el.classList.add('active');
+  renderDashboard(site);renderDailyPage(site);renderOperatorSummary(site);renderOperatorTable(site);
+}
+
+function renderDashboard(site){
+  var d=PT_DATA.sites[site],t=PT_DATA.targets[site],m=PT_DATA.meta;
+  if(!d||!t)return;
+  var el=m.elapsedDays,wd=m.workingDays;
+  var salesPct=t.sales>0?d.sales/t.sales*100:0;
+  var landing=el>0?Math.round(d.sales/el*wd):0;
+  var landingPct=t.sales>0?landing/t.sales*100:0;
+  var avg=el>0?Math.round(d.sales/el):0;
+
+  document.getElementById('kpi-sales-grid').innerHTML=
+    kpiCard('orange','売上合計','<span class="c-orange">¥'+Math.round(d.sales/10000)+'万</span>',
+      '<div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:'+Math.min(salesPct,100).toFixed(1)+'%;background:var(--orange)"></div></div><span style="font-size:11px;color:var(--orange)">'+salesPct.toFixed(1)+'%</span></div>',
+      '目標 ¥'+Math.round(t.sales/10000)+'万　進捗 '+salesPct.toFixed(1)+'%')+
+    kpiCard('red','残売上','<span class="c-red">−¥'+Math.round((t.sales-d.sales)/10000)+'万</span>','','残稼働 '+(wd-el)+'日')+
+    kpiCard('orange','1日あたり売上平均','<span class="c-orange">¥'+Math.round(avg/10000)+'万</span>','','目標日次 ¥'+Math.round(t.sales/wd/10000)+'万（'+el+'日時点）')+
+    kpiCard('orange','着地見込み','<span class="c-amber">¥'+Math.round(landing/10000)+'万</span>',
+      '<span class="kpi-badge '+(landingPct>=80?'badge-green':landingPct>=50?'badge-orange':'badge-red')+'">達成率 '+landingPct.toFixed(1)+'%</span>',
+      '¥'+Math.round(landing/10000)+'万 / ¥'+Math.round(t.sales/10000)+'万');
+
+  var crCls=d.costRate<=50?'c-green':d.costRate<=70?'c-amber':'c-red';
+  document.getElementById('kpi-cost-grid').innerHTML=
+    kpiCard('red','原価率','<span class="'+crCls+'">'+fp(d.costRate)+'</span>',
+      '<span class="kpi-badge '+(d.costRate<=50?'badge-green':'badge-red')+'">目標 '+fp(t.costRate)+'</span>','人件費 '+fm(d.labor))+
+    kpiCard('orange','粗利額','<span class="'+(d.gross>=0?'c-orange':'c-red')+'">'+fm(d.gross)+'</span>','','売上 - 人件費')+
+    kpiCard('orange','稼働単価','<span class="c-orange">'+(d.unit>0?'¥'+d.unit.toLocaleString():'—')+'</span>',
+      '<span class="kpi-badge '+(d.unit>=t.unit?'badge-green':'badge-red')+'">目標 ¥'+t.unit.toLocaleString()+'</span>','最新稼働日ベース')+
+    kpiCard('gray','稼働人数','<span>'+d.ops+'名</span>','',el+'営業日平均');
+
+  document.getElementById('kpi-work-grid').innerHTML=
+    kpiCard('gray','獲得アポ数','<span>'+d.apo+'件</span>','','再送除外済み（累計）※幸野除外')+
+    kpiCard('red','キャンセル数 / キャンセル率','<span class="c-red">'+d.cancel+'件</span>',
+      '<span class="kpi-badge badge-red">キャンセル率 '+fp(d.cancelRate)+'</span>','有効アポ '+d.valid+'件')+
+    kpiCard('gray','コール数 / アポ率','<span>'+(d.calls>0?d.calls.toLocaleString()+'件':'—')+'</span>',
+      d.apoRate>0?'<span class="kpi-badge badge-orange">アポ率 '+d.apoRate.toFixed(2)+'%</span>':'','アポイント（累計）※幸野除外')+
+    kpiCard('gray','単日MAX売上','<span class="c-green">'+getDailyMax(site).label+'</span>','',getDailyMax(site).date);
+
+  renderHeatmap();renderDetailTable();renderRankCost();
+}
+
+function kpiCard(color,label,valueHtml,badgeHtml,subText){
+  return '<div class="kpi-card '+color+'"><div class="kpi-label">'+label+'</div><div class="kpi-value">'+valueHtml+'</div>'+(badgeHtml||'')+'<div class="kpi-sub">'+subText+'</div></div>';
+}
+function getDailyMax(site){
+  var rows=PT_DATA.daily[site]||PT_DATA.daily['all'];
+  if(!rows||rows.length===0)return{label:'—',date:'—'};
+  var max=rows.reduce(function(a,b){return a.sales>b.sales?a:b;});
+  return{label:'¥'+Math.round(max.sales/10000)+'万',date:max.date};
+}
+
+function renderHeatmap(){
+  var bgs=['#FFF0E0','#FFF4E8','#FFF4E8','#FFF8F0','#FFF8F0','#FFFAF4','#FFFAF4','#FFFCF8','#FFFCF8','#FEFEFE'];
+  document.getElementById('heatmap-container').innerHTML=PT_DATA.heatmap.map(function(h,i){
+    var pc=i<3?'color:var(--orange)':'color:var(--text-secondary)';
+    return '<div class="hm-row" style="background:'+bgs[i]+'"><div class="hm-rank">'+h.rank+'</div><div class="hm-id">'+h.name+'</div><div class="hm-val">'+h.valid+'件</div><div class="hm-sales">¥'+h.sales.toLocaleString()+'</div><div class="hm-pct" style="'+pc+';font-weight:500">'+h.pct+'%</div></div>';
+  }).join('');
+}
+
+function renderDetailTable(){
+  var sites=['all','shinjuku','remote','ai'],m=PT_DATA.meta;
+  var rows=[
+    ['sec','SALES｜売上（累計'+m.elapsedDays+'営業日）'],
+    ['data','売上目標',sites.map(function(s){return fm(PT_DATA.targets[s].sales);})],
+    ['sub','売上合計',sites.map(function(s){return fm(PT_DATA.sites[s].sales);})],
+    ['data','売上進捗率',sites.map(function(s){var d=PT_DATA.sites[s],t=PT_DATA.targets[s];return t.sales>0?(d.sales/t.sales*100).toFixed(1)+'%':'—';})],
+    ['data','残売上',sites.map(function(s){var d=PT_DATA.sites[s],t=PT_DATA.targets[s];return t.sales>0?'−'+fm(t.sales-d.sales):'—';})],
+    ['data','着地見込み',sites.map(function(s){var d=PT_DATA.sites[s],t=PT_DATA.targets[s],l=m.elapsedDays>0?Math.round(d.sales/m.elapsedDays*m.workingDays):0;return '¥'+Math.round(l/10000)+'万'+(t.sales>0?' ('+(l/t.sales*100).toFixed(1)+'%)':'');})],
+    ['sec','COST｜原価・人件費'],
+    ['data','原価率目標',sites.map(function(s){return PT_DATA.targets[s].costRate+'%';})],
+    ['data','原価率（実績）',sites.map(function(s){return fp(PT_DATA.sites[s].costRate);})],
+    ['data','人件費',sites.map(function(s){return fm(PT_DATA.sites[s].labor);})],
+    ['data','粗利額',sites.map(function(s){return fm(PT_DATA.sites[s].gross);})],
+    ['sec','APO｜アポイント（累計'+m.elapsedDays+'営業日）'],
+    ['data','アポ数（獲得）',sites.map(function(s){return PT_DATA.sites[s].apo||'—';})],
+    ['data','キャンセル数',sites.map(function(s){return PT_DATA.sites[s].cancel||'—';})],
+    ['sub','請求ベース',sites.map(function(s){return PT_DATA.sites[s].valid||'—';})],
+    ['data','キャンセル率',sites.map(function(s){return fp(PT_DATA.sites[s].cancelRate);})],
+    ['sec','WORK｜稼働'],
+    ['data','稼働人数',sites.map(function(s){return PT_DATA.sites[s].ops+'名';})],
+    ['sec','UNIT｜稼働単価'],
+    ['data','単価目標',sites.map(function(s){return PT_DATA.targets[s].unit>0?'¥'+PT_DATA.targets[s].unit.toLocaleString():'—';})],
+    ['data','稼働単価（最新日）',sites.map(function(s){var d=PT_DATA.sites[s];return d.unit>0?'¥'+d.unit.toLocaleString():'—';})],
+    ['data','稼働単価（日割り平均）',sites.map(function(s){
+      var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[s];
+      var ops=PT_DATA.operators.filter(function(op){return(!filter||op.site===filter)&&op.unitPerDay>0;});
+      if(ops.length===0)return '—';
+      var avg=Math.round(ops.reduce(function(a,b){return a+b.unitPerDay;},0)/ops.length);
+      return '¥'+avg.toLocaleString();
+    })],
+    ['sec','CALL｜コール（累計'+m.elapsedDays+'営業日）'],
+    ['data','コール数',sites.map(function(s){var d=PT_DATA.sites[s];return d.calls>0?d.calls.toLocaleString():'—';})],
+    ['data','アポ率',sites.map(function(s){var d=PT_DATA.sites[s];return d.apoRate>0?d.apoRate.toFixed(2)+'%':'—';})],
+  ];
+  document.getElementById('detail-tbody').innerHTML=rows.map(function(r){
+    if(r[0]==='sec')return '<tr class="sec-head"><td colspan="5">'+r[1]+'</td></tr>';
+    return '<tr class="'+(r[0]==='sub'?'subtotal ':'')+'data-row"><td class="label-td">'+r[1]+'</td>'+r[2].map(function(v){return '<td class="r">'+v+'</td>';}).join('')+'</tr>';
+  }).join('');
+}
+
+function renderRankCost(){
+  var rankOrder=['トップ','ミドル','ルーキープラス','ルーキー','管理者','社員'];
+  var rankClass={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
+  ['all','shinjuku','remote'].forEach(function(siteKey){
+    var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC'}[siteKey];
+    var byRank={};
+    PT_DATA.operators.forEach(function(op){
+      if(filter&&op.site!==filter)return;
+      var r=op.rank||'—';
+      if(!byRank[r])byRank[r]={sales:0,labor:0,members:[]};
+      byRank[r].sales+=op.sales||0;byRank[r].labor+=op.labor||0;byRank[r].members.push(op.name);
+    });
+    var html='<table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody>';
+    rankOrder.forEach(function(rank){
+      var g=byRank[rank];if(!g||g.members.length===0)return;
+      var cr=g.sales>0?(g.labor/g.sales*100).toFixed(1)+'%':'—';
+      var crCls=g.sales>0?costCls(g.labor/g.sales*100):'';
+      var popup='<div class="popup-content"><div class="popup-title">'+rank+' '+g.members.length+'名</div>'+g.members.map(function(n){return '<div class="popup-row">'+n+'</div>';}).join('')+'</div>';
+      html+='<tr class="data-row"><td><div class="popup-trigger"><span class="rank-badge '+rankClass[rank]+'">'+rank+'</span>'+popup+'</div></td><td class="r">'+(g.sales>0?'¥'+g.sales.toLocaleString():g.sales<0?'−¥'+Math.abs(g.sales).toLocaleString():'—')+'</td><td class="r">¥'+g.labor.toLocaleString()+'</td><td class="r '+crCls+'">'+cr+'</td></tr>';
+    });
+    html+='</tbody></table>';
+    document.getElementById('rank-cost-'+siteKey).innerHTML=html;
+  });
+
+  // ダッシュボード用ランク別稼働単価（売上合計÷日数合計）
+  ['all','shinjuku','remote'].forEach(function(siteKey){
+    var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC'}[siteKey];
+    var html='<table><thead><tr><th>ランク</th><th class="r">単価/日</th><th class="r">最高</th><th class="r">最低</th></tr></thead><tbody>';
+    rankOrder.forEach(function(rank){
+      var ops=PT_DATA.operators.filter(function(op){
+        return op.rank===rank&&op.unitPerDay>0&&(!filter||op.site===filter);
+      });
+      if(ops.length===0)return;
+      var ts=ops.reduce(function(a,b){return a+(b.sales||0);},0);
+      var td=ops.reduce(function(a,b){return a+(b.days||0);},0);
+      var avg=td>0?Math.round(ts/td):0;
+      var units=ops.map(function(op){return op.unitPerDay;});
+      var max=Math.max.apply(null,units);
+      var min=Math.min.apply(null,units);
+      var rc={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'}[rank]||'rank-mid';
+      html+='<tr class="data-row">'+
+        '<td><span class="rank-badge '+rc+'">'+rank+'</span></td>'+
+        '<td class="r c-orange">¥'+avg.toLocaleString()+'</td>'+
+        '<td class="r c-green">¥'+max.toLocaleString()+'</td>'+
+        '<td class="r c-muted">¥'+min.toLocaleString()+'</td>'+
+        '</tr>';
+    });
+    html+='</tbody></table>';
+    var el=document.getElementById('rank-unit-'+siteKey);
+    if(el)el.innerHTML=html;
+  });
+}
+
+function renderDailyPage(site){
+  var rows=PT_DATA.daily[site]||PT_DATA.daily['all'];
+  document.getElementById('daily-tbody').innerHTML=rows.map(function(r){
+    var unit=r.valid>0?'¥'+Math.round(r.sales/r.valid).toLocaleString():'—';
+    return '<tr class="data-row"><td class="daily-date-col">'+r.day+'</td><td>'+r.date+'</td><td class="r">'+fm(r.sales)+'</td><td class="r">'+r.apo+'</td><td class="r c-red">'+r.cancel+'</td><td class="r">'+r.valid+'</td><td class="r">'+r.ops+'</td><td class="r">'+(r.calls>0?r.calls.toLocaleString():'—')+'</td><td class="r">'+unit+'</td></tr>';
+  }).join('');
+}
+
+function renderOperatorSummary(site){
+  var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[site];
+  var rankOrder=['トップ','ミドル','ルーキープラス','ルーキー','管理者','社員'];
+  var rankClass={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
+  var ops=PT_DATA.operators.filter(function(op){return !filter||op.site===filter;});
+  var byRank={};
+  ops.forEach(function(op){
+    var r=op.rank||'—';
+    if(!byRank[r])byRank[r]={sales:0,labor:0,members:[],unitSum:0,unitCnt:0};
+    byRank[r].sales+=op.sales||0;byRank[r].labor+=op.labor||0;byRank[r].members.push(op.name);
+    if(op.sales>0){byRank[r].unitSum+=op.sales;byRank[r].unitCnt++;}
+  });
+  var costHtml='<table><thead><tr><th>ランク</th><th class="r">売上</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead><tbody>';
+  rankOrder.forEach(function(rank){
+    var g=byRank[rank];if(!g||g.members.length===0)return;
+    var cr=g.sales>0?(g.labor/g.sales*100).toFixed(1)+'%':'—';
+    var crCls=g.sales>0?costCls(g.labor/g.sales*100):'';
+    var popup='<div class="popup-content"><div class="popup-title">'+rank+' '+g.members.length+'名</div>'+g.members.map(function(n){return '<div class="popup-row">'+n+'</div>';}).join('')+'</div>';
+    costHtml+='<tr class="data-row"><td><div class="popup-trigger"><span class="rank-badge '+rankClass[rank]+'">'+rank+'</span>'+popup+'</div></td><td class="r">'+(g.sales>0?'¥'+g.sales.toLocaleString():g.sales<0?'−¥'+Math.abs(g.sales).toLocaleString():'—')+'</td><td class="r">¥'+g.labor.toLocaleString()+'</td><td class="r '+crCls+'">'+cr+'</td></tr>';
+  });
+  costHtml+='</tbody></table>';
+  var el1=document.getElementById('op-rank-cost');if(el1)el1.innerHTML=costHtml;
+  // ランク別稼働単価：全体行＋ルーキー系合算（売上合計÷日数合計の重み付き平均）
+  var unitRows=[
+    {label:'全体',    cls:'rank-mid',    filter:function(op){return op.unitPerDay>0;}},
+    {label:'トップ',  cls:'rank-top',    filter:function(op){return op.rank==='トップ'&&op.unitPerDay>0;}},
+    {label:'ミドル',  cls:'rank-mid',    filter:function(op){return op.rank==='ミドル'&&op.unitPerDay>0;}},
+    {label:'ルーキー',cls:'rank-rookie', filter:function(op){return (op.rank==='ルーキー'||op.rank==='ルーキープラス')&&op.unitPerDay>0;}},
+    {label:'管理者',  cls:'rank-mid',    filter:function(op){return op.rank==='管理者'&&op.unitPerDay>0;}},
+    {label:'社員',    cls:'rank-mid',    filter:function(op){return op.rank==='社員'&&op.unitPerDay>0;}}
+  ];
+  function weightedUnit(ops){
+    var ts=ops.reduce(function(a,b){return a+(b.sales||0);},0);
+    var td=ops.reduce(function(a,b){return a+(b.days||0);},0);
+    return td>0?Math.round(ts/td):0;
+  }
+  var unitHtml='<table><thead><tr><th>ランク</th><th class="r">全体</th><th class="r">新宿SC</th><th class="r">リモートSC</th></tr></thead><tbody>';
+  unitRows.forEach(function(row){
+    var all=PT_DATA.operators.filter(row.filter);
+    var sj =PT_DATA.operators.filter(function(op){return row.filter(op)&&op.site==='新宿SC';});
+    var rm =PT_DATA.operators.filter(function(op){return row.filter(op)&&op.site==='リモートSC';});
+    if(all.length===0)return;
+    var aA=weightedUnit(all),aS=weightedUnit(sj),aR=weightedUnit(rm);
+    unitHtml+='<tr class="data-row">'+
+      '<td><span class="rank-badge '+row.cls+'">'+row.label+'</span></td>'+
+      '<td class="r c-orange">'+(aA>0?'¥'+aA.toLocaleString():'—')+'</td>'+
+      '<td class="r">'+(aS>0?'¥'+aS.toLocaleString():'—')+'</td>'+
+      '<td class="r">'+(aR>0?'¥'+aR.toLocaleString():'—')+'</td>'+
+      '</tr>';
+  });
+  unitHtml+='</tbody></table>';
+  var el2=document.getElementById('op-rank-unit');if(el2)el2.innerHTML=unitHtml;
+  var siteDef=[['新宿SC','新宿SC'],['リモートSC','リモートSC'],['AI','AI']];
+  var sOpsHtml='<table><thead><tr><th>サイト</th><th class="r">稼働人数</th><th class="r">工数</th></tr></thead><tbody>';
+  siteDef.forEach(function(pair){
+    var cnt=PT_DATA.operators.filter(function(op){return op.site===pair[0]&&(op.workH>0||op.apo>0);}).length;
+    if(cnt===0)return;
+    sOpsHtml+='<tr class="data-row"><td>'+pair[0]+'</td><td class="r">'+cnt+'名</td><td class="r">'+cnt+'</td></tr>';
+  });
+  sOpsHtml+='</tbody></table>';
+  var el3=document.getElementById('op-site-ops');if(el3)el3.innerHTML=sOpsHtml;
+}
+
+function renderOperatorTable(site){
+  var q=((document.getElementById('op-search')||{}).value||'').toLowerCase();
+  var filter={'all':null,'shinjuku':'新宿SC','remote':'リモートSC','ai':'AI'}[site];
+  var rankClass={'トップ':'rank-top','ミドル':'rank-mid','ルーキープラス':'rank-rookie','ルーキー':'rank-rookie','管理者':'rank-mid','社員':'rank-mid'};
+  var data=PT_DATA.operators.filter(function(op){return(!filter||op.site===filter)&&(!q||op.name.toLowerCase().indexOf(q)>=0);});
+  var cntEl=document.getElementById('op-count');if(cntEl)cntEl.textContent=data.length+'名';
+  var el=document.getElementById('op-tbody');if(!el)return;
+  el.innerHTML=data.map(function(op){
+    var rc=rankClass[op.rank]||'rank-mid';
+    var cxlCls=op.cancel>0?' c-red':'';
+    return '<tr class="data-row"><td style="font-weight:500">'+op.name+'</td><td><span class="rank-badge '+rc+'">'+(op.rank||'—')+'</span></td><td style="color:var(--text-secondary)">'+(op.site||'—')+'</td><td class="r">'+(op.sales>0?'¥'+op.sales.toLocaleString():op.sales<0?'−¥'+Math.abs(op.sales).toLocaleString():'—')+'</td><td class="r">'+(op.apo>0?op.apo:'—')+'</td><td class="r'+cxlCls+'">'+op.cancel+'</td><td class="r">'+(op.valid>0?op.valid:'—')+'</td><td class="r">'+(op.calls>0?op.calls:'—')+'</td><td class="r">'+(op.apoRate!=null?op.apoRate.toFixed(1)+'%':'—')+'</td><td class="r c-orange">'+(op.unitPerDay>0?'¥'+op.unitPerDay.toLocaleString():'—')+'</td><td class="r">'+(op.workH>0?op.workH.toFixed(1)+'h':'—')+'</td><td class="r '+(op.costRate!=null?costCls(op.costRate):'')+'">'+(op.costRate!=null?op.costRate.toFixed(1)+'%':'—')+'</td></tr>';
+  }).join('');
+}
+
+var chartI1=null,chartI2=null;
+function renderCharts(){
+  var cd=PT_DATA.chart;
+  var bg=cd.data.map(function(v){return v>0?'#E8711A':'#E8711A22';});
+  var opts={type:'bar',data:{labels:cd.labels,datasets:[{label:'売上（万円）',data:cd.data,backgroundColor:bg,borderColor:'#E8711A',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(d){return '¥'+(d.raw*10000).toLocaleString();}}}},scales:{x:{ticks:{font:{size:10},color:'#AAA'},grid:{display:false},border:{display:false}},y:{ticks:{font:{size:10},color:'#AAA',callback:function(v){return v+'万';}},grid:{color:'rgba(0,0,0,.04)'},border:{display:false}}}}};
+  var c1=document.getElementById('dailyChart');if(c1){if(chartI1)chartI1.destroy();chartI1=new Chart(c1,JSON.parse(JSON.stringify(opts)));}
+  var c2=document.getElementById('dailyChart2');if(c2){if(chartI2)chartI2.destroy();chartI2=new Chart(c2,JSON.parse(JSON.stringify(opts)));}
+}
+
+function initSettings(){
+  var t=PT_DATA.targets,m=PT_DATA.meta;
+  document.getElementById('s-sales-all').value=t.all.sales;document.getElementById('s-sales-sj').value=t.shinjuku.sales;document.getElementById('s-sales-rm').value=t.remote.sales;
+  document.getElementById('s-cost-all').value=t.all.costRate;document.getElementById('s-cost-sj').value=t.shinjuku.costRate;document.getElementById('s-cost-rm').value=t.remote.costRate;
+  document.getElementById('s-unit-all').value=t.all.unit;document.getElementById('s-unit-sj').value=t.shinjuku.unit;document.getElementById('s-unit-rm').value=t.remote.unit;
+  document.getElementById('s-days').value=m.workingDays;
+}
+// 按分比率（前月実績ベース）
+var ALLOC_RATIO = {shinjuku: 0.828, remote: 0.172};
+
+function allocateSales() {
+  var total = parseInt(document.getElementById('s-sales-all').value) || 0;
+  if (total <= 0) return;
+  document.getElementById('s-sales-sj').value = Math.round(total * ALLOC_RATIO.shinjuku);
+  document.getElementById('s-sales-rm').value = Math.round(total * ALLOC_RATIO.remote);
+}
+
+function saveSettings(){
+  PT_DATA.targets.all.sales=parseInt(document.getElementById('s-sales-all').value)||0;
+  PT_DATA.targets.shinjuku.sales=parseInt(document.getElementById('s-sales-sj').value)||0;
+  PT_DATA.targets.remote.sales=parseInt(document.getElementById('s-sales-rm').value)||0;
+  PT_DATA.targets.all.costRate=parseFloat(document.getElementById('s-cost-all').value)||0;
+  PT_DATA.targets.shinjuku.costRate=parseFloat(document.getElementById('s-cost-sj').value)||0;
+  PT_DATA.targets.remote.costRate=parseFloat(document.getElementById('s-cost-rm').value)||0;
+  PT_DATA.targets.all.unit=parseInt(document.getElementById('s-unit-all').value)||0;
+  PT_DATA.targets.shinjuku.unit=parseInt(document.getElementById('s-unit-sj').value)||0;
+  PT_DATA.targets.remote.unit=parseInt(document.getElementById('s-unit-rm').value)||0;
+  PT_DATA.meta.workingDays=parseInt(document.getElementById('s-days').value)||22;
+  renderDashboard(currentSite);alert('保存しました');
+}
+function cancelSettings(){initSettings();}
+
+document.getElementById('updateTime').textContent='最終更新: '+PT_DATA.meta.lastUpdateLabel;
+document.getElementById('periodBadge').textContent=PT_DATA.meta.month;
+document.getElementById('alertText').textContent=PT_DATA.meta.alertText;
+renderDashboard('all');renderDailyPage('all');renderOperatorSummary('all');renderOperatorTable('all');renderCharts();initSettings();
+</script>
+</body>
+</html>
