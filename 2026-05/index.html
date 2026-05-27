@@ -197,7 +197,7 @@ tr.data-row:hover td{background:#FFFBF8}
             </label>
           </div>
           <div>
-            <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">④ スタッフマスター <span style="color:var(--red)">*必須</span></div>
+            <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">④ スタッフマスター <span style="color:var(--text-muted)">任意（変更時のみ）</span></div>
             <label class="file-drop" id="drop-master" onclick="document.getElementById('file-master').click()">
               <input type="file" id="file-master" accept=".xlsx" style="display:none" onchange="onFileSelect('master',this)">
               <div class="file-drop-icon">👥</div>
@@ -552,8 +552,8 @@ function onFileSelect(key, input) {
 }
 
 function runUpdate() {
-  var required = ['apo','prod','work','master'];
-  var labels = ['アポイントリスト','生産性レポート','勤務データ','スタッフマスター'];
+  var required = ['apo','prod','work'];
+  var labels = ['アポイントリスト','生産性レポート','勤務データ'];
   for (var i = 0; i < required.length; i++) {
     if (!selectedFiles[required[i]]) {
       alert('必須ファイルが選択されていません：' + labels[i]);
