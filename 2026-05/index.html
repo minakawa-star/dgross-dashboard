@@ -86,8 +86,11 @@ tr.data-row:hover td{background:#FFFBF8}
 .btn{padding:8px 20px;border-radius:7px;font-size:13px;cursor:pointer;font-weight:500}
 .btn-secondary{background:var(--white);border:1px solid var(--border);color:var(--text-secondary)}
 .btn-primary{background:var(--orange);border:1px solid var(--orange);color:#fff}
-.setting-input{width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:13px;font-family:inherit}
-.setting-input:focus{outline:none;border-color:var(--orange)}
+.file-drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:2px dashed var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all .15s;background:var(--white);min-height:90px}
+.file-drop:hover{border-color:var(--orange);background:var(--orange-light)}
+.file-drop.selected{border-color:var(--green);background:var(--green-light)}
+.file-drop-icon{font-size:24px;line-height:1}
+.file-drop-text{font-size:12px;color:var(--text-secondary);text-align:center;word-break:break-all}
 </style>
 </head>
 <body>
@@ -157,7 +160,75 @@ tr.data-row:hover td{background:#FFFBF8}
       <div class="card" style="padding:0;overflow:hidden"><div class="tbl-wrap"><table><thead><tr><th>氏名</th><th>ランク</th><th>サイト</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">コール</th><th class="r">アポ率</th><th class="r">稼働単価</th><th class="r">労働時間</th><th class="r">原価率</th></tr></thead><tbody id="op-tbody"></tbody></table></div></div>
     </div>
     <div class="page" id="page-import">
-      <div class="card"><div class="card-title">データ取込</div><div class="alert" style="margin-top:8px"><div class="alert-dot"></div>毎営業日、以下の4ファイルをチャットで共有してください。① アポイントリスト（xlsx）　② 生産性レポート（csv）　③ レポート（csv）　④ 勤務データ（csv）</div></div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">データ取込</div>
+        <div class="alert" style="margin-bottom:16px">
+          <div class="alert-dot"></div>
+          4ファイルを選択して「更新する」をクリックしてください。自動で集計・反映されます。
+        </div>
+
+        <!-- ファイル選択エリア -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+          <div>
+            <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">① アポイントリスト <span style="color:var(--red)">*必須</span></div>
+            <label class="file-drop" id="drop-apo" onclick="document.getElementById('file-apo').click()">
+              <input type="file" id="file-apo" accept=".xlsx" style="display:none" onchange="onFileSelect('apo',this)">
+              <div class="file-drop-icon">📋</div>
+              <div class="file-drop-text" id="text-apo">クリックまたはドロップ</div>
+              <div style="font-size:10px;color:var(--text-muted)">.xlsx</div>
+            </label>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">② 生産性レポート <span style="color:var(--red)">*必須</span></div>
+            <label class="file-drop" id="drop-prod" onclick="document.getElementById('file-prod').click()">
+              <input type="file" id="file-prod" accept=".csv" style="display:none" onchange="onFileSelect('prod',this)">
+              <div class="file-drop-icon">📊</div>
+              <div class="file-drop-text" id="text-prod">クリックまたはドロップ</div>
+              <div style="font-size:10px;color:var(--text-muted)">.csv</div>
+            </label>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">③ 勤務データ <span style="color:var(--red)">*必須</span></div>
+            <label class="file-drop" id="drop-work" onclick="document.getElementById('file-work').click()">
+              <input type="file" id="file-work" accept=".csv" style="display:none" onchange="onFileSelect('work',this)">
+              <div class="file-drop-icon">⏱️</div>
+              <div class="file-drop-text" id="text-work">クリックまたはドロップ</div>
+              <div style="font-size:10px;color:var(--text-muted)">.csv</div>
+            </label>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">④ スタッフマスター <span style="color:var(--red)">*必須</span></div>
+            <label class="file-drop" id="drop-master" onclick="document.getElementById('file-master').click()">
+              <input type="file" id="file-master" accept=".xlsx" style="display:none" onchange="onFileSelect('master',this)">
+              <div class="file-drop-icon">👥</div>
+              <div class="file-drop-text" id="text-master">クリックまたはドロップ</div>
+              <div style="font-size:10px;color:var(--text-muted)">.xlsx</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- インセンティブ（任意）-->
+        <div style="margin-bottom:20px">
+          <div style="font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px">⑤ インセンティブ <span style="color:var(--text-muted)">任意・月1回</span></div>
+          <label class="file-drop" id="drop-inc" onclick="document.getElementById('file-inc').click()" style="max-width:300px">
+            <input type="file" id="file-inc" accept=".xlsx" style="display:none" onchange="onFileSelect('inc',this)">
+            <div class="file-drop-icon">💰</div>
+            <div class="file-drop-text" id="text-inc">クリックまたはドロップ</div>
+            <div style="font-size:10px;color:var(--text-muted)">.xlsx（月1回）</div>
+          </label>
+        </div>
+
+        <!-- 更新ボタン -->
+        <div style="display:flex;align-items:center;gap:16px">
+          <button class="btn btn-primary" onclick="runUpdate()" id="btn-update" style="padding:10px 32px;font-size:14px">
+            更新する
+          </button>
+          <span id="update-status" style="font-size:13px;color:var(--text-muted)"></span>
+        </div>
+
+        <!-- 結果表示 -->
+        <div id="update-result" style="display:none;margin-top:16px"></div>
+      </div>
     </div>
     <div class="page" id="page-settings">
       <div class="card"><div class="card-title" style="display:flex;align-items:center;justify-content:space-between">目標設定<div style="display:flex;gap:8px"><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="cancelSettings()">キャンセル</button><button class="btn btn-primary" style="font-size:12px;padding:5px 12px" onclick="saveSettings()">保存する</button></div></div>
@@ -465,6 +536,76 @@ function saveSettings(){
   renderDashboard(currentSite);alert('保存しました');
 }
 function cancelSettings(){initSettings();}
+
+// ===== データ取込 =====
+var SERVER_URL = 'https://digross-server.onrender.com';
+var selectedFiles = {};
+
+function onFileSelect(key, input) {
+  if (!input.files || input.files.length === 0) return;
+  var file = input.files[0];
+  selectedFiles[key] = file;
+  var el = document.getElementById('text-' + key);
+  var drop = document.getElementById('drop-' + key);
+  if (el) el.textContent = file.name;
+  if (drop) drop.classList.add('selected');
+}
+
+function runUpdate() {
+  var required = ['apo','prod','work','master'];
+  var labels = ['アポイントリスト','生産性レポート','勤務データ','スタッフマスター'];
+  for (var i = 0; i < required.length; i++) {
+    if (!selectedFiles[required[i]]) {
+      alert('必須ファイルが選択されていません：' + labels[i]);
+      return;
+    }
+  }
+  var btn = document.getElementById('btn-update');
+  var status = document.getElementById('update-status');
+  var result = document.getElementById('update-result');
+  btn.disabled = true;
+  btn.textContent = '処理中...';
+  status.textContent = 'サーバーに送信中です。しばらくお待ちください（初回は50秒程度かかる場合があります）...';
+  result.style.display = 'none';
+
+  var form = new FormData();
+  form.append('apo',    selectedFiles['apo']);
+  form.append('prod',   selectedFiles['prod']);
+  form.append('work',   selectedFiles['work']);
+  form.append('master', selectedFiles['master']);
+  if (selectedFiles['inc']) form.append('inc', selectedFiles['inc']);
+  var ptBlob = new Blob([JSON.stringify(PT_DATA)], {type:'application/json'});
+  form.append('prev', ptBlob, 'pt_data.json');
+
+  fetch(SERVER_URL + '/update', {method:'POST', body:form})
+    .then(function(res){ return res.json(); })
+    .then(function(data) {
+      btn.disabled = false;
+      btn.textContent = '更新する';
+      if (data.error) {
+        status.textContent = '❌ エラーが発生しました';
+        result.style.display = 'block';
+        result.innerHTML = '<div class="alert" style="border-color:var(--red);background:var(--red-light);color:var(--red)"><div class="alert-dot" style="background:var(--red)"></div>' + data.error + '</div>';
+        return;
+      }
+      PT_DATA = data.data;
+      renderDashboard(currentSite);
+      renderDailyPage(currentSite);
+      renderOperatorSummary(currentSite);
+      renderOperatorTable(currentSite);
+      renderCharts();
+      document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
+      document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
+      status.textContent = '✅ 更新完了！';
+      result.style.display = 'block';
+      result.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>更新が完了しました。累計' + PT_DATA.meta.elapsedDays + '営業日 / 売上¥' + Math.round(PT_DATA.sites.all.sales/10000) + '万 / 原価率' + PT_DATA.sites.all.costRate + '%</div>';
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.textContent = '更新する';
+      status.textContent = '❌ 通信エラー（サーバーが起動中の場合は1分後に再試行してください）';
+    });
+}
 
 document.getElementById('updateTime').textContent='最終更新: '+PT_DATA.meta.lastUpdateLabel;
 document.getElementById('periodBadge').textContent=PT_DATA.meta.month;
