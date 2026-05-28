@@ -903,6 +903,17 @@ function deleteStaff(id) {
     });
 }
 
+function downloadPtData() {
+  if (!PT_DATA) return;
+  var blob = new Blob([JSON.stringify(PT_DATA, null, 2)], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'pt_data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 function goTop() { window.location.href = '../../'; }
 function goToMonth(val) { window.location.href = '../' + val + '/'; }
 
