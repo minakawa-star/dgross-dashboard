@@ -277,17 +277,98 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
     <!-- SETTINGS -->
     <div class="page" id="page-settings">
-      <div class="card">
-        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">目標設定<div style="display:flex;gap:8px"><button class="btn btn-secondary" onclick="cancelSettings()">キャンセル</button><button class="btn btn-primary" onclick="saveSettings()">保存する</button></div></div>
-        <table class="data-table">
-          <thead><tr><th>項目</th><th>全体</th><th>新宿SC</th><th>リモートSC</th><th>備考</th></tr></thead>
-          <tbody>
-            <tr><td>月次売上目標</td><td><input type="number" id="s-sales-all" class="setting-input" oninput="allocateSales()"></td><td><input type="number" id="s-sales-sj" class="setting-input"></td><td><input type="number" id="s-sales-rm" class="setting-input"></td><td style="font-size:11px;color:var(--text3)">円　全体入力で自動按分</td></tr>
-            <tr><td>原価率目標</td><td><input type="number" id="s-cost-all" class="setting-input"></td><td><input type="number" id="s-cost-sj" class="setting-input"></td><td><input type="number" id="s-cost-rm" class="setting-input"></td><td style="font-size:11px;color:var(--text3)">%</td></tr>
-            <tr><td>稼働単価目標</td><td><input type="number" id="s-unit-all" class="setting-input"></td><td><input type="number" id="s-unit-sj" class="setting-input"></td><td><input type="number" id="s-unit-rm" class="setting-input"></td><td style="font-size:11px;color:var(--text3)">円/日</td></tr>
-            <tr><td>当月営業日数</td><td><input type="number" id="s-days" class="setting-input"></td><td colspan="3" style="font-size:11px;color:var(--text3)">日（着地計算に使用）</td></tr>
-          </tbody>
-        </table>
+      <!-- 設定タブ -->
+      <div style="display:flex;gap:2px;background:#EDEDEB;border-radius:7px;padding:3px;margin-bottom:14px;width:fit-content">
+        <div class="site-tab active" id="stab-target" onclick="switchSettingTab('target',this)">目標設定</div>
+        <div class="site-tab" id="stab-staff" onclick="switchSettingTab('staff',this)">スタッフ管理</div>
+      </div>
+
+      <!-- 目標設定 -->
+      <div id="stab-panel-target">
+        <div class="card">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">目標設定<div style="display:flex;gap:8px"><button class="btn btn-secondary" onclick="cancelSettings()">キャンセル</button><button class="btn btn-primary" onclick="saveSettings()">保存する</button></div></div>
+          <table class="data-table">
+            <thead><tr><th>項目</th><th>全体</th><th>新宿SC</th><th>リモートSC</th><th>備考</th></tr></thead>
+            <tbody>
+              <tr><td>月次売上目標</td><td><input type="number" id="s-sales-all" class="setting-input" oninput="allocateSales()"></td><td><input type="number" id="s-sales-sj" class="setting-input"></td><td><input type="number" id="s-sales-rm" class="setting-input"></td><td style="font-size:11px;color:var(--text3)">円　全体入力で自動按分</td></tr>
+              <tr><td>原価率目標</td><td><input type="number" id="s-cost-all" class="setting-input"></td><td><input type="number" id="s-cost-sj" class="setting-input"></td><td><input type="number" id="s-cost-rm" class="setting-input"></td><td style="font-size:11px;color:var(--text3)">%</td></tr>
+              <tr><td>稼働単価目標</td><td><input type="number" id="s-unit-all" class="setting-input"></td><td><input type="number" id="s-unit-sj" class="setting-input"></td><td><input type="number" id="s-unit-rm" class="setting-input"></td><td style="font-size:11px;color:var(--text3)">円/日</td></tr>
+              <tr><td>当月営業日数</td><td><input type="number" id="s-days" class="setting-input"></td><td colspan="3" style="font-size:11px;color:var(--text3)">日（着地計算に使用）</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- スタッフ管理 -->
+      <div id="stab-panel-staff" style="display:none">
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+            スタッフ管理
+            <button class="btn btn-primary" onclick="openAddStaff()">＋ スタッフ追加</button>
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px">
+            <input type="text" id="staff-search" class="search-input" placeholder="氏名・IDで検索..." oninput="filterStaffTable()">
+            <span id="staff-count" style="font-size:11px;color:var(--text3)"></span>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table" id="staff-table">
+              <thead><tr>
+                <th>社員番号</th><th>氏名</th><th>サイト</th><th>ランク</th>
+                <th class="r">時給/月給</th><th>給与種別</th><th>状態</th><th>操作</th>
+              </tr></thead>
+              <tbody id="staff-tbody"><tr><td colspan="8" style="text-align:center;color:var(--text3);padding:20px">読み込み中...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- スタッフ追加・編集モーダル -->
+      <div id="staff-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center">
+        <div style="background:var(--white);border-radius:12px;padding:24px;width:440px;max-width:90vw">
+          <div style="font-size:14px;font-weight:500;margin-bottom:16px" id="modal-title">スタッフ追加</div>
+          <div style="display:grid;gap:10px">
+            <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">社員番号</div><input type="text" id="m-empid" class="setting-input" placeholder="D0000001"></div>
+            <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">氏名</div><input type="text" id="m-name" class="setting-input" placeholder="氏名を入力"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">サイト</div>
+                <select id="m-site" class="setting-input">
+                  <option value="新宿SC">新宿SC</option>
+                  <option value="在宅G">リモートSC（在宅G）</option>
+                  <option value="AI">AI</option>
+                </select>
+              </div>
+              <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">ランク</div>
+                <select id="m-rank" class="setting-input">
+                  <option value="トップ">トップ</option>
+                  <option value="ミドル">ミドル</option>
+                  <option value="ルーキープラス">ルーキープラス</option>
+                  <option value="ルーキー">ルーキー</option>
+                  <option value="管理者">管理者</option>
+                  <option value="社員">社員</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">時給 / 月給（円）</div><input type="number" id="m-rate" class="setting-input" placeholder="1500"></div>
+              <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">給与種別</div>
+                <select id="m-stype" class="setting-input">
+                  <option value="hourly">時給</option>
+                  <option value="monthly">月給</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="checkbox" id="m-active" checked>
+              <label for="m-active" style="font-size:12px">在籍中（アクティブ）</label>
+            </div>
+          </div>
+          <input type="hidden" id="m-id">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px">
+            <button class="btn btn-secondary" onclick="closeModal()">キャンセル</button>
+            <button class="btn btn-primary" onclick="saveStaff()">保存する</button>
+          </div>
+          <div id="modal-error" style="display:none;margin-top:10px;font-size:11px;color:var(--red)"></div>
+        </div>
       </div>
     </div>
 
@@ -650,6 +731,136 @@ function runUpdate() {
     .catch(function(err) {
       btn.disabled=false; btn.textContent='更新する';
       status.textContent='❌ 通信エラー（サーバーが起動中の場合は1分後に再試行してください）';
+    });
+}
+
+// ===== スタッフ管理 =====
+var staffData = [];
+
+function switchSettingTab(tab, el) {
+  document.querySelectorAll('#page-settings .site-tab').forEach(function(t){ t.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  document.getElementById('stab-panel-target').style.display = tab === 'target' ? 'block' : 'none';
+  document.getElementById('stab-panel-staff').style.display  = tab === 'staff'  ? 'block' : 'none';
+  if (tab === 'staff') loadStaff();
+}
+
+function loadStaff() {
+  fetch(SERVER_URL + '/staff')
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      staffData = d.data || [];
+      renderStaffTable(staffData);
+    })
+    .catch(function(e) {
+      document.getElementById('staff-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--red);padding:20px">読み込みエラー</td></tr>';
+    });
+}
+
+function renderStaffTable(data) {
+  document.getElementById('staff-count').textContent = data.length + '名';
+  var siteLabel = {'新宿SC':'新宿SC','在宅G':'リモートSC','AI':'AI'};
+  var html = data.map(function(s) {
+    var rc = rankCls(s.rank);
+    var rate = s.salary_type === 'monthly' ? fc(s.hourly_rate) + '/月' : '¥' + s.hourly_rate.toLocaleString() + '/時';
+    return '<tr>' +
+      '<td style="font-size:11px;color:var(--text3)">' + s.employee_id + '</td>' +
+      '<td style="font-weight:500">' + s.name + '</td>' +
+      '<td>' + (siteLabel[s.site] || s.site) + '</td>' +
+      '<td><span class="rank-badge ' + rc + '">' + s.rank + '</span></td>' +
+      '<td class="r">' + rate + '</td>' +
+      '<td>' + (s.salary_type === 'monthly' ? '月給' : '時給') + '</td>' +
+      '<td><span style="font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;background:' + (s.is_active ? 'var(--green-light)' : 'var(--gray-light)') + ';color:' + (s.is_active ? 'var(--green)' : 'var(--gray)') + '">' + (s.is_active ? '在籍' : '退職') + '</span></td>' +
+      '<td style="white-space:nowrap">' +
+        '<button onclick="openEditStaff(' + s.id + ')" style="font-size:11px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer;margin-right:4px">編集</button>' +
+        '<button onclick="deleteStaff(' + s.id + ','' + s.name + '')" style="font-size:11px;padding:2px 8px;border:1px solid var(--red);border-radius:4px;background:#fff;color:var(--red);cursor:pointer">削除</button>' +
+      '</td></tr>';
+  }).join('');
+  document.getElementById('staff-tbody').innerHTML = html || '<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:20px">データなし</td></tr>';
+}
+
+function filterStaffTable() {
+  var q = (document.getElementById('staff-search').value || '').toLowerCase();
+  var filtered = staffData.filter(function(s){ return !q || s.name.toLowerCase().indexOf(q) >= 0 || s.employee_id.toLowerCase().indexOf(q) >= 0; });
+  renderStaffTable(filtered);
+}
+
+function openAddStaff() {
+  document.getElementById('modal-title').textContent = 'スタッフ追加';
+  document.getElementById('m-id').value = '';
+  document.getElementById('m-empid').value = '';
+  document.getElementById('m-name').value = '';
+  document.getElementById('m-site').value = '新宿SC';
+  document.getElementById('m-rank').value = 'ルーキー';
+  document.getElementById('m-rate').value = '';
+  document.getElementById('m-stype').value = 'hourly';
+  document.getElementById('m-active').checked = true;
+  document.getElementById('modal-error').style.display = 'none';
+  document.getElementById('staff-modal').style.display = 'flex';
+}
+
+function openEditStaff(id) {
+  var s = staffData.find(function(x){ return x.id === id; });
+  if (!s) return;
+  document.getElementById('modal-title').textContent = 'スタッフ編集：' + s.name;
+  document.getElementById('m-id').value = s.id;
+  document.getElementById('m-empid').value = s.employee_id;
+  document.getElementById('m-name').value = s.name;
+  document.getElementById('m-site').value = s.site;
+  document.getElementById('m-rank').value = s.rank;
+  document.getElementById('m-rate').value = s.hourly_rate;
+  document.getElementById('m-stype').value = s.salary_type;
+  document.getElementById('m-active').checked = s.is_active;
+  document.getElementById('modal-error').style.display = 'none';
+  document.getElementById('staff-modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('staff-modal').style.display = 'none';
+}
+
+function saveStaff() {
+  var id    = document.getElementById('m-id').value;
+  var empid = document.getElementById('m-empid').value.trim();
+  var name  = document.getElementById('m-name').value.trim();
+  var site  = document.getElementById('m-site').value;
+  var rank  = document.getElementById('m-rank').value;
+  var rate  = parseInt(document.getElementById('m-rate').value) || 0;
+  var stype = document.getElementById('m-stype').value;
+  var active= document.getElementById('m-active').checked;
+  var errEl = document.getElementById('modal-error');
+
+  if (!empid || !name) {
+    errEl.textContent = '社員番号と氏名は必須です';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  var body = {employee_id: empid, name: name, site: site, rank: rank, hourly_rate: rate, salary_type: stype, is_active: active};
+  var url    = SERVER_URL + '/staff' + (id ? '/' + id : '');
+  var method = id ? 'PUT' : 'POST';
+
+  fetch(url, {method: method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)})
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (d.error) { errEl.textContent = d.error; errEl.style.display = 'block'; return; }
+      closeModal();
+      loadStaff();
+    })
+    .catch(function(e) {
+      errEl.textContent = '通信エラーが発生しました';
+      errEl.style.display = 'block';
+    });
+}
+
+function deleteStaff(id, name) {
+  if (!confirm(name + ' を削除しますか？
+この操作は取り消せません。')) return;
+  fetch(SERVER_URL + '/staff/' + id, {method: 'DELETE'})
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (d.error) { alert('削除エラー: ' + d.error); return; }
+      loadStaff();
     });
 }
 
