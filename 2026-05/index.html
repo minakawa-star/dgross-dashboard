@@ -267,6 +267,13 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           <div><div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:6px">⑥ インセンティブ <span style="color:var(--text3)">任意・月1回</span></div>
             <div class="file-drop" id="drop-inc" onclick="triggerFile('inc')"><input type="file" id="file-inc" accept=".xlsx" style="display:none" onchange="onFileSelect('inc',this)"><div style="font-size:22px">💰</div><div class="file-drop-text" id="text-inc">クリックまたはドロップ</div><div style="font-size:10px;color:var(--text3)">.xlsx（月1回）</div><button id="clear-inc" onclick="clearFile(event,'inc')" style="display:none;margin-top:4px;font-size:10px;padding:2px 8px;border:1px solid var(--red);border-radius:4px;color:var(--red);background:#fff;cursor:pointer">✕ 削除</button></div></div>
         </div>
+        <!-- 追加収益（任意）-->
+        <div style="margin-bottom:20px">
+          <div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:8px">⑦ 追加収益 <span style="color:var(--text3)">任意・全体売上のみ反映</span></div>
+          <div id="extra-revenue-list"></div>
+          <button onclick="addExtraRevenue()" style="font-size:11px;padding:4px 14px;border:1px dashed var(--border);border-radius:6px;background:#fff;cursor:pointer;color:var(--text2);margin-top:6px">＋ 追加収益を追加</button>
+        </div>
+
         <div style="display:flex;align-items:center;gap:14px">
           <button class="btn btn-primary" onclick="runUpdate()" id="btn-update" style="padding:9px 28px;font-size:13px">更新する</button>
           <span id="update-status" style="font-size:12px;color:var(--text3)"></span>
@@ -385,6 +392,19 @@ fetch('./pt_data.json')
     PT_DATA = data;
     document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
     document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
+    // 保存済み追加収益を復元
+    if (PT_DATA.extraRevenue && PT_DATA.extraRevenue.length > 0) {
+      extraRevenues = PT_DATA.extraRevenue;
+      renderExtraRevenues();
+      // 追加収益を全体売上に反映
+      var savedExtra = PT_DATA.extraTotal || 0;
+      if (savedExtra > 0) {
+        PT_DATA.sites.all.sales += savedExtra;
+        PT_DATA.sites.all.gross += savedExtra;
+        PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
+          ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10 : 0;
+      }
+    }
     renderDashboard('all');
     renderDaily('all');
     renderChart2();
@@ -728,7 +748,10 @@ function runUpdate() {
   form.append('report', selectedFiles['report']);
   if (selectedFiles['master']) form.append('master', selectedFiles['master']);
   if (selectedFiles['inc'])    form.append('inc',    selectedFiles['inc']);
-  var ptBlob = new Blob([JSON.stringify(PT_DATA)], {type:'application/json'});
+  // 追加収益をPT_DATAに反映してからサーバーに送信
+  var ptDataWithExtra = JSON.parse(JSON.stringify(PT_DATA));
+  ptDataWithExtra.extraRevenue = extraRevenues;
+  var ptBlob = new Blob([JSON.stringify(ptDataWithExtra)], {type:'application/json'});
   form.append('prev', ptBlob, 'pt_data.json');
   fetch(SERVER_URL+'/update', {method:'POST', body:form})
     .then(function(res){ return res.json(); })
@@ -741,6 +764,18 @@ function runUpdate() {
         return;
       }
       PT_DATA = data.data;
+      // 追加収益を全体売上に反映（個人・サイト別には未反映）
+      var extraTotal = getExtraTotal();
+      if (extraTotal > 0) {
+        PT_DATA.sites.all.sales  += extraTotal;
+        PT_DATA.sites.all.gross  += extraTotal;
+        PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
+          ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10
+          : 0;
+        // 着地見込みも再計算
+        PT_DATA.extraRevenue = extraRevenues;
+        PT_DATA.extraTotal   = extraTotal;
+      }
       renderDashboard(currentSite); renderDaily(currentSite); renderOpSummary(currentSite); renderOpTable(currentSite); renderChart2();
       document.getElementById('updateTime').textContent = '最終更新: '+PT_DATA.meta.lastUpdateLabel;
       document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
@@ -901,6 +936,55 @@ function deleteStaff(id) {
       if (d.error) { alert('削除エラー: ' + d.error); return; }
       loadStaff();
     });
+}
+
+// ===== 追加収益管理 =====
+var extraRevenues = [];
+
+function addExtraRevenue() {
+  var idx = extraRevenues.length;
+  extraRevenues.push({type: 'BPO通話料', name: '', amount: 0});
+  renderExtraRevenues();
+}
+
+function removeExtraRevenue(idx) {
+  extraRevenues.splice(idx, 1);
+  renderExtraRevenues();
+}
+
+function renderExtraRevenues() {
+  var types = ['BPO通話料', 'DP', 'BPO固定費', 'リスト・レポート作成費用'];
+  var html = '';
+  for (var i = 0; i < extraRevenues.length; i++) {
+    var r = extraRevenues[i];
+    var opts = types.map(function(t) {
+      return '<option value="' + t + '"' + (r.type === t ? ' selected' : '') + '>' + t + '</option>';
+    }).join('');
+    html += '<div style="display:grid;grid-template-columns:160px 1fr 140px 32px;gap:8px;margin-bottom:8px;align-items:center">' +
+      '<select data-idx="' + i + '" data-key="type" onchange="handleExtra(this)" style="border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;font-family:inherit">' + opts + '</select>' +
+      '<input type="text" data-idx="' + i + '" data-key="name" value="' + (r.name||'') + '" placeholder="案件名" onchange="handleExtra(this)" style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:inherit">' +
+      '<input type="number" data-idx="' + i + '" data-key="amount" value="' + (r.amount||'') + '" placeholder="金額（円）" onchange="handleExtra(this)" style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:inherit">' +
+      '<button data-idx="' + i + '" onclick="handleRemove(this)" style="width:28px;height:28px;border:1px solid var(--red);border-radius:6px;background:#fff;color:var(--red);cursor:pointer;font-size:13px">✕</button>' +
+      '</div>';
+  }
+  document.getElementById('extra-revenue-list').innerHTML = html;
+}
+
+function handleExtra(el) {
+  var idx = parseInt(el.getAttribute('data-idx'));
+  var key = el.getAttribute('data-key');
+  var val = key === 'amount' ? (parseInt(el.value) || 0) : el.value;
+  if (extraRevenues[idx]) extraRevenues[idx][key] = val;
+}
+
+function handleRemove(el) {
+  var idx = parseInt(el.getAttribute('data-idx'));
+  removeExtraRevenue(idx);
+}
+
+
+function getExtraTotal() {
+  return extraRevenues.reduce(function(sum, r) { return sum + (r.amount || 0); }, 0);
 }
 
 function downloadPtData() {
