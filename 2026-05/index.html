@@ -312,6 +312,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
                 <option value="BPO通話料">BPO通話料</option>
                 <option value="DP">DP</option>
                 <option value="BPO固定費">BPO固定費</option>
+                <option value="コール課金">コール課金</option>
                 <option value="リスト・レポート作成費用">リスト・レポート作成費用</option>
               </select>
             </div>
@@ -971,52 +972,114 @@ function deleteStaff(id) {
 }
 
 // ===== 追加収益管理 =====
-var extraRevenues = [];
+var additionalRevenues = [];
 
-function addExtraRevenue() {
-  var idx = extraRevenues.length;
-  extraRevenues.push({type: 'BPO通話料', name: '', amount: 0});
-  renderExtraRevenues();
-}
-
-function removeExtraRevenue(idx) {
-  extraRevenues.splice(idx, 1);
-  renderExtraRevenues();
-}
-
-function renderExtraRevenues() {
-  var types = ['BPO通話料', 'DP', 'BPO固定費', 'リスト・レポート作成費用'];
-  var html = '';
-  for (var i = 0; i < extraRevenues.length; i++) {
-    var r = extraRevenues[i];
-    var opts = types.map(function(t) {
-      return '<option value="' + t + '"' + (r.type === t ? ' selected' : '') + '>' + t + '</option>';
-    }).join('');
-    html += '<div style="display:grid;grid-template-columns:160px 1fr 140px 32px;gap:8px;margin-bottom:8px;align-items:center">' +
-      '<select data-idx="' + i + '" data-key="type" onchange="handleExtra(this)" style="border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;font-family:inherit">' + opts + '</select>' +
-      '<input type="text" data-idx="' + i + '" data-key="name" value="' + (r.name||'') + '" placeholder="案件名" onchange="handleExtra(this)" style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:inherit">' +
-      '<input type="number" data-idx="' + i + '" data-key="amount" value="' + (r.amount||'') + '" placeholder="金額（円）" onchange="handleExtra(this)" style="border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-family:inherit">' +
-      '<button data-idx="' + i + '" onclick="handleRemove(this)" style="width:28px;height:28px;border:1px solid var(--red);border-radius:6px;background:#fff;color:var(--red);cursor:pointer;font-size:13px">✕</button>' +
-      '</div>';
+function renderRevenueList() {
+  var tbody = document.getElementById('revenue-tbody');
+  var totalEl = document.getElementById('revenue-total');
+  if (!tbody) return;
+  if (additionalRevenues.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:20px">登録なし</td></tr>';
+    if (totalEl) totalEl.textContent = '¥0';
+    return;
   }
-  document.getElementById('extra-revenue-list').innerHTML = html;
+  var total = 0;
+  var html = '';
+  for (var i = 0; i < additionalRevenues.length; i++) {
+    var r = additionalRevenues[i];
+    total += r.amount || 0;
+    html += '<tr>' +
+      '<td>' + r.type + '</td>' +
+      '<td>' + (r.name || '—') + '</td>' +
+      '<td class="r">' + fc(r.amount) + '</td>' +
+      '<td style="white-space:nowrap">' +
+        '<button data-idx="' + i + '" onclick="openEditRevenue(this)" style="font-size:11px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer;margin-right:4px">編集</button>' +
+        '<button data-idx="' + i + '" onclick="deleteRevenue(this)" style="font-size:11px;padding:2px 8px;border:1px solid var(--red);border-radius:4px;background:#fff;color:var(--red);cursor:pointer">削除</button>' +
+      '</td></tr>';
+  }
+  tbody.innerHTML = html;
+  if (totalEl) totalEl.textContent = fc(total);
 }
 
-function handleExtra(el) {
-  var idx = parseInt(el.getAttribute('data-idx'));
-  var key = el.getAttribute('data-key');
-  var val = key === 'amount' ? (parseInt(el.value) || 0) : el.value;
-  if (extraRevenues[idx]) extraRevenues[idx][key] = val;
+function openAddRevenue() {
+  document.getElementById('rev-modal-title').textContent = '追加収益を追加';
+  document.getElementById('rev-type').value = 'BPO通話料';
+  document.getElementById('rev-name').value = '';
+  document.getElementById('rev-amount').value = '';
+  document.getElementById('rev-edit-idx').value = '-1';
+  document.getElementById('revenue-modal').style.display = 'flex';
 }
 
-function handleRemove(el) {
-  var idx = parseInt(el.getAttribute('data-idx'));
-  removeExtraRevenue(idx);
+function openEditRevenue(btn) {
+  var idx = parseInt(btn.getAttribute('data-idx'));
+  var r = additionalRevenues[idx];
+  document.getElementById('rev-modal-title').textContent = '追加収益を編集';
+  document.getElementById('rev-type').value = r.type;
+  document.getElementById('rev-name').value = r.name || '';
+  document.getElementById('rev-amount').value = r.amount || '';
+  document.getElementById('rev-edit-idx').value = idx;
+  document.getElementById('revenue-modal').style.display = 'flex';
 }
 
+function deleteRevenue(btn) {
+  var idx = parseInt(btn.getAttribute('data-idx'));
+  additionalRevenues.splice(idx, 1);
+  renderRevenueList();
+}
+
+function closeRevenueModal() {
+  document.getElementById('revenue-modal').style.display = 'none';
+}
+
+function confirmRevenue() {
+  var type   = document.getElementById('rev-type').value;
+  var name   = document.getElementById('rev-name').value.trim();
+  var amount = parseInt(document.getElementById('rev-amount').value) || 0;
+  var idx    = parseInt(document.getElementById('rev-edit-idx').value);
+  if (!name)    { alert('クライアント名を入力してください'); return; }
+  if (amount <= 0) { alert('金額を入力してください'); return; }
+  if (idx >= 0) {
+    additionalRevenues[idx] = {type: type, name: name, amount: amount};
+  } else {
+    additionalRevenues.push({type: type, name: name, amount: amount});
+  }
+  closeRevenueModal();
+  renderRevenueList();
+}
 
 function getExtraTotal() {
-  return extraRevenues.reduce(function(sum, r) { return sum + (r.amount || 0); }, 0);
+  return additionalRevenues.reduce(function(sum, r) { return sum + (r.amount || 0); }, 0);
+}
+
+function saveRevenue() {
+  if (!PT_DATA) { alert('データが読み込まれていません'); return; }
+  var btn = document.getElementById('btn-save-revenue');
+  var resultEl = document.getElementById('revenue-save-result');
+  btn.disabled = true;
+  btn.textContent = '保存中...';
+  var baseSales = PT_DATA._baseSales !== undefined ? PT_DATA._baseSales : PT_DATA.sites.all.sales;
+  var baseGross = PT_DATA._baseGross !== undefined ? PT_DATA._baseGross : PT_DATA.sites.all.gross;
+  var extraTotal = getExtraTotal();
+  PT_DATA._baseSales = baseSales;
+  PT_DATA._baseGross = baseGross;
+  PT_DATA.additionalRevenues = additionalRevenues;
+  PT_DATA.additionalTotal    = extraTotal;
+  PT_DATA.sites.all.sales    = baseSales + extraTotal;
+  PT_DATA.sites.all.gross    = baseGross + extraTotal;
+  PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
+    ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10 : 0;
+  renderDashboard(currentSite);
+  var blob = new Blob([JSON.stringify(PT_DATA, null, 2)], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'pt_data.json'; a.click();
+  URL.revokeObjectURL(url);
+  btn.disabled = false;
+  btn.textContent = '保存して反映する';
+  if (resultEl) {
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>保存しました。ダウンロードされたpt_data.jsonをGitHubの2026-05フォルダに上書きしてください。</div>';
+  }
 }
 
 function downloadPtData() {
