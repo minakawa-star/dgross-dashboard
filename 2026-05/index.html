@@ -1098,9 +1098,20 @@ function saveRevenue() {
   URL.revokeObjectURL(url);
   btn.disabled = false;
   btn.textContent = '保存して反映する';
-  if (resultEl) {
-    resultEl.style.display = 'block';
-    resultEl.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>保存しました。ダウンロードされたpt_data.jsonをGitHubの2026-05フォルダに上書きしてください。</div>';
+  var pat = getGithubPat();
+  if (pat) {
+    autoSavePtData('追加収益更新').then(function(r) {
+      if (resultEl) {
+        resultEl.style.display = 'block';
+        var ghMsg = r && r.success ? '✅ GitHubに自動保存しました' : '⚠️ GitHub保存失敗（手動ダウンロードしてください）';
+        resultEl.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>保存・反映しました。<br><span style="font-size:11px">'+ghMsg+'</span></div>';
+      }
+    });
+  } else {
+    if (resultEl) {
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>保存しました。ダウンロードされたpt_data.jsonをGitHubに上書きしてください。</div>';
+    }
   }
 }
 
@@ -1182,15 +1193,6 @@ function prepareNextMonth() {
   var nextHtml = buildNextMonthHtml(nextMonthStr, nextFolderKey, nextMonth >= 6);
 
   // GitHubにアップロード
-  var owner = 'minakawa-star';
-  var repo  = 'digross-dashboard';
-  var branch = 'main';
-  var headers = {
-    'Authorization': 'token ' + pat,
-    'Content-Type': 'application/json',
-    'Accept': 'application/vnd.github.v3+json'
-  };
-
   status.textContent = '翌月フォルダを作成中...';
 
   // pt_data.jsonをアップロード
@@ -1201,58 +1203,25 @@ function prepareNextMonth() {
   var topHtml = buildTopPageHtml(nextFolderKey, nextMonthStr, nextWorkingDays);
   var topContent = btoa(unescape(encodeURIComponent(topHtml)));
 
-  // ① pt_data.json作成
-  fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + nextFolderKey + '/pt_data.json', {
-    method: 'PUT',
-    headers: headers,
-    body: JSON.stringify({message: nextMonthStr + ' 初期データ作成', content: ptContent, branch: branch})
+  status.textContent = 'pt_data.jsonを作成中...';
+  // SHA対応の共通関数で順番にアップロード
+  githubPutFile(nextFolderKey + '/pt_data.json', JSON.stringify(nextPtData, null, 2), nextMonthStr + ' 初期データ')
+  .then(function() {
+    status.textContent = 'index.htmlを作成中...';
+    return githubPutFile(nextFolderKey + '/index.html', nextHtml, nextMonthStr + ' ダッシュボード');
   })
-  .then(function(r){ return r.json(); })
-  .then(function(d) {
-    if (d.content) {
-      status.textContent = 'index.htmlを作成中...';
-      // ② index.html作成
-      return fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + nextFolderKey + '/index.html', {
-        method: 'PUT',
-        headers: headers,
-        body: JSON.stringify({message: nextMonthStr + ' ダッシュボード作成', content: htmlContent, branch: branch})
-      });
-    } else {
-      throw new Error(d.message || 'pt_data.json作成失敗');
-    }
+  .then(function() {
+    status.textContent = 'トップページを更新中...';
+    return githubPutFile('index.html', topHtml, 'トップページに' + nextMonthStr + 'を追加');
   })
-  .then(function(r){ return r.json(); })
-  .then(function(d) {
-    if (d.content) {
-      status.textContent = 'トップページを更新中...';
-      // ③ トップページのindex.htmlを取得してSHAを確認
-      return fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/index.html', {headers: headers});
-    } else {
-      throw new Error(d.message || 'index.html作成失敗');
-    }
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(d) {
-    var sha = d.sha;
-    return fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/index.html', {
-      method: 'PUT',
-      headers: headers,
-      body: JSON.stringify({message: 'トップページに' + nextMonthStr + 'を追加', content: topContent, sha: sha, branch: branch})
-    });
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(d) {
+  .then(function() {
     btn.disabled = false;
     btn.textContent = '📅 翌月を準備する';
-    if (d.content) {
-      status.textContent = '✅ 完了！';
-      result.style.display = 'block';
-      result.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>' +
-        nextMonthStr + 'のダッシュボードを自動作成しました。<br>' +
-        '<a href="https://minakawa-star.github.io/digross-dashboard/" target="_blank" style="color:var(--green);text-decoration:underline">トップページを確認する</a></div>';
-    } else {
-      throw new Error(d.message || 'トップページ更新失敗');
-    }
+    status.textContent = '✅ 完了！';
+    result.style.display = 'block';
+    result.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>' +
+      nextMonthStr + 'のダッシュボードを自動作成しました。<br>' +
+      '<a href="https://minakawa-star.github.io/digross-dashboard/" target="_blank" style="color:var(--green);text-decoration:underline">トップページを確認する</a></div>';
   })
   .catch(function(e) {
     btn.disabled = false;
@@ -1355,6 +1324,73 @@ function buildTopPageHtml(nextFolderKey, nextMonthStr, nextWorkingDays) {
   var topHtml = document.querySelector('html') ? document.documentElement.outerHTML : '';
   // フォールバック：現在のトップHTMLをfetchして更新
   return topHtml;
+}
+
+// ===== GitHub API共通関数 =====
+var GITHUB_OWNER = 'minakawa-star';
+var GITHUB_REPO  = 'digross-dashboard';
+var GITHUB_BRANCH = 'main';
+
+function getGithubPat() {
+  return localStorage.getItem('github_pat') || '';
+}
+
+function githubHeaders() {
+  return {
+    'Authorization': 'token ' + getGithubPat(),
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.github.v3+json'
+  };
+}
+
+function githubPutFile(path, content, message) {
+  // まず既存ファイルのSHAを取得
+  return fetch('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + path, {
+    headers: githubHeaders()
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    var body = {
+      message: message,
+      content: btoa(unescape(encodeURIComponent(content))),
+      branch: GITHUB_BRANCH
+    };
+    if (d.sha) body.sha = d.sha;
+    return fetch('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + path, {
+      method: 'PUT',
+      headers: githubHeaders(),
+      body: JSON.stringify(body)
+    });
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.content) return d;
+    throw new Error(d.message || 'GitHub書き込みエラー: ' + path);
+  });
+}
+
+function getCurrentFolder() {
+  // 現在のURLから月フォルダを取得
+  var path = window.location.pathname;
+  var m = path.match(/(\d{4}-\d{2})/);
+  return m ? m[1] : null;
+}
+
+function autoSavePtData(successMsg) {
+  var pat = getGithubPat();
+  if (!pat) return Promise.resolve(null); // PAT未設定なら手動ダウンロードのみ
+  var folder = getCurrentFolder();
+  if (!folder) return Promise.resolve(null);
+  var path = folder + '/pt_data.json';
+  return githubPutFile(path, JSON.stringify(PT_DATA, null, 2), 'データ更新: ' + (PT_DATA.meta.lastUpdateLabel || ''))
+    .then(function() {
+      console.log('GitHub自動保存完了: ' + path);
+      return {success: true, msg: successMsg || 'GitHubに自動保存しました'};
+    })
+    .catch(function(e) {
+      console.error('GitHub自動保存エラー:', e);
+      return {success: false, msg: e.message};
+    });
 }
 
 function goTop() { window.location.href = '../../'; }
