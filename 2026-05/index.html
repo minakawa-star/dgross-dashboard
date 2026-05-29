@@ -580,7 +580,8 @@ function renderRankTable(site) {
     byRank[r].labor += op.labor || 0;
     byRank[r].days  += op.days  || 0;
     byRank[r].names.push(op.name);
-    if ((op.workH || 0) > 0) byRank[r].active++;
+    // 稼働判定：時給制はworkH>0、月給制はdays>0（workHがNullの場合）
+    if ((op.workH || 0) > 0 || (op.workH == null && (op.days || 0) > 0)) byRank[r].active++;
   });
   var masterRankCount = {};
   PT_DATA.operators.forEach(function(op) {
@@ -733,9 +734,9 @@ function renderOpTable(site) {
       '<td class="r">' + (op.valid > 0 ? op.valid : '—') + '</td>' +
       '<td class="r">' + (op.calls > 0 ? op.calls.toLocaleString() : '—') + '</td>' +
       '<td class="r">' + (op.apoRate != null ? op.apoRate.toFixed(1) + '%' : '—') + '</td>' +
-      '<td class="r">' + (op.unitPerDay > 0 ? fc(op.unitPerDay) : '—') + '</td>' +
+      '<td class="r">' + (op.unitPerDay > 0 ? fc(op.unitPerDay) : (op.days > 0 && op.sales > 0 ? fc(Math.round(op.sales / op.days)) : '—')) + '</td>' +
       '<td class="r">' + (op.workH > 0 ? op.workH.toFixed(1) + 'h' : '—') + '</td>' +
-      '<td class="r ' + (op.costRate != null ? costCls(op.costRate) : '') + '">' + (op.costRate != null ? op.costRate.toFixed(1) + '%' : '—') + '</td></tr>';
+      '<td class="r ' + (op.costRate != null && op.costRate > 0 ? costCls(op.costRate) : '') + '">' + (op.costRate != null && op.sales > 0 ? op.costRate.toFixed(1) + '%' : '—') + '</td></tr>';
   }).join('');
 }
 
