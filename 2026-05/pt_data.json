@@ -33,14 +33,14 @@
   },
   "sites": {
     "all": {
-      "sales": 14545110,
+      "sales": 15947824,
       "apo": 1000,
       "cancel": 186,
       "valid": 814,
       "cancelRate": 18.6,
       "labor": 9713968,
-      "costRate": 66.8,
-      "gross": 4831142,
+      "costRate": 60.9,
+      "gross": 6233856,
       "ops": 35,
       "unit": 31457,
       "calls": 54303,
@@ -1992,7 +1992,67 @@
       "type": "BPO通話料",
       "name": "LOOV",
       "amount": 115128
+    },
+    {
+      "type": "DP",
+      "name": "スクロールインターナショナル",
+      "amount": 270000
+    },
+    {
+      "type": "DP",
+      "name": "LOOV",
+      "amount": 285714
+    },
+    {
+      "type": "BPO固定費",
+      "name": "コミクス",
+      "amount": 55000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "S-FIX",
+      "amount": 55000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "ユナイテッドウィル",
+      "amount": 55000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "LOOV",
+      "amount": 77000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "TMC",
+      "amount": 220000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "make power",
+      "amount": 77000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "ホットスタッフ袋井",
+      "amount": 77000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "UPF",
+      "amount": 77000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "らくなげ",
+      "amount": 77000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "Innovation M&A Partners",
+      "amount": 77000
     }
   ],
-  "additionalTotal": 478110
+  "additionalTotal": 1880824
 }
