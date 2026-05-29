@@ -146,6 +146,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
     <div class="nav-item" onclick="showPage('import',this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>データ取込
     </div>
+    <div class="nav-item" onclick="showPage('revenue',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>追加収益
+    </div>
     <div class="nav-section">設定</div>
     <div class="nav-item" onclick="showPage('settings',this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>設定
@@ -267,18 +270,66 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           <div><div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:6px">⑥ インセンティブ <span style="color:var(--text3)">任意・月1回</span></div>
             <div class="file-drop" id="drop-inc" onclick="triggerFile('inc')"><input type="file" id="file-inc" accept=".xlsx" style="display:none" onchange="onFileSelect('inc',this)"><div style="font-size:22px">💰</div><div class="file-drop-text" id="text-inc">クリックまたはドロップ</div><div style="font-size:10px;color:var(--text3)">.xlsx（月1回）</div><button id="clear-inc" onclick="clearFile(event,'inc')" style="display:none;margin-top:4px;font-size:10px;padding:2px 8px;border:1px solid var(--red);border-radius:4px;color:var(--red);background:#fff;cursor:pointer">✕ 削除</button></div></div>
         </div>
-        <!-- 追加収益（任意）-->
-        <div style="margin-bottom:20px">
-          <div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:8px">⑦ 追加収益 <span style="color:var(--text3)">任意・全体売上のみ反映</span></div>
-          <div id="extra-revenue-list"></div>
-          <button onclick="addExtraRevenue()" style="font-size:11px;padding:4px 14px;border:1px dashed var(--border);border-radius:6px;background:#fff;cursor:pointer;color:var(--text2);margin-top:6px">＋ 追加収益を追加</button>
-        </div>
-
         <div style="display:flex;align-items:center;gap:14px">
           <button class="btn btn-primary" onclick="runUpdate()" id="btn-update" style="padding:9px 28px;font-size:13px">更新する</button>
           <span id="update-status" style="font-size:12px;color:var(--text3)"></span>
         </div>
         <div id="update-result" style="display:none;margin-top:12px"></div>
+      </div>
+    </div>
+
+    <!-- REVENUE -->
+    <div class="page" id="page-revenue">
+      <div class="card">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+          追加収益管理
+          <button class="btn btn-primary" onclick="openAddRevenue()">＋ 追加する</button>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:14px">全体売上・原価率・着地見込みに反映されます。個人・ランク別実績には反映されません。</div>
+
+        <!-- 登録済み一覧 -->
+        <div id="revenue-list-wrap">
+          <table class="data-table" id="revenue-table">
+            <thead><tr><th>種別</th><th>クライアント名</th><th class="r">金額</th><th>操作</th></tr></thead>
+            <tbody id="revenue-tbody"><tr><td colspan="4" style="text-align:center;color:var(--text3);padding:20px">登録なし</td></tr></tbody>
+          </table>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:13px;font-weight:500">合計：<span id="revenue-total" style="color:var(--orange)">¥0</span></div>
+            <button class="btn btn-primary" onclick="saveRevenue()" id="btn-save-revenue">保存して反映する</button>
+          </div>
+        </div>
+        <div id="revenue-save-result" style="display:none;margin-top:10px"></div>
+      </div>
+
+      <!-- 追加・編集モーダル -->
+      <div id="revenue-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center">
+        <div style="background:var(--white);border-radius:12px;padding:24px;width:400px;max-width:90vw">
+          <div style="font-size:14px;font-weight:500;margin-bottom:16px" id="rev-modal-title">追加収益を追加</div>
+          <div style="display:grid;gap:10px">
+            <div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:4px">種別</div>
+              <select id="rev-type" class="setting-input">
+                <option value="BPO通話料">BPO通話料</option>
+                <option value="DP">DP</option>
+                <option value="BPO固定費">BPO固定費</option>
+                <option value="リスト・レポート作成費用">リスト・レポート作成費用</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:4px">クライアント名</div>
+              <input type="text" id="rev-name" class="setting-input" placeholder="例）○○株式会社">
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:4px">金額（円）</div>
+              <input type="number" id="rev-amount" class="setting-input" placeholder="例）100000">
+            </div>
+          </div>
+          <input type="hidden" id="rev-edit-idx" value="-1">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px">
+            <button class="btn btn-secondary" onclick="closeRevenueModal()">キャンセル</button>
+            <button class="btn btn-primary" onclick="confirmRevenue()">追加する</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -393,17 +444,8 @@ fetch('./pt_data.json')
     document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
     document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
     // 保存済み追加収益を復元
-    if (PT_DATA.extraRevenue && PT_DATA.extraRevenue.length > 0) {
-      extraRevenues = PT_DATA.extraRevenue;
-      renderExtraRevenues();
-      // 追加収益を全体売上に反映
-      var savedExtra = PT_DATA.extraTotal || 0;
-      if (savedExtra > 0) {
-        PT_DATA.sites.all.sales += savedExtra;
-        PT_DATA.sites.all.gross += savedExtra;
-        PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
-          ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10 : 0;
-      }
+    if (PT_DATA.additionalRevenues && PT_DATA.additionalRevenues.length > 0) {
+      additionalRevenues = PT_DATA.additionalRevenues;
     }
     renderDashboard('all');
     renderDaily('all');
@@ -433,9 +475,10 @@ function showPage(id, el) {
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   document.getElementById('page-' + id).classList.add('active');
   if (el) el.classList.add('active');
-  var titles = {dashboard:'ダッシュボード',daily:'日次明細',operator:'OP個人実績',import:'データ取込',settings:'設定'};
+  var titles = {dashboard:'ダッシュボード',daily:'日次明細',operator:'OP個人実績',import:'データ取込',revenue:'追加収益',settings:'設定'};
   document.getElementById('pageTitle').textContent = titles[id] || id;
   var showTabs = ['dashboard','daily','operator'].indexOf(id) >= 0;
+  if (id === 'revenue') { renderRevenueList(); }
   document.getElementById('siteTabs').style.display = showTabs ? 'flex' : 'none';
   if (id === 'daily')    { renderDaily(currentSite); renderChart2(); }
   if (id === 'operator') { renderOpSummary(currentSite); renderOpTable(currentSite); }
@@ -748,10 +791,7 @@ function runUpdate() {
   form.append('report', selectedFiles['report']);
   if (selectedFiles['master']) form.append('master', selectedFiles['master']);
   if (selectedFiles['inc'])    form.append('inc',    selectedFiles['inc']);
-  // 追加収益をPT_DATAに反映してからサーバーに送信
-  var ptDataWithExtra = JSON.parse(JSON.stringify(PT_DATA));
-  ptDataWithExtra.extraRevenue = extraRevenues;
-  var ptBlob = new Blob([JSON.stringify(ptDataWithExtra)], {type:'application/json'});
+  var ptBlob = new Blob([JSON.stringify(PT_DATA)], {type:'application/json'});
   form.append('prev', ptBlob, 'pt_data.json');
   fetch(SERVER_URL+'/update', {method:'POST', body:form})
     .then(function(res){ return res.json(); })
@@ -764,17 +804,9 @@ function runUpdate() {
         return;
       }
       PT_DATA = data.data;
-      // 追加収益を全体売上に反映（個人・サイト別には未反映）
-      var extraTotal = getExtraTotal();
-      if (extraTotal > 0) {
-        PT_DATA.sites.all.sales  += extraTotal;
-        PT_DATA.sites.all.gross  += extraTotal;
-        PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
-          ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10
-          : 0;
-        // 着地見込みも再計算
-        PT_DATA.extraRevenue = extraRevenues;
-        PT_DATA.extraTotal   = extraTotal;
+      // 追加収益を引き継ぐ
+      if (additionalRevenues.length > 0) {
+        PT_DATA.additionalRevenues = additionalRevenues;
       }
       renderDashboard(currentSite); renderDaily(currentSite); renderOpSummary(currentSite); renderOpTable(currentSite); renderChart2();
       document.getElementById('updateTime').textContent = '最終更新: '+PT_DATA.meta.lastUpdateLabel;
