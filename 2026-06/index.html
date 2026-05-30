@@ -175,8 +175,6 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       </button>
       <div style="position:relative">
         <select id="monthSelect" onchange="goToMonth(this.value)" style="background:var(--orange-light);color:var(--orange);border:none;border-radius:20px;padding:4px 28px 4px 12px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;appearance:none;-webkit-appearance:none;outline:none">
-          <option value="2026-05">2026年5月</option>
-          <option value="2026-06" selected>2026年6月</option>
         </select>
         <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:var(--orange)">▼</span>
       </div>
@@ -471,6 +469,10 @@ fetch('./pt_data.json')
     renderDaily('all');
     renderChart2();
     initSettings();
+    // monthSelectをPT_DATAの現在月に合わせて動的生成
+    if (window._onPtDataReady) {
+      window._onPtDataReady.forEach(function(fn){ fn(); });
+    }
   })
   .catch(function(e){
     console.error('データ読み込みエラー:', e);
@@ -1134,9 +1136,65 @@ function downloadPtData() {
 </script>
 
 <script>
-(function(){
+// ナビゲーション関数（翌月HTML生成後も保持される）
+function goTop() {
+  // window.location.href で遷移（ポップアップブロック回避）
+  if (window.location.href.indexOf('github.io') >= 0) {
+    window.location.href = 'https://minakawa-star.github.io/digross-dashboard/';
+  } else {
+    window.open('https://minakawa-star.github.io/digross-dashboard/', '_blank');
+  }
+}
+function goToMonth(val) {
+  if (!val) return;
+  if (window.location.href.indexOf('github.io') >= 0) {
+    window.location.href = '../' + val + '/';
+  } else {
+    window.open('https://minakawa-star.github.io/digross-dashboard/' + val + '/', '_blank');
+  }
+}
+
+// monthSelectを動的生成
+// 開始月（2026年5月）〜 PT_DATAの現在月まで全optionを生成
+function buildMonthSelect() {
   var sel = document.getElementById('monthSelect');
-  if (sel) sel.value = '2026-06';
+  if (!sel) return;
+
+  // 現在月をPT_DATAから取得
+  var currentKey = '2026-05'; // フォールバック
+  if (PT_DATA && PT_DATA.meta && PT_DATA.meta.month) {
+    var mm = PT_DATA.meta.month.match(/(\d{4})年(\d+)月/);
+    if (mm) {
+      currentKey = mm[1] + '-' + String(parseInt(mm[2])).padStart(2, '0');
+    }
+  }
+
+  // 開始月固定
+  var startYear = 2026, startMonth = 5;
+  var endYear   = parseInt(currentKey.split('-')[0]);
+  var endMonth  = parseInt(currentKey.split('-')[1]);
+
+  sel.innerHTML = '';
+  var y = startYear, m = startMonth;
+  while (y < endYear || (y === endYear && m <= endMonth)) {
+    var key  = y + '-' + String(m).padStart(2, '0');
+    var label = y + '年' + m + '月';
+    var opt  = document.createElement('option');
+    opt.value = key;
+    opt.textContent = label;
+    if (key === currentKey) opt.selected = true;
+    sel.appendChild(opt);
+    m++;
+    if (m > 12) { m = 1; y++; }
+  }
+}
+
+(function(){
+  // PT_DATA読み込み後にmonthSelectを構築
+  // PT_DATAはfetchで非同期取得されるため、init完了後に呼び出す
+  // → initPtData()の完了フックとして登録
+  window._onPtDataReady = window._onPtDataReady || [];
+  window._onPtDataReady.push(buildMonthSelect);
 })();
 
 
