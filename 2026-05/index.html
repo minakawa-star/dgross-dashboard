@@ -461,6 +461,8 @@ fetch('./pt_data.json')
     PT_DATA = data;
     document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
     document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
+    // jinjer期間ズレ警告
+    _showWorkPeriodWarning(PT_DATA.meta.workPeriodWarning);
     // 保存済み追加収益を復元
     if (PT_DATA.additionalRevenues && PT_DATA.additionalRevenues.length > 0) {
       additionalRevenues = PT_DATA.additionalRevenues;
@@ -491,6 +493,23 @@ function fp(v) { return v != null ? v.toFixed(1) + '%' : '—'; }
 function costCls(v) { if (v == null) return ''; if (v <= 50) return 'c-pos'; if (v <= 75) return 'c-warn'; return 'c-neg'; }
 function rankCls(r) { var m={'トップ':'rb-top','ミドル':'rb-mid','ルーキープラス':'rb-rookie','ルーキー':'rb-rookie','管理者':'rb-mgr','社員':'rb-mgr'}; return m[r]||'rb-rookie'; }
 function siteKey(s) { return {all:null,shinjuku:'新宿SC',remote:'リモートSC',ai:'AI'}[s]; }
+
+function _showWorkPeriodWarning(msg) {
+  var el = document.getElementById('workPeriodWarning');
+  if (msg) {
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'workPeriodWarning';
+      el.style.cssText = 'margin:6px 0 0;padding:9px 14px;background:var(--red-light);border-left:3px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;line-height:1.5;';
+      var alertEl = document.querySelector('.alert');
+      if (alertEl && alertEl.parentNode) alertEl.parentNode.insertBefore(el, alertEl.nextSibling);
+    }
+    el.textContent = '⚠️ ' + msg;
+    el.style.display = 'block';
+  } else {
+    if (el) el.style.display = 'none';
+  }
+}
 
 function showPage(id, el) {
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
