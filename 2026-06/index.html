@@ -228,20 +228,40 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           <div style="padding:14px 16px 0"><div class="card-title">日次明細</div></div>
           <div style="overflow-x:auto">
             <table class="data-table">
-              <thead><tr><th>営業日</th><th>日付</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">稼働</th><th class="r">コール</th><th class="r">単価/人</th></tr></thead>
+              <thead><tr><th>営業日</th><th>日付</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">稼働</th><th class="r">コール</th><th class="r">単価/1アポ</th><th class="r">人件費</th><th class="r">原価率</th></tr></thead>
               <tbody id="daily-tbody"></tbody>
             </table>
           </div>
         </div>
+      </div>
+      <!-- 日次原価率推移グラフ -->
+      <div class="card" style="margin-top:12px">
+        <div class="card-title">日次原価率推移</div>
+        <div class="chart-wrap"><canvas id="costRateChart"></canvas></div>
       </div>
     </div>
 
     <!-- OPERATOR -->
     <div class="page" id="page-operator">
       <div class="op-summary-grid" id="op-summary"></div>
-      <div class="search-bar">
-        <input type="text" class="search-input" id="op-search" placeholder="氏名で検索..." oninput="renderOpTable(currentSite)">
-        <span id="op-count" style="font-size:11px;color:var(--text3)"></span>
+      <div class="search-bar" style="gap:8px;flex-wrap:wrap">
+        <input type="text" class="search-input" id="op-search" placeholder="氏名で検索..." oninput="renderOpTable(currentSite)" style="flex:1;min-width:160px">
+        <select id="op-rank-filter" onchange="renderOpTable(currentSite)" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);background:var(--white);cursor:pointer">
+          <option value="">全ランク</option>
+          <option value="トップ">トップ</option>
+          <option value="ミドル">ミドル</option>
+          <option value="ルーキープラス">ルーキープラス</option>
+          <option value="ルーキー">ルーキー</option>
+          <option value="管理者">管理者</option>
+          <option value="社員">社員</option>
+        </select>
+        <select id="op-site-filter" onchange="renderOpTable(currentSite)" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);background:var(--white);cursor:pointer">
+          <option value="">全サイト</option>
+          <option value="六本木SC">六本木SC</option>
+          <option value="六本木SC">六本木SC</option>
+          <option value="リモートSC">リモートSC</option>
+        </select>
+        <span id="op-count" style="font-size:11px;color:var(--text3);white-space:nowrap;align-self:center"></span>
       </div>
       <div class="card" style="padding:0;overflow:hidden">
         <div style="overflow-x:auto">
@@ -690,16 +710,84 @@ function renderChart2() {
 
 function renderDaily(site) {
   var rows = PT_DATA.daily[site] || PT_DATA.daily['all'];
-  var html = rows.map(function(r) {
+  var totalLabor = PT_DATA.sites.all.labor || 0;
+  var elapsed    = PT_DATA.meta.elapsedDays || rows.length;
+
+  var html = rows.map(function(r, i) {
     var unit = r.valid > 0 ? fc(Math.round(r.sales / r.valid)) : '—';
+    // 日次人件費：月次人件費 ÷ 経過営業日数 × (i+1)日目の日割り（その日の分）
+    var laborPerDay = elapsed > 0 ? Math.round(totalLabor / elapsed) : 0;
+    var costRate    = (r.sales > 0 && laborPerDay > 0) ? (laborPerDay / r.sales * 100).toFixed(1) + '%' : '—';
+    var crCls = r.sales > 0 && laborPerDay > 0 ? costCls(laborPerDay / r.sales * 100) : '';
     return '<tr><td style="color:var(--text3);font-size:11px">' + r.day + '</td><td>' + r.date + '</td>' +
       '<td class="r">' + fc(r.sales) + '</td><td class="r">' + r.apo + '</td>' +
       '<td class="r" style="color:var(--red)">' + r.cancel + '</td><td class="r">' + r.valid + '</td>' +
       '<td class="r">' + r.ops + '</td><td class="r">' + (r.calls > 0 ? r.calls.toLocaleString() : '—') + '</td>' +
-      '<td class="r">' + unit + '</td></tr>';
+      '<td class="r">' + unit + '</td>' +
+      '<td class="r">' + (laborPerDay > 0 ? fc(laborPerDay) : '—') + '</td>' +
+      '<td class="r ' + crCls + '">' + costRate + '</td></tr>';
   }).join('');
   var el = document.getElementById('daily-tbody');
   if (el) el.innerHTML = html;
+
+  // 原価率推移グラフ
+  renderCostRateChart(rows, totalLabor, elapsed);
+}
+
+function renderCostRateChart(rows, totalLabor, elapsed) {
+  var ctx = document.getElementById('costRateChart');
+  if (!ctx) return;
+  if (window.costRateChartInst) window.costRateChartInst.destroy();
+  var laborPerDay = elapsed > 0 ? totalLabor / elapsed : 0;
+  var labels = rows.map(function(r){ return r.date.replace(/\d{4}\//, ''); });
+  var data   = rows.map(function(r){
+    return r.sales > 0 && laborPerDay > 0 ? Math.round(laborPerDay / r.sales * 100) : null;
+  });
+  window.costRateChartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: '原価率',
+          data: data,
+          borderColor: '#D85A30',
+          backgroundColor: 'rgba(216,90,48,0.08)',
+          borderWidth: 2,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.3,
+          spanGaps: true
+        },
+        {
+          label: '目標原価率',
+          data: labels.map(function(){ return PT_DATA.targets.all.costRate || 50; }),
+          borderColor: '#E24B4A',
+          borderWidth: 1.5,
+          borderDash: [4,4],
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {display: true, position: 'top', labels: {font:{size:10}, boxWidth:12}},
+        tooltip: {callbacks: {label: function(d){ return d.dataset.label + ': ' + (d.raw != null ? d.raw + '%' : '—'); }}}
+      },
+      scales: {
+        x: {ticks:{font:{size:9},color:'#888'},grid:{display:false},border:{display:false}},
+        y: {
+          ticks:{font:{size:9},color:'#888',callback:function(v){return v+'%';}},
+          grid:{color:'rgba(0,0,0,.04)'},
+          border:{display:false},
+          min: 0
+        }
+      }
+    }
+  });
 }
 
 function renderOpSummary(site) {
@@ -735,10 +823,22 @@ function renderOpSummary(site) {
 }
 
 function renderOpTable(site) {
-  var q = ((document.getElementById('op-search')||{}).value||'').toLowerCase();
-  var filter = siteKey(site);
+  var q          = ((document.getElementById('op-search')||{}).value||'').toLowerCase();
+  var rankFilter = ((document.getElementById('op-rank-filter')||{}).value||'');
+  var siteFilter = ((document.getElementById('op-site-filter')||{}).value||'');
+  var filter     = siteKey(site);
+
+  // 6月以降（siteKeyにaiが存在しない月）はAIサイトスタッフを除外
+  var isJuneOrLater = !siteKey('ai');
+
   var data = PT_DATA.operators.filter(function(op){
-    return (!filter || op.site === filter) && (!q || op.name.toLowerCase().indexOf(q) >= 0);
+    if (!op.rank) return false; // ランクなし（退職者等）除外
+    if (isJuneOrLater && op.site === 'AI') return false; // 6月以降AI除外
+    if (filter && op.site !== filter) return false;
+    if (rankFilter && op.rank !== rankFilter) return false;
+    if (siteFilter && op.site !== siteFilter) return false;
+    if (q && op.name.toLowerCase().indexOf(q) < 0) return false;
+    return true;
   });
   var cntEl = document.getElementById('op-count');
   if (cntEl) cntEl.textContent = data.length + '名';
