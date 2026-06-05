@@ -96,7 +96,29 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .search-input{border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;width:200px;font-family:inherit}
 .search-input:focus{outline:none;border-color:var(--orange)}
 
-/* 日次明細 */
+/* ソート・フィルターヘッダー */
+.sh{cursor:pointer;user-select:none;white-space:nowrap}
+.sh:hover{background:var(--bg)}
+.sh-icon{font-size:9px;color:var(--text3);margin-left:2px}
+.sh.asc .sh-icon::before{content:'▲';color:var(--orange)}
+.sh.desc .sh-icon::before{content:'▼';color:var(--orange)}
+.sh.asc .sh-icon,.sh.desc .sh-icon{font-size:0}
+.sh-menu-item{padding:6px 12px;font-size:12px;cursor:pointer;border-radius:4px}
+.sh-menu-item:hover{background:var(--bg)}
+/* 更新進捗ステップ */
+.step-item{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;border:1px solid var(--border);background:var(--bg);transition:all .3s}
+.step-item.active{border-color:var(--orange);background:var(--orange-light)}
+.step-item.done{border-color:var(--green);background:var(--green-light)}
+.step-item.error{border-color:var(--red);background:var(--red-light)}
+.step-num{width:18px;height:18px;border-radius:50%;background:var(--border);color:var(--text3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.step-item.active .step-num{background:var(--orange);color:#fff}
+.step-item.done .step-num{background:var(--green);color:#fff}
+.step-item.done .step-num::after{content:'✓';font-size:10px}
+.step-item.error .step-num{background:var(--red);color:#fff}
+.step-label{font-size:11px;color:var(--text2)}
+.step-item.active .step-label{color:var(--orange);font-weight:500}
+.step-item.done .step-label{color:var(--green)}
+.step-arrow{font-size:10px;color:var(--text3)}
 .daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* 進捗バー */
@@ -244,6 +266,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
     <!-- OPERATOR -->
     <div class="page" id="page-operator">
       <div class="op-summary-grid" id="op-summary"></div>
+      <!-- フィルターバー -->
       <div class="search-bar" style="gap:8px;flex-wrap:wrap">
         <input type="text" class="search-input" id="op-search" placeholder="氏名で検索..." oninput="renderOpTable(currentSite)" style="flex:1;min-width:160px">
         <select id="op-rank-filter" onchange="renderOpTable(currentSite)" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text);background:var(--white);cursor:pointer">
@@ -262,12 +285,63 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           <option value="リモートSC">リモートSC</option>
         </select>
         <span id="op-count" style="font-size:11px;color:var(--text3);white-space:nowrap;align-self:center"></span>
+        <button onclick="showPage('op-full',null)" style="padding:5px 14px;border:1px solid var(--orange);border-radius:6px;background:var(--white);color:var(--orange);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap">全体を見る →</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:10px 16px 6px;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:11px;color:var(--text3)">売上TOP10</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="op-top10-table">
+            <thead><tr>
+              <th>氏名</th><th>ランク</th><th>サイト</th>
+              <th class="r sh" data-col="sales">売上 <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="apo">アポ <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="cancel">CXL <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="valid">有効 <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="calls">コール <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="apoRate">アポ率 <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="unitPerDay">単価/日 <span class="sh-icon">▼</span></th>
+              <th class="r sh" data-col="workH">労働時間 <span class="sh-icon">▼</span></th>
+              <th class="r">インセンティブ</th>
+              <th class="r sh" data-col="costRate">原価率 <span class="sh-icon">▼</span></th>
+            </tr></thead>
+            <tbody id="op-top10-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ソート・フィルターメニュー -->
+      <div id="sh-menu" style="display:none;position:fixed;z-index:300;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:8px;min-width:180px">
+        <div style="font-size:11px;color:var(--text3);padding:4px 8px;margin-bottom:4px" id="sh-menu-col"></div>
+        <div class="sh-menu-item" onclick="opSort('asc')">▲ 昇順で並べ替え</div>
+        <div class="sh-menu-item" onclick="opSort('desc')">▼ 降順で並べ替え</div>
+        <div style="border-top:1px solid var(--border);margin:4px 0"></div>
+        <div style="padding:4px 8px">
+          <input id="sh-val-min" type="number" placeholder="最小値" style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;font-size:11px;margin-bottom:4px">
+          <input id="sh-val-max" type="number" placeholder="最大値" style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:4px;font-size:11px;margin-bottom:6px">
+          <button onclick="opFilterApply()" style="width:100%;padding:4px;background:var(--orange);color:#fff;border:none;border-radius:4px;font-size:11px;cursor:pointer">絞り込む</button>
+          <button onclick="opFilterClear()" style="width:100%;padding:4px;background:var(--bg);color:var(--text2);border:1px solid var(--border);border-radius:4px;font-size:11px;cursor:pointer;margin-top:4px">クリア</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OP全体ページ -->
+    <div class="page" id="page-op-full">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <button onclick="showPage('operator',null)" style="padding:5px 14px;border:1px solid var(--border);border-radius:6px;background:var(--white);color:var(--text2);font-size:12px;cursor:pointer">← 戻る</button>
+        <div style="font-size:13px;font-weight:500">OP個人実績（全体）</div>
+        <span id="op-full-count" style="font-size:11px;color:var(--text3)"></span>
       </div>
       <div class="card" style="padding:0;overflow:hidden">
         <div style="overflow-x:auto">
           <table class="data-table">
-            <thead><tr><th>氏名</th><th>ランク</th><th>サイト</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">コール</th><th class="r">アポ率</th><th class="r">単価/日</th><th class="r">労働時間</th><th class="r">原価率</th></tr></thead>
-            <tbody id="op-tbody"></tbody>
+            <thead><tr>
+              <th>氏名</th><th>ランク</th><th>サイト</th>
+              <th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th>
+              <th class="r">コール</th><th class="r">アポ率</th><th class="r">単価/日</th>
+              <th class="r">労働時間</th><th class="r">インセンティブ</th><th class="r">原価率</th>
+            </tr></thead>
+            <tbody id="op-full-tbody"></tbody>
           </table>
         </div>
       </div>
@@ -295,6 +369,20 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
         <div style="display:flex;align-items:center;gap:14px">
           <button class="btn btn-primary" onclick="runUpdate()" id="btn-update" style="padding:9px 28px;font-size:13px">更新する</button>
           <span id="update-status" style="font-size:12px;color:var(--text3)"></span>
+        </div>
+        <!-- 進捗ステップ -->
+        <div id="update-steps" style="display:none;margin-top:14px">
+          <div style="display:flex;gap:0;align-items:center;flex-wrap:wrap;gap:4px">
+            <div class="step-item" id="step-1"><span class="step-num">1</span><span class="step-label">ファイル確認</span></div>
+            <div class="step-arrow">→</div>
+            <div class="step-item" id="step-2"><span class="step-num">2</span><span class="step-label">サーバー送信</span></div>
+            <div class="step-arrow">→</div>
+            <div class="step-item" id="step-3"><span class="step-num">3</span><span class="step-label">集計処理</span></div>
+            <div class="step-arrow">→</div>
+            <div class="step-item" id="step-4"><span class="step-num">4</span><span class="step-label">画面反映</span></div>
+            <div class="step-arrow">→</div>
+            <div class="step-item" id="step-5"><span class="step-num">5</span><span class="step-label">GitHub保存</span></div>
+          </div>
         </div>
         <div id="update-result" style="display:none;margin-top:12px"></div>
       </div>
@@ -536,13 +624,14 @@ function showPage(id, el) {
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   document.getElementById('page-' + id).classList.add('active');
   if (el) el.classList.add('active');
-  var titles = {dashboard:'ダッシュボード',daily:'日次明細',operator:'OP個人実績',import:'データ取込',revenue:'追加収益',settings:'設定'};
+  var titles = {dashboard:'ダッシュボード',daily:'日次明細',operator:'OP個人実績',import:'データ取込',revenue:'追加収益',settings:'設定','op-full':'OP全体'};
   document.getElementById('pageTitle').textContent = titles[id] || id;
   var showTabs = ['dashboard','daily','operator'].indexOf(id) >= 0;
   if (id === 'revenue') { renderRevenueList(); }
   document.getElementById('siteTabs').style.display = showTabs ? 'flex' : 'none';
   if (id === 'daily')    { renderDaily(currentSite); renderChart2(); }
   if (id === 'operator') { renderOpSummary(currentSite); renderOpTable(currentSite); }
+  if (id === 'op-full')  { renderOpFull(currentSite); }
 }
 
 function switchSite(site, el) {
@@ -822,44 +911,141 @@ function renderOpSummary(site) {
   if (el) el.innerHTML = html;
 }
 
-function renderOpTable(site) {
+// ソート・フィルター状態
+var opSortCol = 'sales', opSortDir = 'desc';
+var opFilterCol = null, opFilterMin = null, opFilterMax = null;
+var shMenuCol = null;
+
+function getOpData(site) {
   var q          = ((document.getElementById('op-search')||{}).value||'').toLowerCase();
   var rankFilter = ((document.getElementById('op-rank-filter')||{}).value||'');
   var siteFilter = ((document.getElementById('op-site-filter')||{}).value||'');
   var filter     = siteKey(site);
-
-  // 6月以降（siteKeyにaiが存在しない月）はAIサイトスタッフを除外
   var isJuneOrLater = !siteKey('ai');
+  var inc = PT_DATA.incentive || {};
 
   var data = PT_DATA.operators.filter(function(op){
-    if (!op.rank) return false; // ランクなし（退職者等）除外
-    if (isJuneOrLater && op.site === 'AI') return false; // 6月以降AI除外
+    if (!op.rank) return false;
+    if (isJuneOrLater && op.site === 'AI') return false;
     if (filter && op.site !== filter) return false;
     if (rankFilter && op.rank !== rankFilter) return false;
     if (siteFilter && op.site !== siteFilter) return false;
     if (q && op.name.toLowerCase().indexOf(q) < 0) return false;
+    // 数値フィルター
+    if (opFilterCol && (opFilterMin !== null || opFilterMax !== null)) {
+      var v = op[opFilterCol];
+      if (v == null) return false;
+      if (opFilterMin !== null && v < opFilterMin) return false;
+      if (opFilterMax !== null && v > opFilterMax) return false;
+    }
     return true;
   });
+
+  // ソート
+  data.sort(function(a, b){
+    var va = a[opSortCol]; var vb = b[opSortCol];
+    if (va == null) va = opSortDir === 'desc' ? -Infinity : Infinity;
+    if (vb == null) vb = opSortDir === 'desc' ? -Infinity : Infinity;
+    return opSortDir === 'desc' ? vb - va : va - vb;
+  });
+  return data;
+}
+
+function opRowHtml(op, showInc) {
+  var rc = rankCls(op.rank);
+  var inc = PT_DATA.incentive || {};
+  var incAmt = inc[op.name] || 0;
+  var incFlag = incAmt > 0 ? ' <span title="インセンティブ対象" style="color:#f59e0b">⭐</span>' : '';
+  var incCell = showInc ? '<td class="r" style="color:' + (incAmt>0?'#f59e0b':'var(--text3)') + '">' + (incAmt>0?fc(incAmt):'—') + '</td>' : '';
+  return '<tr>' +
+    '<td style="font-weight:500">' + op.name + incFlag + '</td>' +
+    '<td><span class="rank-badge ' + rc + '">' + (op.rank||'—') + '</span></td>' +
+    '<td style="color:var(--text2)">' + (op.site||'—') + '</td>' +
+    '<td class="r">' + (op.sales>0?fc(op.sales):op.sales<0?'−'+fc(Math.abs(op.sales)):'—') + '</td>' +
+    '<td class="r">' + (op.apo>0?op.apo:'—') + '</td>' +
+    '<td class="r" style="' + (op.cancel>0?'color:var(--red)':'') + '">' + op.cancel + '</td>' +
+    '<td class="r">' + (op.valid>0?op.valid:'—') + '</td>' +
+    '<td class="r">' + (op.calls>0?op.calls.toLocaleString():'—') + '</td>' +
+    '<td class="r">' + (op.apoRate!=null?op.apoRate.toFixed(1)+'%':'—') + '</td>' +
+    '<td class="r">' + (op.unitPerDay>0?fc(op.unitPerDay):(op.days>0&&op.sales>0?fc(Math.round(op.sales/op.days)):'—')) + '</td>' +
+    '<td class="r">' + (op.workH>0?op.workH.toFixed(1)+'h':'—') + '</td>' +
+    incCell +
+    '<td class="r ' + (op.costRate!=null&&op.costRate>0?costCls(op.costRate):'') + '">' + (op.costRate!=null&&op.sales>0?op.costRate.toFixed(1)+'%':'—') + '</td></tr>';
+}
+
+function renderOpTable(site) {
+  var data = getOpData(site);
   var cntEl = document.getElementById('op-count');
   if (cntEl) cntEl.textContent = data.length + '名';
-  var el = document.getElementById('op-tbody');
-  if (!el) return;
-  el.innerHTML = data.map(function(op) {
-    var rc = rankCls(op.rank);
-    return '<tr><td style="font-weight:500">' + op.name + '</td>' +
-      '<td><span class="rank-badge ' + rc + '">' + (op.rank || '—') + '</span></td>' +
-      '<td style="color:var(--text2)">' + (op.site || '—') + '</td>' +
-      '<td class="r">' + (op.sales > 0 ? fc(op.sales) : op.sales < 0 ? '−' + fc(Math.abs(op.sales)) : '—') + '</td>' +
-      '<td class="r">' + (op.apo > 0 ? op.apo : '—') + '</td>' +
-      '<td class="r" style="' + (op.cancel > 0 ? 'color:var(--red)' : '') + '">' + op.cancel + '</td>' +
-      '<td class="r">' + (op.valid > 0 ? op.valid : '—') + '</td>' +
-      '<td class="r">' + (op.calls > 0 ? op.calls.toLocaleString() : '—') + '</td>' +
-      '<td class="r">' + (op.apoRate != null ? op.apoRate.toFixed(1) + '%' : '—') + '</td>' +
-      '<td class="r">' + (op.unitPerDay > 0 ? fc(op.unitPerDay) : (op.days > 0 && op.sales > 0 ? fc(Math.round(op.sales / op.days)) : '—')) + '</td>' +
-      '<td class="r">' + (op.workH > 0 ? op.workH.toFixed(1) + 'h' : '—') + '</td>' +
-      '<td class="r ' + (op.costRate != null && op.costRate > 0 ? costCls(op.costRate) : '') + '">' + (op.costRate != null && op.sales > 0 ? op.costRate.toFixed(1) + '%' : '—') + '</td></tr>';
-  }).join('');
+  var tbody = document.getElementById('op-top10-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = data.slice(0,10).map(function(op){ return opRowHtml(op, true); }).join('');
+  // ヘッダーのソート状態を更新
+  document.querySelectorAll('#op-top10-table .sh').forEach(function(th){
+    th.classList.remove('asc','desc');
+    if (th.dataset.col === opSortCol) th.classList.add(opSortDir);
+  });
 }
+
+function renderOpFull(site) {
+  var data = getOpData(site);
+  var cntEl = document.getElementById('op-full-count');
+  if (cntEl) cntEl.textContent = data.length + '名';
+  var tbody = document.getElementById('op-full-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = data.map(function(op){ return opRowHtml(op, true); }).join('');
+}
+
+function opSort(dir) {
+  opSortCol = shMenuCol;
+  opSortDir = dir;
+  closeShMenu();
+  renderOpTable(currentSite);
+  renderOpFull(currentSite);
+}
+
+function opFilterApply() {
+  opFilterCol = shMenuCol;
+  var min = document.getElementById('sh-val-min').value;
+  var max = document.getElementById('sh-val-max').value;
+  opFilterMin = min !== '' ? parseFloat(min) : null;
+  opFilterMax = max !== '' ? parseFloat(max) : null;
+  closeShMenu();
+  renderOpTable(currentSite);
+  renderOpFull(currentSite);
+}
+
+function opFilterClear() {
+  opFilterCol = null; opFilterMin = null; opFilterMax = null;
+  document.getElementById('sh-val-min').value = '';
+  document.getElementById('sh-val-max').value = '';
+  closeShMenu();
+  renderOpTable(currentSite);
+  renderOpFull(currentSite);
+}
+
+function closeShMenu() {
+  document.getElementById('sh-menu').style.display = 'none';
+}
+
+// ヘッダークリックでソート・フィルターメニューを開く
+document.addEventListener('click', function(e) {
+  var th = e.target.closest('.sh');
+  if (th) {
+    e.stopPropagation();
+    var menu = document.getElementById('sh-menu');
+    var col = th.dataset.col;
+    var labels = {sales:'売上',apo:'アポ',cancel:'CXL',valid:'有効',calls:'コール',apoRate:'アポ率',unitPerDay:'単価/日',workH:'労働時間',costRate:'原価率'};
+    document.getElementById('sh-menu-col').textContent = '▼ ' + (labels[col]||col);
+    shMenuCol = col;
+    var rect = th.getBoundingClientRect();
+    menu.style.left = Math.min(rect.left, window.innerWidth - 200) + 'px';
+    menu.style.top  = (rect.bottom + 4) + 'px';
+    menu.style.display = 'block';
+    return;
+  }
+  if (!e.target.closest('#sh-menu')) closeShMenu();
+});
 
 function initSettings() {
   var t = PT_DATA.targets, m = PT_DATA.meta;
@@ -922,6 +1108,17 @@ function clearFile(event, key) {
   if (btn) btn.style.display = 'none';
   if (input) input.value = '';
 }
+function setStep(n, state) {
+  // state: 'active' | 'done' | 'error'
+  for (var i = 1; i <= 5; i++) {
+    var el = document.getElementById('step-' + i);
+    if (!el) continue;
+    el.classList.remove('active', 'done', 'error');
+    if (i < n) el.classList.add('done');
+    else if (i === n) el.classList.add(state);
+  }
+}
+
 function runUpdate() {
   if (!PT_DATA) { alert('データが読み込まれていません。ページを再読み込みしてください。'); return; }
   var required = ['apo','prod','work','report'];
@@ -929,54 +1126,82 @@ function runUpdate() {
   for (var i = 0; i < required.length; i++) {
     if (!selectedFiles[required[i]]) { alert('必須ファイルが選択されていません：'+labels[i]); return; }
   }
-  var btn=document.getElementById('btn-update'), status=document.getElementById('update-status'), result=document.getElementById('update-result');
-  btn.disabled=true; btn.textContent='処理中...';
-  status.textContent='サーバーに送信中（初回は50秒程度かかる場合があります）...';
-  result.style.display='none';
-  var form = new FormData();
-  form.append('apo',    selectedFiles['apo']);
-  form.append('prod',   selectedFiles['prod']);
-  form.append('work',   selectedFiles['work']);
-  form.append('report', selectedFiles['report']);
-  if (selectedFiles['master']) form.append('master', selectedFiles['master']);
-  if (selectedFiles['inc'])    form.append('inc',    selectedFiles['inc']);
-  var ptBlob = new Blob([JSON.stringify(PT_DATA)], {type:'application/json'});
-  form.append('prev', ptBlob, 'pt_data.json');
-  fetch(SERVER_URL+'/update', {method:'POST', body:form})
+  var btn    = document.getElementById('btn-update');
+  var status = document.getElementById('update-status');
+  var result = document.getElementById('update-result');
+  var steps  = document.getElementById('update-steps');
+  btn.disabled = true; btn.textContent = '処理中...';
+  result.style.display = 'none';
+  steps.style.display = 'block';
+
+  // Step1: ファイル確認
+  setStep(1, 'active');
+  status.textContent = 'ファイルを確認中...';
+
+  setTimeout(function() {
+    // Step2: サーバー送信
+    setStep(2, 'active');
+    status.textContent = 'サーバーに送信中（初回は50秒程度かかる場合があります）...';
+
+    var form = new FormData();
+    form.append('apo',    selectedFiles['apo']);
+    form.append('prod',   selectedFiles['prod']);
+    form.append('work',   selectedFiles['work']);
+    form.append('report', selectedFiles['report']);
+    if (selectedFiles['master']) form.append('master', selectedFiles['master']);
+    if (selectedFiles['inc'])    form.append('inc',    selectedFiles['inc']);
+    var ptBlob = new Blob([JSON.stringify(PT_DATA)], {type:'application/json'});
+    form.append('prev', ptBlob, 'pt_data.json');
+
+    // Step3: 集計処理（送信後すぐに表示）
+    setStep(3, 'active');
+    status.textContent = 'サーバーで集計処理中...';
+
+    fetch(SERVER_URL+'/update', {method:'POST', body:form})
     .then(function(res){ return res.json(); })
     .then(function(data) {
-      btn.disabled=false; btn.textContent='更新する';
       if (data.error) {
-        status.textContent='❌ エラーが発生しました';
-        result.style.display='block';
-        result.innerHTML='<div class="alert" style="border-color:var(--red);background:var(--red-light);color:var(--red)"><div class="alert-dot" style="background:var(--red)"></div>'+data.error+'</div>';
+        setStep(3, 'error');
+        btn.disabled = false; btn.textContent = '更新する';
+        status.textContent = '❌ 集計エラー';
+        result.style.display = 'block';
+        result.innerHTML = '<div class="alert" style="border-color:var(--red);background:var(--red-light);color:var(--red)"><div class="alert-dot" style="background:var(--red)"></div>' + data.error + '</div>';
         return;
       }
+
+      // Step4: 画面反映
+      setStep(4, 'active');
+      status.textContent = '画面に反映中...';
+
       PT_DATA = data.data;
-      // 追加収益を引き継ぐ
-      if (additionalRevenues.length > 0) {
-        PT_DATA.additionalRevenues = additionalRevenues;
-      }
+      if (additionalRevenues.length > 0) PT_DATA.additionalRevenues = additionalRevenues;
       renderDashboard(currentSite); renderDaily(currentSite); renderOpSummary(currentSite); renderOpTable(currentSite); renderChart2();
-      document.getElementById('updateTime').textContent = '最終更新: '+PT_DATA.meta.lastUpdateLabel;
+      document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
       document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
       _showWorkPeriodWarning(PT_DATA.meta.workPeriodWarning);
-      status.textContent='✅ 更新完了！GitHubに保存中...';
-      result.style.display='block';
-      result.innerHTML='<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>更新完了。累計'+PT_DATA.meta.elapsedDays+'営業日 / 売上'+fc(PT_DATA.sites.all.sales)+' / 原価率'+PT_DATA.sites.all.costRate+'%</div>';
-      // GitHubにpt_data.jsonを自動保存（他の画面でも最新データが表示されるように）
+      result.style.display = 'block';
+      result.innerHTML = '<div class="alert" style="border-color:var(--green);background:var(--green-light);color:var(--green)"><div class="alert-dot" style="background:var(--green)"></div>更新完了。累計' + PT_DATA.meta.elapsedDays + '営業日 / 売上' + fc(PT_DATA.sites.all.sales) + ' / 原価率' + PT_DATA.sites.all.costRate + '%</div>';
+
+      // Step5: GitHub保存
+      setStep(5, 'active');
+      status.textContent = 'GitHubに保存中...';
       autoSavePtData('データ更新').then(function(r) {
+        btn.disabled = false; btn.textContent = '更新する';
         if (r && r.success) {
+          setStep(5, 'done');
           status.textContent = '✅ 更新完了！（GitHub保存済み）';
-        } else if (r && !r.success) {
-          status.textContent = '✅ 更新完了！（GitHub保存失敗 - PATを確認してください）';
+        } else {
+          setStep(5, 'error');
+          status.textContent = '✅ 更新完了（GitHub保存失敗 - PATを確認）';
         }
       });
     })
     .catch(function(err) {
-      btn.disabled=false; btn.textContent='更新する';
-      status.textContent='❌ 通信エラー（サーバーが起動中の場合は1分後に再試行してください）';
+      setStep(2, 'error');
+      btn.disabled = false; btn.textContent = '更新する';
+      status.textContent = '❌ 通信エラー（サーバーが起動中の場合は1分後に再試行してください）';
     });
+  }, 300);
 }
 
 // ===== スタッフ管理 =====
