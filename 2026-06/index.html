@@ -492,7 +492,7 @@ function fc(v) { return v != null && v !== '' ? '¥' + Math.round(v).toLocaleStr
 function fp(v) { return v != null ? v.toFixed(1) + '%' : '—'; }
 function costCls(v) { if (v == null) return ''; if (v <= 50) return 'c-pos'; if (v <= 75) return 'c-warn'; return 'c-neg'; }
 function rankCls(r) { var m={'トップ':'rb-top','ミドル':'rb-mid','ルーキープラス':'rb-rookie','ルーキー':'rb-rookie','管理者':'rb-mgr','社員':'rb-mgr'}; return m[r]||'rb-rookie'; }
-function siteKey(s){return{all:null,roppongi:'六本木SC',remote:'リモートSC'}[s];}
+function siteKey(s){return{all:null,shinjuku:'六本木SC',remote:'リモートSC'}[s];}
 
 function _showWorkPeriodWarning(msg) {
   var el = document.getElementById('workPeriodWarning');
