@@ -451,6 +451,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
         <div style="display:flex;align-items:center;gap:14px">
           <button class="btn btn-primary" onclick="runUpdate()" id="btn-update" style="padding:9px 28px;font-size:13px">更新する</button>
           <span id="update-status" style="font-size:12px;color:var(--text3)"></span>
+          <span id="server-status" style="font-size:11px;color:var(--text3);margin-left:8px"></span>
         </div>
         <!-- 進捗ステップ -->
         <div id="update-steps" style="display:none;margin-top:14px">
@@ -665,6 +666,8 @@ fetch('./pt_data.json')
     if (window._onPtDataReady) {
       window._onPtDataReady.forEach(function(fn){ fn(); });
     }
+    // Renderサーバーをバックグラウンドでウォームアップ（スリープ起動遅延を回避）
+    _warmupServer();
   })
   .catch(function(e){
     console.error('データ読み込みエラー:', e);
@@ -683,6 +686,25 @@ function fp(v) { return v != null ? v.toFixed(1) + '%' : '—'; }
 function costCls(v) { if (v == null) return ''; if (v <= 50) return 'c-pos'; if (v <= 75) return 'c-warn'; return 'c-neg'; }
 function rankCls(r) { var m={'トップ':'rb-top','ミドル':'rb-mid','ルーキープラス':'rb-rookie','ルーキー':'rb-rookie','管理者':'rb-mgr','社員':'rb-mgr'}; return m[r]||'rb-rookie'; }
 function siteKey(s) { return {all:null,shinjuku:'新宿SC',remote:'リモートSC',ai:'AI'}[s]; }
+
+// Renderサーバーのウォームアップ（スリープ起動の遅延を回避）
+function _warmupServer() {
+  var el = document.getElementById('server-status');
+  if (el) { el.textContent = '○ サーバー確認中...'; el.style.color = 'var(--text3)'; }
+  fetch(SERVER_URL + '/health', {method: 'GET'})
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function() {
+      if (el) { el.textContent = '● 準備完了'; el.style.color = 'var(--green)'; }
+    })
+    .catch(function() {
+      // 失敗しても無視（バックグラウンド処理）
+      // 50秒後に再試行
+      setTimeout(function() {
+        fetch(SERVER_URL + '/health').catch(function(){});
+        if (el) { el.textContent = '○ サーバー起動中（初回更新に時間がかかる場合があります）'; }
+      }, 50000);
+    });
+}
 
 function _showWorkPeriodWarning(msg) {
   var el = document.getElementById('workPeriodWarning');
