@@ -244,25 +244,26 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 
     <!-- DAILY -->
     <div class="page" id="page-daily">
-      <div class="daily-grid">
+      <!-- 上段：グラフ2枚横並び -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
         <div class="card">
           <div class="card-title">日次売上推移</div>
-          <div class="chart-wrap"><canvas id="dailyChart2"></canvas></div>
+          <div class="chart-wrap" style="height:180px"><canvas id="dailyChart2"></canvas></div>
         </div>
-        <div class="card" style="padding:0;overflow:hidden">
-          <div style="padding:14px 16px 0"><div class="card-title">日次明細</div></div>
-          <div style="overflow-x:auto">
-            <table class="data-table">
-              <thead><tr><th>営業日</th><th>日付</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">稼働</th><th class="r">コール</th><th class="r">単価/1アポ</th><th class="r">人件費</th><th class="r">原価率</th><th></th></tr></thead>
-              <tbody id="daily-tbody"></tbody>
-            </table>
-          </div>
+        <div class="card">
+          <div class="card-title">日次原価率推移</div>
+          <div class="chart-wrap" style="height:180px"><canvas id="costRateChart"></canvas></div>
         </div>
       </div>
-      <!-- 日次原価率推移グラフ -->
-      <div class="card" style="margin-top:12px">
-        <div class="card-title">日次原価率推移</div>
-        <div class="chart-wrap"><canvas id="costRateChart"></canvas></div>
+      <!-- 下段：日次明細テーブル全幅 -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:14px 16px 0"><div class="card-title">日次明細</div></div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>営業日</th><th>日付</th><th class="r">売上</th><th class="r">アポ</th><th class="r">CXL</th><th class="r">有効</th><th class="r">稼働</th><th class="r">コール</th><th class="r">単価/1アポ</th><th class="r">人件費</th><th class="r">原価率</th><th></th></tr></thead>
+            <tbody id="daily-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
