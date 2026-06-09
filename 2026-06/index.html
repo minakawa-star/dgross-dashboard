@@ -1026,7 +1026,8 @@ function renderDaily(site) {
 
   var html = rows.map(function(r, i) {
     var unit = r.valid > 0 ? fc(Math.round(r.sales / r.valid)) : '—';
-    var laborPerDay = elapsed > 0 ? Math.round(totalLabor / elapsed) : 0;
+    var laborPerDay = r.daily_labor != null ? r.daily_labor :
+                      (elapsed > 0 ? Math.round(totalLabor / elapsed) : 0);
     var costRate = (r.sales > 0 && laborPerDay > 0) ? (laborPerDay / r.sales * 100).toFixed(1) + '%' : '—';
     var crCls = r.sales > 0 && laborPerDay > 0 ? costCls(laborPerDay / r.sales * 100) : '';
     // 案件バー（daily.allのtop_projectsを参照）
@@ -1771,9 +1772,10 @@ function openDailyModal(idx) {
   if (!r) return;
   _dailyModalRows = rows;
 
-  var totalLabor = PT_DATA.sites.all.labor || 0;
-  var elapsed    = PT_DATA.meta.elapsedDays || rows.length;
-  var laborPerDay = elapsed > 0 ? Math.round(totalLabor / elapsed) : 0;
+  var totalLabor  = PT_DATA.sites.all.labor || 0;
+  var elapsed     = PT_DATA.meta.elapsedDays || rows.length;
+  var laborPerDay = r.daily_labor != null ? r.daily_labor :
+                    (elapsed > 0 ? Math.round(totalLabor / elapsed) : 0);
   var costRate = r.sales > 0 && laborPerDay > 0 ? (laborPerDay / r.sales * 100).toFixed(1) + '%' : '—';
 
   document.getElementById('daily-modal-title').textContent = r.date + '（' + r.day + '）';
