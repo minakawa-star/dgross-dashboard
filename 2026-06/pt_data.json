@@ -52,39 +52,39 @@
   "daily": {
     "ai": [
       {
-        "apo": 10,
+        "apo": 11,
         "calls": 0,
         "cancel": 0,
         "date": "2026/06/01",
         "day": "1営業日",
         "ops": 37,
         "sales": 0,
-        "valid": 10
+        "valid": 11
       },
       {
-        "apo": 8,
+        "apo": 9,
         "calls": 0,
         "cancel": 0,
         "date": "2026/06/02",
         "day": "2営業日",
         "ops": 39,
         "sales": 0,
-        "valid": 8
+        "valid": 9
       },
       {
-        "apo": 5,
+        "apo": 6,
         "calls": 0,
         "cancel": 0,
         "date": "2026/06/03",
         "day": "3営業日",
         "ops": 32,
         "sales": 0,
-        "valid": 5
+        "valid": 6
       },
       {
-        "apo": 7,
+        "apo": 8,
         "calls": 0,
-        "cancel": 0,
+        "cancel": 1,
         "date": "2026/06/04",
         "day": "4営業日",
         "ops": 39,
@@ -102,14 +102,14 @@
         "valid": 11
       },
       {
-        "apo": 15,
+        "apo": 26,
         "calls": 0,
         "cancel": 1,
         "date": "2026/06/08",
         "day": "6営業日",
         "ops": 34,
         "sales": 0,
-        "valid": 14
+        "valid": 25
       }
     ],
     "all": [
@@ -117,7 +117,7 @@
         "apo": 94,
         "calls": 3952,
         "cancel": 9,
-        "daily_labor": 691513,
+        "daily_labor": 689073,
         "daily_ops": [
           {
             "costRate": 15.3,
@@ -705,7 +705,7 @@
         "apo": 85,
         "calls": 4115,
         "cancel": 12,
-        "daily_labor": 717621,
+        "daily_labor": 714556,
         "daily_ops": [
           {
             "costRate": 14.3,
@@ -1317,7 +1317,7 @@
         "apo": 89,
         "calls": 3817,
         "cancel": 7,
-        "daily_labor": 617107,
+        "daily_labor": 614251,
         "daily_ops": [
           {
             "costRate": 6.6,
@@ -2581,7 +2581,7 @@
         "apo": 82,
         "calls": 4696,
         "cancel": 9,
-        "daily_labor": 755921,
+        "daily_labor": 753231,
         "daily_ops": [
           {
             "costRate": 12.1,
@@ -3233,7 +3233,7 @@
         "apo": 96,
         "calls": 4391,
         "cancel": 22,
-        "daily_labor": 689047,
+        "daily_labor": 686691,
         "daily_ops": [
           {
             "costRate": 8.7,
@@ -3853,34 +3853,34 @@
     ],
     "remote": [
       {
-        "apo": 26,
+        "apo": 25,
         "calls": 0,
         "cancel": 1,
         "date": "2026/06/01",
         "day": "1営業日",
         "ops": 37,
-        "sales": 340000,
-        "valid": 25
+        "sales": 320000,
+        "valid": 24
       },
       {
-        "apo": 22,
+        "apo": 20,
         "calls": 0,
         "cancel": 2,
         "date": "2026/06/02",
         "day": "2営業日",
         "ops": 39,
-        "sales": 312000,
-        "valid": 20
+        "sales": 274000,
+        "valid": 18
       },
       {
-        "apo": 21,
+        "apo": 19,
         "calls": 0,
         "cancel": 0,
         "date": "2026/06/03",
         "day": "3営業日",
         "ops": 32,
-        "sales": 394000,
-        "valid": 21
+        "sales": 354000,
+        "valid": 19
       },
       {
         "apo": 21,
@@ -3893,24 +3893,24 @@
         "valid": 20
       },
       {
-        "apo": 13,
+        "apo": 9,
         "calls": 0,
         "cancel": 1,
         "date": "2026/06/05",
         "day": "5営業日",
         "ops": 41,
-        "sales": 232000,
-        "valid": 12
+        "sales": 156000,
+        "valid": 8
       },
       {
-        "apo": 13,
+        "apo": 9,
         "calls": 0,
-        "cancel": 9,
+        "cancel": 8,
         "date": "2026/06/08",
         "day": "6営業日",
         "ops": 34,
-        "sales": 77000,
-        "valid": 4
+        "sales": 19000,
+        "valid": 1
       }
     ],
     "shinjuku": [
@@ -3921,58 +3921,58 @@
         "date": "2026/06/01",
         "day": "1営業日",
         "ops": 37,
-        "sales": 941000,
+        "sales": 961000,
         "valid": 50
       },
       {
-        "apo": 55,
+        "apo": 56,
         "calls": 0,
         "cancel": 10,
         "date": "2026/06/02",
         "day": "2営業日",
         "ops": 39,
-        "sales": 1026000,
-        "valid": 45
+        "sales": 1064000,
+        "valid": 46
       },
       {
-        "apo": 63,
+        "apo": 64,
         "calls": 0,
         "cancel": 7,
         "date": "2026/06/03",
         "day": "3営業日",
         "ops": 32,
-        "sales": 1452000,
-        "valid": 56
+        "sales": 1492000,
+        "valid": 57
       },
       {
         "apo": 75,
         "calls": 0,
-        "cancel": 9,
+        "cancel": 6,
         "date": "2026/06/04",
         "day": "4営業日",
         "ops": 39,
-        "sales": 1561000,
-        "valid": 66
+        "sales": 1636000,
+        "valid": 69
       },
       {
-        "apo": 57,
+        "apo": 62,
         "calls": 0,
-        "cancel": 8,
+        "cancel": 6,
         "date": "2026/06/05",
         "day": "5営業日",
         "ops": 41,
-        "sales": 1170000,
-        "valid": 49
+        "sales": 1314000,
+        "valid": 56
       },
       {
-        "apo": 66,
+        "apo": 60,
         "calls": 0,
         "cancel": 12,
         "date": "2026/06/08",
         "day": "6営業日",
         "ops": 34,
-        "sales": 1184000,
-        "valid": 54
+        "sales": 1285000,
+        "valid": 48
       }
     ]
   },
@@ -4069,10 +4069,10 @@
     "青木くらら0607": 110970
   },
   "meta": {
-    "activeCount": 39,
+    "activeCount": 38,
     "alertText": "06/08のデータを反映済みです（累計6営業日）。最終更新: 2026/06/09",
     "elapsedDays": 6,
-    "enrollCount": 43,
+    "enrollCount": 40,
     "lastUpdate": "2026/06/09",
     "lastUpdateLabel": "06/09（06/08分反映済）",
     "month": "2026年6月",
@@ -4745,11 +4745,11 @@
       "apoRate": 2.2,
       "calls": 594,
       "cancel": 1,
-      "costRate": 50.7,
+      "costRate": 44.9,
       "days": 5,
       "incentive_daily": 0,
-      "labor": 117614,
-      "labor_base": 117614,
+      "labor": 104208,
+      "labor_base": 104208,
       "name": "原田航0225",
       "projects": [
         {
@@ -4768,10 +4768,10 @@
           "valid": 2
         }
       ],
-      "rank": "管理者",
+      "rank": "トップ",
       "sales": 232000,
       "sales_dash": 232000,
-      "site": "リモートSC",
+      "site": "六本木SC",
       "unitPerDay": 46400,
       "valid": 12,
       "workH": 41.7
@@ -5254,32 +5254,6 @@
       "workH": 15.7
     },
     {
-      "apo": 5,
-      "apoRate": 1.3,
-      "calls": 384,
-      "cancel": 0,
-      "costRate": 98.3,
-      "days": 4,
-      "incentive_daily": 30265,
-      "labor": 113025,
-      "labor_base": 82760,
-      "name": "青木くらら0607",
-      "projects": [
-        {
-          "name": "DMM_EV事業部",
-          "sales": 115000,
-          "valid": 5
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 115000,
-      "sales_dash": 115000,
-      "site": "六本木SC",
-      "unitPerDay": 28750,
-      "valid": 5,
-      "workH": 34.5
-    },
-    {
       "apo": 8,
       "apoRate": 1.5,
       "calls": 539,
@@ -5309,6 +5283,32 @@
       "unitPerDay": 23000,
       "valid": 5,
       "workH": 43.9
+    },
+    {
+      "apo": 5,
+      "apoRate": 1.3,
+      "calls": 384,
+      "cancel": 0,
+      "costRate": 98.3,
+      "days": 4,
+      "incentive_daily": 30265,
+      "labor": 113025,
+      "labor_base": 82760,
+      "name": "青木くらら0607",
+      "projects": [
+        {
+          "name": "DMM_EV事業部",
+          "sales": 115000,
+          "valid": 5
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 115000,
+      "sales_dash": 115000,
+      "site": "六本木SC",
+      "unitPerDay": 28750,
+      "valid": 5,
+      "workH": 34.5
     },
     {
       "apo": 5,
@@ -5492,10 +5492,10 @@
           "valid": 1
         }
       ],
-      "rank": "",
+      "rank": "ミドル",
       "sales": 61000,
       "sales_dash": 61000,
-      "site": "",
+      "site": "六本木SC",
       "unitPerDay": 0,
       "valid": 3,
       "workH": null
@@ -5554,32 +5554,6 @@
     },
     {
       "apo": 1,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": " 久保園大士0601",
-      "projects": [
-        {
-          "name": "Seamth",
-          "sales": 18000,
-          "valid": 1
-        }
-      ],
-      "rank": "",
-      "sales": 18000,
-      "sales_dash": 18000,
-      "site": "",
-      "unitPerDay": 0,
-      "valid": 1,
-      "workH": null
-    },
-    {
-      "apo": 1,
       "apoRate": 0.2,
       "calls": 434,
       "cancel": 0,
@@ -5605,7 +5579,7 @@
       "workH": 25.1
     },
     {
-      "apo": 0,
+      "apo": 1,
       "apoRate": null,
       "calls": 0,
       "cancel": 0,
@@ -5614,60 +5588,61 @@
       "incentive_daily": 0,
       "labor": 0,
       "labor_base": 0,
-      "name": "大木勇武0316",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "髙橋千里1217",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "リモートSC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 5,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 52300,
-      "labor_base": 52300,
-      "name": "佐々木真美0922",
+      "name": " 久保園大士0601",
       "projects": [
         {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 2
-        },
+          "name": "Seamth",
+          "sales": 18000,
+          "valid": 1
+        }
+      ],
+      "rank": "",
+      "sales": 18000,
+      "sales_dash": 18000,
+      "site": "",
+      "unitPerDay": 0,
+      "valid": 1,
+      "workH": null
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "大原昌彦0609",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 4,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 1,
+      "costRate": null,
+      "days": 5,
+      "incentive_daily": 0,
+      "labor": 52845,
+      "labor_base": 52845,
+      "name": "佐藤誠0605",
+      "projects": [
         {
           "name": "★らくなげ",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★TMCChai",
           "sales": 0,
           "valid": 1
         }
@@ -5677,8 +5652,95 @@
       "sales_dash": 0,
       "site": "AI",
       "unitPerDay": 0,
-      "valid": 5,
-      "workH": 34.9
+      "valid": 3,
+      "workH": 40.6
+    },
+    {
+      "apo": 11,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 6,
+      "incentive_daily": 0,
+      "labor": 77280,
+      "labor_base": 77280,
+      "name": "田中千賀0209",
+      "projects": [
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 4
+        },
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 3
+        },
+        {
+          "name": "★LOOV決裁者以外",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★らくなげ",
+          "sales": 0,
+          "valid": 2
+        }
+      ],
+      "rank": "ルーキー",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 11,
+      "workH": 42.9
+    },
+    {
+      "apo": 12,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 1,
+      "costRate": null,
+      "days": 6,
+      "incentive_daily": 44477,
+      "labor": 138568,
+      "labor_base": 94091,
+      "name": "竹内実範0703",
+      "projects": [
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 6
+        },
+        {
+          "name": "★LOOV決裁者以外",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★TMCShiiilo",
+          "sales": 0,
+          "valid": 1
+        },
+        {
+          "name": "★UPF新規",
+          "sales": 0,
+          "valid": 1
+        }
+      ],
+      "rank": "社員",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 11,
+      "workH": 50.7
     },
     {
       "apo": 0,
@@ -5690,12 +5752,12 @@
       "incentive_daily": 0,
       "labor": 0,
       "labor_base": 0,
-      "name": "山崎琴美1117",
+      "name": "中島翔太朗0924",
       "projects": [],
       "rank": "",
       "sales": 0,
       "sales_dash": 0,
-      "site": "リモートSC",
+      "site": "六本木SC",
       "unitPerDay": 0,
       "valid": 0,
       "workH": null
@@ -5751,9 +5813,60 @@
       "incentive_daily": 0,
       "labor": 0,
       "labor_base": 0,
-      "name": "長友郁真0412",
+      "name": "山崎琴美1117",
       "projects": [],
       "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "リモートSC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 10,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 6,
+      "incentive_daily": 15746,
+      "labor": 119101,
+      "labor_base": 103355,
+      "name": "伏見優孝0304",
+      "projects": [
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 8
+        },
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 2
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 10,
+      "workH": 49.2
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "合田",
+      "projects": [],
+      "rank": "トップ",
       "sales": 0,
       "sales_dash": 0,
       "site": "六本木SC",
@@ -5771,12 +5884,12 @@
       "incentive_daily": 0,
       "labor": 0,
       "labor_base": 0,
-      "name": "中島翔太朗0924",
+      "name": "髙橋千里1217",
       "projects": [],
       "rank": "",
       "sales": 0,
       "sales_dash": 0,
-      "site": "六本木SC",
+      "site": "リモートSC",
       "unitPerDay": 0,
       "valid": 0,
       "workH": null
@@ -5797,6 +5910,46 @@
       "sales": 0,
       "sales_dash": 0,
       "site": "リモートSC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "長友郁真0412",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "大木勇武0316",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
       "unitPerDay": 0,
       "valid": 0,
       "workH": null
@@ -5853,37 +6006,6 @@
       "workH": 49.1
     },
     {
-      "apo": 4,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 1,
-      "costRate": null,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 52845,
-      "labor_base": 52845,
-      "name": "佐藤誠0605",
-      "projects": [
-        {
-          "name": "★らくなげ",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": 3,
-      "workH": 40.6
-    },
-    {
       "apo": 5,
       "apoRate": null,
       "calls": 0,
@@ -5918,123 +6040,6 @@
       "unitPerDay": 0,
       "valid": 5,
       "workH": 35.6
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "合田",
-      "projects": [],
-      "rank": "トップ",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "大原昌彦0609",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 12,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 1,
-      "costRate": null,
-      "days": 6,
-      "incentive_daily": 44477,
-      "labor": 138568,
-      "labor_base": 94091,
-      "name": "竹内実範0703",
-      "projects": [
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 6
-        },
-        {
-          "name": "★LOOV決裁者以外",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCShiiilo",
-          "sales": 0,
-          "valid": 1
-        },
-        {
-          "name": "★UPF新規",
-          "sales": 0,
-          "valid": 1
-        }
-      ],
-      "rank": "社員",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 11,
-      "workH": 50.7
-    },
-    {
-      "apo": 10,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 6,
-      "incentive_daily": 15746,
-      "labor": 119101,
-      "labor_base": 103355,
-      "name": "伏見優孝0304",
-      "projects": [
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 8
-        },
-        {
-          "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 2
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 10,
-      "workH": 49.2
     },
     {
       "apo": 8,
@@ -6073,45 +6078,40 @@
       "workH": 36.2
     },
     {
-      "apo": 11,
+      "apo": 5,
       "apoRate": null,
       "calls": 0,
       "cancel": 0,
       "costRate": null,
       "days": 6,
       "incentive_daily": 0,
-      "labor": 77280,
-      "labor_base": 77280,
-      "name": "田中千賀0209",
+      "labor": 52300,
+      "labor_base": 52300,
+      "name": "佐々木真美0922",
       "projects": [
-        {
-          "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 4
-        },
         {
           "name": "★TMCChai",
           "sales": 0,
-          "valid": 3
+          "valid": 2
         },
         {
-          "name": "★LOOV決裁者以外",
+          "name": "★TMCレガシード",
           "sales": 0,
           "valid": 2
         },
         {
           "name": "★らくなげ",
           "sales": 0,
-          "valid": 2
+          "valid": 1
         }
       ],
-      "rank": "ルーキー",
+      "rank": "ミドル",
       "sales": 0,
       "sales_dash": 0,
-      "site": "六本木SC",
+      "site": "AI",
       "unitPerDay": 0,
-      "valid": 11,
-      "workH": 42.9
+      "valid": 5,
+      "workH": 34.9
     },
     {
       "apo": 0,
@@ -6132,26 +6132,6 @@
       "unitPerDay": 0,
       "valid": -2,
       "workH": 8.3
-    },
-    {
-      "apo": 0,
-      "apoRate": 0,
-      "calls": 602,
-      "cancel": 5,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "幸野有希子CRM",
-      "projects": [],
-      "rank": "ミドル",
-      "sales": -125000,
-      "sales_dash": -125000,
-      "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": -5,
-      "workH": null
     }
   ],
   "prev_calls": {
@@ -6192,7 +6172,6 @@
     "川村義之0108": 696,
     "平賀健介0202": 754,
     "幸野有希子": 0,
-    "幸野有希子CRM": 602,
     "日高竹晴0825": 434,
     "木下翔太0424": 763,
     "木村明日美1116": 831,
@@ -6216,18 +6195,18 @@
   },
   "sites": {
     "ai": {
-      "apo": 56,
+      "apo": 71,
       "apoRate": 0,
       "calls": 0,
-      "cancel": 1,
-      "cancelRate": 1.8,
+      "cancel": 2,
+      "cancelRate": 2.8,
       "costRate": 0,
-      "gross": -522241,
-      "labor": 522241,
+      "gross": -652366,
+      "labor": 652366,
       "ops": 34,
       "sales": 0,
       "unit": 0,
-      "valid": 55
+      "valid": 69
     },
     "all": {
       "apo": 550,
@@ -6235,41 +6214,41 @@
       "calls": 25690,
       "cancel": 69,
       "cancelRate": 12.5,
-      "costRate": 50.3,
-      "gross": 4499291,
-      "labor": 4559709,
+      "costRate": 50.2,
+      "gross": 4512697,
+      "labor": 4546303,
       "ops": 34,
       "sales": 9059000,
       "unit": 46448,
       "valid": 481
     },
     "remote": {
-      "apo": 116,
+      "apo": 103,
       "apoRate": 0,
       "calls": 0,
-      "cancel": 14,
-      "cancelRate": 12.1,
-      "costRate": 48.4,
-      "gross": 848773,
-      "labor": 797227,
+      "cancel": 13,
+      "cancelRate": 12.6,
+      "costRate": 48.1,
+      "gross": 734387,
+      "labor": 679613,
       "ops": 34,
-      "sales": 1646000,
-      "unit": 27481,
-      "valid": 102
+      "sales": 1414000,
+      "unit": 25551,
+      "valid": 90
     },
     "shinjuku": {
-      "apo": 374,
+      "apo": 375,
       "apoRate": 0,
       "calls": 0,
-      "cancel": 54,
-      "cancelRate": 14.4,
-      "costRate": 44.2,
-      "gross": 4093759,
-      "labor": 3240241,
+      "cancel": 49,
+      "cancelRate": 13.1,
+      "costRate": 41.5,
+      "gross": 4537676,
+      "labor": 3214324,
       "ops": 34,
-      "sales": 7334000,
-      "unit": 53870,
-      "valid": 320
+      "sales": 7752000,
+      "unit": 53608,
+      "valid": 326
     }
   },
   "targets": {
