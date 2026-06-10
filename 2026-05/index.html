@@ -776,6 +776,7 @@ function switchSite(site, el) {
   if (el) el.classList.add('active');
   renderDashboard(site);
   renderDaily(site);
+  renderChart2();
   renderOpSummary(site);
   renderOpTable(site);
 }
@@ -784,6 +785,19 @@ function renderDashboard(site) {
   var d = PT_DATA.sites[site], t = PT_DATA.targets[site], m = PT_DATA.meta;
   if (!d || !t) return;
   var el = m.elapsedDays, wd = m.workingDays;
+
+  // サイト別在籍・アクティブ数
+  var siteLabel = {'all': null, 'shinjuku': siteKey('shinjuku'), 'remote': siteKey('remote'), 'ai': siteKey('ai')}[site];
+  var siteEnroll, siteActive;
+  if (site === 'all') {
+    siteEnroll = m.enrollCount || 0;
+    siteActive = m.activeCount || 0;
+  } else {
+    var eb = m.enrollBySite || {};
+    var ab = m.activeBySite || {};
+    siteEnroll = eb[siteLabel] || 0;
+    siteActive = ab[siteLabel] || 0;
+  }
   var salesPct = t.sales > 0 ? d.sales / t.sales * 100 : 0;
   var landing  = el > 0 ? Math.round(d.sales / el * wd) : 0;
   var landPct  = t.sales > 0 ? landing / t.sales * 100 : 0;
@@ -807,8 +821,8 @@ function renderDashboard(site) {
     kpiCard('c-green','粗利額','<span class="'+(d.gross>=0?'c-pos':'c-neg')+'">'+fc(d.gross)+'</span>',
       '<span style="font-size:10px;color:var(--text3)">粗利率 '+(d.sales>0?(d.gross/d.sales*100).toFixed(1)+'%':'—')+'</span>','') +
     kpiCard('c-gray','在籍 / アクティブ',
-      '<span style="cursor:pointer;text-decoration:underline;text-decoration-style:dotted" onclick="openMemberModal(\'all\')">'+(m.enrollCount||'—')+'名</span> / <span style="cursor:pointer;text-decoration:underline;text-decoration-style:dotted" onclick="openMemberModal(\'active\')">'+(m.activeCount||'—')+'名</span>',
-      '<span style="font-size:10px;color:var(--text3)">稼働率 '+(m.enrollCount>0?(m.activeCount/m.enrollCount*100).toFixed(1)+'%':'—')+'</span>','');
+      '<span style="cursor:pointer;text-decoration:underline;text-decoration-style:dotted" onclick="openMemberModal(\'all\')">'+(siteEnroll||'—')+'名</span> / <span style="cursor:pointer;text-decoration:underline;text-decoration-style:dotted" onclick="openMemberModal(\'active\')">'+(siteActive||'—')+'名</span>',
+      '<span style="font-size:10px;color:var(--text3)">稼働率 '+(siteEnroll>0?(siteActive/siteEnroll*100).toFixed(1)+'%':'—')+'</span>','');
 
   document.getElementById('kpi-main').innerHTML = kpiHtml;
 
@@ -973,25 +987,36 @@ function closeMemberModal(e) {
 }
 
 function renderHeatmap() {
-  var top5 = PT_DATA.heatmap.slice(0, 5);
-  var maxSales = top5.length > 0 ? top5[0].sales : 1;
-  var html = top5.map(function(h) {
-    var pct = Math.round(h.sales / maxSales * 100);
-    return '<div class="hm-row"><div class="hm-rank">' + h.rank + '</div>' +
-      '<div class="hm-name">' + h.name + '</div>' +
+  // サイト別OP実績TOP5（売上順）
+  var filter = siteKey(currentSite);
+  var isJuneOrLater = !siteKey('ai');
+  var ops = PT_DATA.operators.filter(function(op){
+    if (!op.rank) return false;
+    if (isJuneOrLater && op.site === 'AI') return false;
+    if (filter && op.site !== filter) return false;
+    return op.sales > 0;
+  }).sort(function(a, b){ return b.sales - a.sales; }).slice(0, 5);
+
+  var maxSales = ops.length > 0 ? ops[0].sales : 1;
+  var html = ops.map(function(op, i) {
+    var pct = Math.round(op.sales / maxSales * 100);
+    return '<div class="hm-row"><div class="hm-rank">' + (i+1) + '</div>' +
+      '<div class="hm-name">' + op.name + '</div>' +
       '<div class="hm-bar-bg"><div class="hm-bar-fill" style="width:' + pct + '%"></div></div>' +
-      '<div class="hm-val">' + fc(h.sales) + '</div></div>';
+      '<div class="hm-val">' + fc(op.sales) + '</div></div>';
   }).join('');
-  document.getElementById('heatmap-list').innerHTML = html;
+  document.getElementById('heatmap-list').innerHTML = html ||
+    '<div style="color:var(--text3);font-size:12px;padding:12px">データなし</div>';
 }
 
 function renderChart1() {
   var cd = PT_DATA.chart;
+  var siteData = (cd.bySite && cd.bySite[currentSite]) ? cd.bySite[currentSite] : cd.data;
   var tgt = PT_DATA.targets[currentSite];
   var wd  = PT_DATA.meta.workingDays;
   var dailyTgt = tgt && tgt.sales > 0 && wd > 0 ? tgt.sales / wd / 10000 : null;
-  var bg = cd.data.map(function(v){ return v > 0 ? '#D85A30' : 'rgba(216,90,48,0.15)'; });
-  var datasets = [{label:'売上',data:cd.data,backgroundColor:bg,borderRadius:3,barPercentage:0.7}];
+  var bg = siteData.map(function(v){ return v > 0 ? '#D85A30' : 'rgba(216,90,48,0.15)'; });
+  var datasets = [{label:'売上',data:siteData,backgroundColor:bg,borderRadius:3,barPercentage:0.7}];
   if (dailyTgt) {
     datasets.push({type:'line',label:'日割り目標',data:cd.labels.map(function(){return dailyTgt;}),borderColor:'#E24B4A',borderWidth:1.5,borderDash:[4,4],pointRadius:0,fill:false});
   }
@@ -1007,12 +1032,13 @@ function renderChart1() {
 
 function renderChart2() {
   var cd = PT_DATA.chart;
+  var siteData = (cd.bySite && cd.bySite[currentSite]) ? cd.bySite[currentSite] : cd.data;
   var ctx = document.getElementById('dailyChart2');
   if (!ctx) return;
   if (chartInst2) chartInst2.destroy();
-  var bg = cd.data.map(function(v){ return v > 0 ? '#D85A30' : 'rgba(216,90,48,0.15)'; });
+  var bg = siteData.map(function(v){ return v > 0 ? '#D85A30' : 'rgba(216,90,48,0.15)'; });
   chartInst2 = new Chart(ctx, {
-    type:'bar',data:{labels:cd.labels,datasets:[{label:'売上',data:cd.data,backgroundColor:bg,borderRadius:3,barPercentage:0.7}]},
+    type:'bar',data:{labels:cd.labels,datasets:[{label:'売上',data:siteData,backgroundColor:bg,borderRadius:3,barPercentage:0.7}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(d){return '¥'+(d.raw*10000).toLocaleString();}}}},
       scales:{x:{ticks:{font:{size:9},color:'#888'},grid:{display:false},border:{display:false}},y:{ticks:{font:{size:9},color:'#888',callback:function(v){return'¥'+v.toFixed(0)+'万';}},grid:{color:'rgba(0,0,0,.04)'},border:{display:false}}}}
   });
