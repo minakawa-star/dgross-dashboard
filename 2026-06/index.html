@@ -1047,7 +1047,9 @@ function renderChart2() {
 function renderDaily(site) {
   var rows    = PT_DATA.daily[site] || PT_DATA.daily['all'];
   var allRows = PT_DATA.daily['all'] || rows;
-  var totalLabor = PT_DATA.sites.all.labor || 0;
+  var totalLabor = (PT_DATA.sites[site] && PT_DATA.sites[site].labor)
+                   ? PT_DATA.sites[site].labor
+                   : (PT_DATA.sites.all.labor || 0);
   var elapsed    = PT_DATA.meta.elapsedDays || rows.length;
 
   var html = rows.map(function(r, i) {
@@ -1085,10 +1087,10 @@ function renderDaily(site) {
   }).join('');
   var el = document.getElementById('daily-tbody');
   if (el) el.innerHTML = html;
-  renderCostRateChart(rows, totalLabor, elapsed);
+  renderCostRateChart(rows, totalLabor, elapsed, PT_DATA.targets[site]);
 }
 
-function renderCostRateChart(rows, totalLabor, elapsed) {
+function renderCostRateChart(rows, totalLabor, elapsed, target) {
   var ctx = document.getElementById('costRateChart');
   if (!ctx) return;
   if (window.costRateChartInst) window.costRateChartInst.destroy();
@@ -1115,7 +1117,7 @@ function renderCostRateChart(rows, totalLabor, elapsed) {
         },
         {
           label: '目標原価率',
-          data: labels.map(function(){ return PT_DATA.targets.all.costRate || 50; }),
+          data: labels.map(function(){ return (target && target.costRate) ? target.costRate : (PT_DATA.targets.all.costRate || 50); }),
           borderColor: '#E24B4A',
           borderWidth: 1.5,
           borderDash: [4,4],
@@ -1798,7 +1800,7 @@ function openDailyModal(idx) {
   if (!r) return;
   _dailyModalRows = rows;
 
-  var totalLabor  = PT_DATA.sites.all.labor || 0;
+  var totalLabor  = (PT_DATA.sites.all && PT_DATA.sites.all.labor) ? PT_DATA.sites.all.labor : 0;
   var elapsed     = PT_DATA.meta.elapsedDays || rows.length;
   var laborPerDay = r.daily_labor != null ? r.daily_labor :
                     (elapsed > 0 ? Math.round(totalLabor / elapsed) : 0);
