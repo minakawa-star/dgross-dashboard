@@ -1,14 +1,112 @@
 {
   "chart": {
+    "bySite": {
+      "ai": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "all": [
+        125.6,
+        121.2,
+        182.1,
+        190.7,
+        140.2,
+        130.1,
+        152.3,
+        111.8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "remote": [
+        32,
+        25.6,
+        35.4,
+        29.1,
+        13.8,
+        4.1,
+        16.5,
+        10.3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "shinjuku": [
+        93.6,
+        95.6,
+        146.7,
+        161.6,
+        126.4,
+        126,
+        135.8,
+        101.5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
     "data": [
-      128.1,
-      133.8,
-      184.6,
-      187.7,
-      142,
-      129.7,
-      0,
-      0,
+      125.6,
+      121.2,
+      182.1,
+      190.7,
+      140.2,
+      130.1,
+      152.3,
+      111.8,
       0,
       0,
       0,
@@ -52,49 +150,54 @@
   "daily": {
     "ai": [
       {
-        "apo": 11,
+        "apo": 10,
         "calls": 0,
         "cancel": 0,
+        "daily_labor": 83149,
         "date": "2026/06/01",
         "day": "1営業日",
         "ops": 37,
         "sales": 0,
-        "valid": 11
-      },
-      {
-        "apo": 9,
-        "calls": 0,
-        "cancel": 0,
-        "date": "2026/06/02",
-        "day": "2営業日",
-        "ops": 39,
-        "sales": 0,
-        "valid": 9
-      },
-      {
-        "apo": 6,
-        "calls": 0,
-        "cancel": 0,
-        "date": "2026/06/03",
-        "day": "3営業日",
-        "ops": 32,
-        "sales": 0,
-        "valid": 6
+        "valid": 10
       },
       {
         "apo": 8,
         "calls": 0,
+        "cancel": 0,
+        "daily_labor": 78875,
+        "date": "2026/06/02",
+        "day": "2営業日",
+        "ops": 39,
+        "sales": 0,
+        "valid": 8
+      },
+      {
+        "apo": 5,
+        "calls": 0,
+        "cancel": 0,
+        "daily_labor": 61612,
+        "date": "2026/06/03",
+        "day": "3営業日",
+        "ops": 32,
+        "sales": 0,
+        "valid": 5
+      },
+      {
+        "apo": 7,
+        "calls": 0,
         "cancel": 1,
+        "daily_labor": 79842,
         "date": "2026/06/04",
         "day": "4営業日",
         "ops": 39,
         "sales": 0,
-        "valid": 7
+        "valid": 6
       },
       {
         "apo": 11,
         "calls": 0,
         "cancel": 0,
+        "daily_labor": 76262,
         "date": "2026/06/05",
         "day": "5営業日",
         "ops": 41,
@@ -102,22 +205,45 @@
         "valid": 11
       },
       {
-        "apo": 26,
+        "apo": 15,
         "calls": 0,
         "cancel": 1,
+        "daily_labor": 82278,
         "date": "2026/06/08",
         "day": "6営業日",
         "ops": 34,
         "sales": 0,
-        "valid": 25
+        "valid": 14
+      },
+      {
+        "apo": 9,
+        "calls": 0,
+        "cancel": 0,
+        "daily_labor": 66469,
+        "date": "2026/06/09",
+        "day": "7営業日",
+        "ops": 39,
+        "sales": 0,
+        "valid": 9
+      },
+      {
+        "apo": 7,
+        "calls": 0,
+        "cancel": 0,
+        "daily_labor": 50944,
+        "date": "2026/06/10",
+        "day": "8営業日",
+        "ops": 34,
+        "sales": 0,
+        "valid": 7
       }
     ],
     "all": [
       {
         "apo": 94,
         "calls": 3952,
-        "cancel": 9,
-        "daily_labor": 689073,
+        "cancel": 10,
+        "daily_labor": 720646,
         "daily_ops": [
           {
             "costRate": 15.3,
@@ -665,13 +791,20 @@
             ],
             "sales": -15000,
             "valid": -1
+          },
+          {
+            "costRate": null,
+            "name": "幸野有希子CRM",
+            "projects": [],
+            "sales": -25000,
+            "valid": -1
           }
         ],
         "date": "2026/06/01",
         "day": "1営業日",
         "max_valid": 13,
         "ops": 37,
-        "sales": 1281000,
+        "sales": 1256000,
         "top_projects": [
           {
             "name": "DMM_EV事業部",
@@ -699,13 +832,13 @@
             "valid": 7
           }
         ],
-        "valid": 85
+        "valid": 84
       },
       {
         "apo": 85,
         "calls": 4115,
-        "cancel": 12,
-        "daily_labor": 714556,
+        "cancel": 16,
+        "daily_labor": 746788,
         "daily_ops": [
           {
             "costRate": 14.3,
@@ -927,19 +1060,6 @@
             "valid": 2
           },
           {
-            "costRate": 49.9,
-            "name": "清水久美子0122",
-            "projects": [
-              {
-                "name": "MissWH・Tiktokshop",
-                "sales": 44000,
-                "valid": 2
-              }
-            ],
-            "sales": 44000,
-            "valid": 2
-          },
-          {
             "costRate": 38,
             "name": "仁浦魁人0512",
             "projects": [
@@ -1110,19 +1230,6 @@
             "valid": 1
           },
           {
-            "costRate": 62.5,
-            "name": "石塚",
-            "projects": [
-              {
-                "name": "HROTTI",
-                "sales": 28000,
-                "valid": 1
-              }
-            ],
-            "sales": 28000,
-            "valid": 1
-          },
-          {
             "costRate": 84.8,
             "name": "川村義之0108",
             "projects": [
@@ -1149,7 +1256,7 @@
             "valid": 1
           },
           {
-            "costRate": null,
+            "costRate": 71.1,
             "name": "久保園大士0601",
             "projects": [
               {
@@ -1246,10 +1353,36 @@
           },
           {
             "costRate": null,
+            "name": "石塚",
+            "projects": [
+              {
+                "name": "HROTTI",
+                "sales": 28000,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 0
+          },
+          {
+            "costRate": null,
             "name": "船崎凜0916",
             "projects": [],
             "sales": 0,
             "valid": 0
+          },
+          {
+            "costRate": null,
+            "name": "清水久美子0122",
+            "projects": [
+              {
+                "name": "MissWH・Tiktokshop",
+                "sales": 44000,
+                "valid": 2
+              }
+            ],
+            "sales": -1000,
+            "valid": 1
           },
           {
             "costRate": null,
@@ -1266,6 +1399,13 @@
           },
           {
             "costRate": null,
+            "name": "日高竹晴0825",
+            "projects": [],
+            "sales": -18000,
+            "valid": -1
+          },
+          {
+            "costRate": null,
             "name": "若松",
             "projects": [],
             "sales": -23000,
@@ -1275,15 +1415,15 @@
             "costRate": null,
             "name": "平賀健介0202",
             "projects": [],
-            "sales": -28000,
-            "valid": -1
+            "sales": -63000,
+            "valid": -2
           }
         ],
         "date": "2026/06/02",
         "day": "2営業日",
         "max_valid": 11,
         "ops": 39,
-        "sales": 1338000,
+        "sales": 1212000,
         "top_projects": [
           {
             "name": "HITO-Link26年",
@@ -1306,18 +1446,18 @@
             "valid": 7
           },
           {
-            "name": "Seamth",
-            "sales": 72000,
-            "valid": 4
+            "name": "DFA Robotics_清掃ロボット",
+            "sales": 90000,
+            "valid": 3
           }
         ],
-        "valid": 73
+        "valid": 69
       },
       {
         "apo": 89,
         "calls": 3817,
-        "cancel": 7,
-        "daily_labor": 614251,
+        "cancel": 8,
+        "daily_labor": 644274,
         "daily_ops": [
           {
             "costRate": 6.6,
@@ -1569,7 +1709,7 @@
             "valid": 3
           },
           {
-            "costRate": null,
+            "costRate": 23.7,
             "name": "久保園大士0601",
             "projects": [
               {
@@ -1824,6 +1964,13 @@
           },
           {
             "costRate": null,
+            "name": "幸野有希子CRM",
+            "projects": [],
+            "sales": -25000,
+            "valid": -1
+          },
+          {
+            "costRate": null,
             "name": "君塚綾子1104",
             "projects": [],
             "sales": -70000,
@@ -1834,7 +1981,7 @@
         "day": "3営業日",
         "max_valid": 13,
         "ops": 32,
-        "sales": 1846000,
+        "sales": 1821000,
         "top_projects": [
           {
             "name": "DMM_EV事業部",
@@ -1862,13 +2009,13 @@
             "valid": 5
           }
         ],
-        "valid": 82
+        "valid": 81
       },
       {
         "apo": 104,
         "calls": 4719,
         "cancel": 10,
-        "daily_labor": 731976,
+        "daily_labor": 761076,
         "daily_ops": [
           {
             "costRate": 8.2,
@@ -2269,7 +2416,7 @@
             "valid": 2
           },
           {
-            "costRate": null,
+            "costRate": 35.6,
             "name": "久保園大士0601",
             "projects": [
               {
@@ -2280,6 +2427,19 @@
             ],
             "sales": 36000,
             "valid": 2
+          },
+          {
+            "costRate": 55,
+            "name": "橋爪朝寿0209",
+            "projects": [
+              {
+                "name": "フォレスト",
+                "sales": 30000,
+                "valid": 1
+              }
+            ],
+            "sales": 30000,
+            "valid": 1
           },
           {
             "costRate": 47.5,
@@ -2297,19 +2457,6 @@
               }
             ],
             "sales": 27000,
-            "valid": 1
-          },
-          {
-            "costRate": null,
-            "name": "幸野有希子",
-            "projects": [
-              {
-                "name": "パーソルプロセス＆テクノロジーHITO-Manager",
-                "sales": 25000,
-                "valid": 1
-              }
-            ],
-            "sales": 25000,
             "valid": 1
           },
           {
@@ -2477,19 +2624,6 @@
           },
           {
             "costRate": null,
-            "name": "小橋正佳0706",
-            "projects": [
-              {
-                "name": "★プロベル",
-                "sales": 0,
-                "valid": 1
-              }
-            ],
-            "sales": 0,
-            "valid": 1
-          },
-          {
-            "costRate": null,
             "name": "田中千賀0209",
             "projects": [
               {
@@ -2516,8 +2650,14 @@
           },
           {
             "costRate": null,
-            "name": "橋爪朝寿0209",
-            "projects": [],
+            "name": "小橋正佳0706",
+            "projects": [
+              {
+                "name": "★プロベル",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
             "sales": 0,
             "valid": 0
           },
@@ -2539,15 +2679,15 @@
             "costRate": null,
             "name": "幸野有希子CRM",
             "projects": [],
-            "sales": -50000,
-            "valid": -2
+            "sales": -25000,
+            "valid": -1
           }
         ],
         "date": "2026/06/04",
         "day": "4営業日",
         "max_valid": 12,
         "ops": 39,
-        "sales": 1877000,
+        "sales": 1907000,
         "top_projects": [
           {
             "name": "うるる入札",
@@ -2555,12 +2695,12 @@
             "valid": 12
           },
           {
-            "name": "Seamth",
+            "name": "HITO-Link26年",
             "sales": 162000,
             "valid": 9
           },
           {
-            "name": "HITO-Link26年",
+            "name": "Seamth",
             "sales": 162000,
             "valid": 9
           },
@@ -2580,8 +2720,8 @@
       {
         "apo": 82,
         "calls": 4696,
-        "cancel": 9,
-        "daily_labor": 753231,
+        "cancel": 12,
+        "daily_labor": 785121,
         "daily_ops": [
           {
             "costRate": 12.1,
@@ -2833,7 +2973,7 @@
             "valid": 2
           },
           {
-            "costRate": null,
+            "costRate": 35.6,
             "name": "久保園大士0601",
             "projects": [
               {
@@ -2913,24 +3053,6 @@
             "valid": 2
           },
           {
-            "costRate": 71,
-            "name": "仁浦魁人0512",
-            "projects": [
-              {
-                "name": "アイ・ピー・アイ",
-                "sales": 20000,
-                "valid": 1
-              },
-              {
-                "name": "スタッフ満足",
-                "sales": 25000,
-                "valid": 1
-              }
-            ],
-            "sales": 23000,
-            "valid": 1
-          },
-          {
             "costRate": 89.9,
             "name": "坂本杏奈1208",
             "projects": [
@@ -2968,6 +3090,24 @@
             ],
             "sales": 23000,
             "valid": 1
+          },
+          {
+            "costRate": 71,
+            "name": "仁浦魁人0512",
+            "projects": [
+              {
+                "name": "アイ・ピー・アイ",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "スタッフ満足",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 23000,
+            "valid": 0
           },
           {
             "costRate": 76.7,
@@ -3009,19 +3149,6 @@
             "valid": 1
           },
           {
-            "costRate": null,
-            "name": "幸野有希子",
-            "projects": [
-              {
-                "name": "HITO-Link26年",
-                "sales": 18000,
-                "valid": 1
-              }
-            ],
-            "sales": 18000,
-            "valid": 1
-          },
-          {
             "costRate": 70.7,
             "name": "横川祥玲0210",
             "projects": [
@@ -3058,7 +3185,7 @@
               }
             ],
             "sales": 15000,
-            "valid": 1
+            "valid": 0
           },
           {
             "costRate": null,
@@ -3182,6 +3309,13 @@
           },
           {
             "costRate": null,
+            "name": "守繁日美子0707",
+            "projects": [],
+            "sales": -18000,
+            "valid": -1
+          },
+          {
+            "costRate": null,
             "name": "清水久美子0122",
             "projects": [],
             "sales": -22000,
@@ -3190,16 +3324,22 @@
           {
             "costRate": null,
             "name": "幸野有希子CRM",
-            "projects": [],
-            "sales": -50000,
-            "valid": -2
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": -32000,
+            "valid": -1
           }
         ],
         "date": "2026/06/05",
         "day": "5営業日",
         "max_valid": 10,
         "ops": 41,
-        "sales": 1420000,
+        "sales": 1402000,
         "top_projects": [
           {
             "name": "HITO-Link26年",
@@ -3227,13 +3367,13 @@
             "valid": 4
           }
         ],
-        "valid": 73
+        "valid": 70
       },
       {
         "apo": 96,
         "calls": 4391,
         "cancel": 22,
-        "daily_labor": 686691,
+        "daily_labor": 718847,
         "daily_ops": [
           {
             "costRate": 8.7,
@@ -3574,24 +3714,11 @@
             "valid": 1
           },
           {
-            "costRate": null,
+            "costRate": 71.1,
             "name": "久保園大士0601",
             "projects": [
               {
                 "name": "Seamth",
-                "sales": 18000,
-                "valid": 1
-              }
-            ],
-            "sales": 18000,
-            "valid": 1
-          },
-          {
-            "costRate": null,
-            "name": "幸野有希子",
-            "projects": [
-              {
-                "name": "HITO-Link26年",
                 "sales": 18000,
                 "valid": 1
               }
@@ -3769,30 +3896,29 @@
           },
           {
             "costRate": null,
-            "name": "松浦美紀0423",
-            "projects": [],
-            "sales": 0,
+            "name": "幸野有希子CRM",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": -7000,
             "valid": 0
           },
           {
             "costRate": null,
-            "name": "船崎凜0916",
+            "name": "松浦美紀0423",
             "projects": [],
             "sales": -18000,
             "valid": -1
           },
           {
             "costRate": null,
-            "name": "柿﨑貴美子0512",
+            "name": "船崎凜0916",
             "projects": [],
-            "sales": -22000,
-            "valid": -1
-          },
-          {
-            "costRate": null,
-            "name": "幸野有希子CRM",
-            "projects": [],
-            "sales": -25000,
+            "sales": -18000,
             "valid": -1
           },
           {
@@ -3820,7 +3946,7 @@
         "day": "6営業日",
         "max_valid": 16,
         "ops": 34,
-        "sales": 1297000,
+        "sales": 1301000,
         "top_projects": [
           {
             "name": "★TMCレガシード",
@@ -3849,6 +3975,1261 @@
           }
         ],
         "valid": 74
+      },
+      {
+        "apo": 87,
+        "calls": 4418,
+        "cancel": 12,
+        "daily_labor": 756673,
+        "daily_ops": [
+          {
+            "costRate": 18.7,
+            "name": "土屋麻佳0405",
+            "projects": [
+              {
+                "name": "システムインテグレータOBPM Neo(研修)",
+                "sales": 40000,
+                "valid": 2
+              },
+              {
+                "name": "スタッフ満足",
+                "sales": 50000,
+                "valid": 2
+              },
+              {
+                "name": "うるる入札",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "パソナ日本総務部",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 112000,
+            "valid": 5
+          },
+          {
+            "costRate": 16.6,
+            "name": "岡本章宏0423",
+            "projects": [
+              {
+                "name": "スパイダープラス_プラント担当",
+                "sales": 35000,
+                "valid": 1
+              },
+              {
+                "name": "スパイダープラス_プラント責任者",
+                "sales": 45000,
+                "valid": 1
+              },
+              {
+                "name": "チェスター",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 105000,
+            "valid": 3
+          },
+          {
+            "costRate": null,
+            "name": "木村明日美1116",
+            "projects": [
+              {
+                "name": "DFA Robotics_清掃ロボット",
+                "sales": 60000,
+                "valid": 2
+              },
+              {
+                "name": "スパイダープラス_プラント責任者",
+                "sales": 45000,
+                "valid": 1
+              }
+            ],
+            "sales": 105000,
+            "valid": 3
+          },
+          {
+            "costRate": 22.7,
+            "name": "坂本杏奈1208",
+            "projects": [
+              {
+                "name": "スパイダープラス_プラント担当",
+                "sales": 70000,
+                "valid": 2
+              },
+              {
+                "name": "ＥＳオフラインマーケ",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": 90000,
+            "valid": 3
+          },
+          {
+            "costRate": 20.4,
+            "name": "島田",
+            "projects": [
+              {
+                "name": "ダイテック注文分譲中部②",
+                "sales": 42000,
+                "valid": 2
+              },
+              {
+                "name": "ダイテック注文分譲関西②",
+                "sales": 42000,
+                "valid": 2
+              }
+            ],
+            "sales": 84000,
+            "valid": 4
+          },
+          {
+            "costRate": 27.4,
+            "name": "平賀健介0202",
+            "projects": [
+              {
+                "name": "うるる入札",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "スパイダープラス（工事主任・工事監督）",
+                "sales": 35000,
+                "valid": 1
+              },
+              {
+                "name": "スポーツ総研",
+                "sales": 30000,
+                "valid": 1
+              },
+              {
+                "name": "営業製作所（役員）",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 75000,
+            "valid": 3
+          },
+          {
+            "costRate": 27.4,
+            "name": "松澤傑0115",
+            "projects": [
+              {
+                "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
+                "sales": 75000,
+                "valid": 1
+              }
+            ],
+            "sales": 75000,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "山田健太0425",
+            "projects": [
+              {
+                "name": "MHRP人材紹介②",
+                "sales": 44000,
+                "valid": 2
+              },
+              {
+                "name": "ゴールデザインフォース担当者",
+                "sales": 30000,
+                "valid": 1
+              }
+            ],
+            "sales": 74000,
+            "valid": 3
+          },
+          {
+            "costRate": 28.4,
+            "name": "若松",
+            "projects": [
+              {
+                "name": "営業製作所",
+                "sales": 70000,
+                "valid": 2
+              },
+              {
+                "name": "J.P.コンサルティング_50コール課金",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 70000,
+            "valid": 3
+          },
+          {
+            "costRate": 32.2,
+            "name": "土屋大興0512",
+            "projects": [
+              {
+                "name": "エムシーファッション",
+                "sales": 28000,
+                "valid": 1
+              },
+              {
+                "name": "営業製作所",
+                "sales": 35000,
+                "valid": 1
+              }
+            ],
+            "sales": 63000,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "原田航0225",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 18000,
+                "valid": 1
+              },
+              {
+                "name": "グリニッジ",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "スタンダードファクトリー",
+                "sales": 21000,
+                "valid": 1
+              }
+            ],
+            "sales": 59000,
+            "valid": 3
+          },
+          {
+            "costRate": 37.2,
+            "name": "中村光伸1017",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 54000,
+                "valid": 3
+              }
+            ],
+            "sales": 54000,
+            "valid": 3
+          },
+          {
+            "costRate": 24.2,
+            "name": "久保園大士0601",
+            "projects": [
+              {
+                "name": "Seamth",
+                "sales": 54000,
+                "valid": 3
+              }
+            ],
+            "sales": 54000,
+            "valid": 3
+          },
+          {
+            "costRate": 31.8,
+            "name": "石塚",
+            "projects": [
+              {
+                "name": "パソナ日本総務部",
+                "sales": 75000,
+                "valid": 3
+              },
+              {
+                "name": "J.P.コンサルティング_30コール課金",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 54000,
+            "valid": 3
+          },
+          {
+            "costRate": 45,
+            "name": "硴塚",
+            "projects": [
+              {
+                "name": "チェスター",
+                "sales": 25000,
+                "valid": 1
+              },
+              {
+                "name": "ペルソナファースト",
+                "sales": 22000,
+                "valid": 1
+              },
+              {
+                "name": "リビコー",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 47000,
+            "valid": 2
+          },
+          {
+            "costRate": 42.5,
+            "name": "外山哲朗1205",
+            "projects": [
+              {
+                "name": "ダイテック注文分譲中国九州",
+                "sales": 21000,
+                "valid": 1
+              },
+              {
+                "name": "パソナ日本総務部",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 46000,
+            "valid": 2
+          },
+          {
+            "costRate": 49,
+            "name": "小林幸司0507",
+            "projects": [
+              {
+                "name": "アレクシア",
+                "sales": 60000,
+                "valid": 2
+              },
+              {
+                "name": "うるる入札",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": 45000,
+            "valid": 2
+          },
+          {
+            "costRate": 51.9,
+            "name": "久保浩二0513",
+            "projects": [
+              {
+                "name": "NSDカレナ",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "フジテックス_フレコン",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": 40000,
+            "valid": 2
+          },
+          {
+            "costRate": 33.1,
+            "name": "坪井有美0922",
+            "projects": [
+              {
+                "name": "パーソナルヘルステック",
+                "sales": 40000,
+                "valid": 2
+              }
+            ],
+            "sales": 40000,
+            "valid": 2
+          },
+          {
+            "costRate": 44.4,
+            "name": "守繁日美子0707",
+            "projects": [
+              {
+                "name": "センコン物流_危険品",
+                "sales": 75000,
+                "valid": 3
+              }
+            ],
+            "sales": 39000,
+            "valid": 1
+          },
+          {
+            "costRate": 50.7,
+            "name": "君塚綾子1104",
+            "projects": [
+              {
+                "name": "営業製作所",
+                "sales": 35000,
+                "valid": 1
+              }
+            ],
+            "sales": 35000,
+            "valid": 1
+          },
+          {
+            "costRate": 41.3,
+            "name": "横川祥玲0210",
+            "projects": [
+              {
+                "name": "シャノン",
+                "sales": 30000,
+                "valid": 1
+              }
+            ],
+            "sales": 30000,
+            "valid": 1
+          },
+          {
+            "costRate": 54.7,
+            "name": "橋爪朝寿0209",
+            "projects": [
+              {
+                "name": "アレクシア",
+                "sales": 30000,
+                "valid": 1
+              }
+            ],
+            "sales": 30000,
+            "valid": 1
+          },
+          {
+            "costRate": 84.3,
+            "name": "川村義之0108",
+            "projects": [
+              {
+                "name": "J.P.コンサルティング_30コール課金",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "ボルテックス2",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 25000,
+            "valid": 2
+          },
+          {
+            "costRate": 73.4,
+            "name": "大友晶五0317",
+            "projects": [
+              {
+                "name": "MHRP人材紹介②",
+                "sales": 44000,
+                "valid": 2
+              }
+            ],
+            "sales": 21000,
+            "valid": 1
+          },
+          {
+            "costRate": 100.6,
+            "name": "内藤公誉1212",
+            "projects": [
+              {
+                "name": "うるる入札",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": 20000,
+            "valid": 1
+          },
+          {
+            "costRate": 50.5,
+            "name": "柿﨑貴美子0512",
+            "projects": [
+              {
+                "name": "パーソナルヘルステック",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": 20000,
+            "valid": 1
+          },
+          {
+            "costRate": 108.7,
+            "name": "加藤隆治0210",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": 18000,
+            "valid": 1
+          },
+          {
+            "costRate": 90,
+            "name": "幸野有希子CRM",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": 18000,
+            "valid": 1
+          },
+          {
+            "costRate": 130.1,
+            "name": "橋本陽平0901",
+            "projects": [
+              {
+                "name": "Nishika_SecureMemoCLハウスリスト",
+                "sales": 15000,
+                "valid": 1
+              },
+              {
+                "name": "グリニッジ",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "システムインテグレータOBPM Neo(ツール)",
+                "sales": 15000,
+                "valid": 1
+              }
+            ],
+            "sales": 15000,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "中井歩0707",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 3
+              }
+            ],
+            "sales": 0,
+            "valid": 3
+          },
+          {
+            "costRate": null,
+            "name": "小橋正佳0706",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 2
+              },
+              {
+                "name": "★UPF新規",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 3
+          },
+          {
+            "costRate": null,
+            "name": "上田奈津子1014",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "★らくなげ",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "佐藤誠0605",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "★らくなげ",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "佐々木真美0922",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "津田唯佳0916",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "船崎凜0916",
+            "projects": [],
+            "sales": 0,
+            "valid": 0
+          },
+          {
+            "costRate": null,
+            "name": " 久保園大士0601",
+            "projects": [],
+            "sales": -18000,
+            "valid": -1
+          },
+          {
+            "costRate": null,
+            "name": "清水久美子0122",
+            "projects": [],
+            "sales": -22000,
+            "valid": -1
+          }
+        ],
+        "date": "2026/06/09",
+        "day": "7営業日",
+        "max_valid": 9,
+        "ops": 39,
+        "sales": 1523000,
+        "top_projects": [
+          {
+            "name": "★TMCレガシード",
+            "sales": 0,
+            "valid": 9
+          },
+          {
+            "name": "HITO-Link26年",
+            "sales": 108000,
+            "valid": 6
+          },
+          {
+            "name": "パソナ日本総務部",
+            "sales": 125000,
+            "valid": 5
+          },
+          {
+            "name": "うるる入札",
+            "sales": 80000,
+            "valid": 4
+          },
+          {
+            "name": "MHRP人材紹介②",
+            "sales": 88000,
+            "valid": 4
+          }
+        ],
+        "valid": 75
+      },
+      {
+        "apo": 74,
+        "calls": 4233,
+        "cancel": 13,
+        "daily_labor": 683692,
+        "daily_ops": [
+          {
+            "costRate": 16.7,
+            "name": "土屋麻佳0405",
+            "projects": [
+              {
+                "name": "フジテックス_フレコン",
+                "sales": 80000,
+                "valid": 4
+              },
+              {
+                "name": "システムインテグレータOBPM Neo(研修)",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "パソナ日本総務部",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 125000,
+            "valid": 6
+          },
+          {
+            "costRate": 16.4,
+            "name": "岡本章宏0423",
+            "projects": [
+              {
+                "name": "スパイダープラス_プラント担当",
+                "sales": 35000,
+                "valid": 1
+              },
+              {
+                "name": "スパイダープラス_プラント責任者",
+                "sales": 45000,
+                "valid": 1
+              },
+              {
+                "name": "チェスター池袋",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 105000,
+            "valid": 3
+          },
+          {
+            "costRate": 22.2,
+            "name": "守繁日美子0707",
+            "projects": [
+              {
+                "name": "センコン物流_危険品",
+                "sales": 50000,
+                "valid": 2
+              },
+              {
+                "name": "エムシーファッション",
+                "sales": 28000,
+                "valid": 1
+              },
+              {
+                "name": "日清食品オンラインセミナー",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 78000,
+            "valid": 4
+          },
+          {
+            "costRate": 33,
+            "name": "小林幸司0507",
+            "projects": [
+              {
+                "name": "パーソナルヘルステック",
+                "sales": 40000,
+                "valid": 2
+              },
+              {
+                "name": "Facilo",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "アレクシア",
+                "sales": 30000,
+                "valid": 1
+              }
+            ],
+            "sales": 70000,
+            "valid": 4
+          },
+          {
+            "costRate": 20.2,
+            "name": "坂本杏奈1208",
+            "projects": [
+              {
+                "name": "スパイダープラス_プラント担当",
+                "sales": 70000,
+                "valid": 2
+              }
+            ],
+            "sales": 70000,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "木村明日美1116",
+            "projects": [
+              {
+                "name": "DFA Robotics_清掃ロボット",
+                "sales": 30000,
+                "valid": 1
+              },
+              {
+                "name": "スパイダープラス_プラント担当",
+                "sales": 35000,
+                "valid": 1
+              }
+            ],
+            "sales": 65000,
+            "valid": 2
+          },
+          {
+            "costRate": 24.9,
+            "name": "大友晶五0317",
+            "projects": [
+              {
+                "name": "MHRP人材紹介②",
+                "sales": 44000,
+                "valid": 2
+              },
+              {
+                "name": "LISUTO",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": 62000,
+            "valid": 3
+          },
+          {
+            "costRate": 38.3,
+            "name": "木下翔太0424",
+            "projects": [
+              {
+                "name": "フジテックス_フレコン",
+                "sales": 40000,
+                "valid": 2
+              },
+              {
+                "name": "Nishika_SecureMemoCLハウスリスト",
+                "sales": 15000,
+                "valid": 1
+              }
+            ],
+            "sales": 55000,
+            "valid": 3
+          },
+          {
+            "costRate": null,
+            "name": "原田航0225",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 54000,
+                "valid": 3
+              }
+            ],
+            "sales": 54000,
+            "valid": 3
+          },
+          {
+            "costRate": 38.2,
+            "name": "松澤傑0115",
+            "projects": [
+              {
+                "name": "MIHA_インフルエンサーマーケティング",
+                "sales": 54000,
+                "valid": 2
+              }
+            ],
+            "sales": 54000,
+            "valid": 2
+          },
+          {
+            "costRate": 40.6,
+            "name": "青木くらら0607",
+            "projects": [
+              {
+                "name": "使えるねっとOA機器",
+                "sales": 50000,
+                "valid": 2
+              }
+            ],
+            "sales": 50000,
+            "valid": 2
+          },
+          {
+            "costRate": 42.8,
+            "name": "外山哲朗1205",
+            "projects": [
+              {
+                "name": "J.P.コンサルティング_30コール課金",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "ダイテック注文分譲中国九州",
+                "sales": 21000,
+                "valid": 1
+              },
+              {
+                "name": "パソナ日本総務部",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 46000,
+            "valid": 3
+          },
+          {
+            "costRate": 39.3,
+            "name": "島田",
+            "projects": [
+              {
+                "name": "イーテック",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "ダイテック注文分譲北海道東北",
+                "sales": 21000,
+                "valid": 1
+              }
+            ],
+            "sales": 41000,
+            "valid": 2
+          },
+          {
+            "costRate": 56.1,
+            "name": "中村光伸1017",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 36000,
+                "valid": 2
+              }
+            ],
+            "sales": 36000,
+            "valid": 2
+          },
+          {
+            "costRate": 59.8,
+            "name": "川村義之0108",
+            "projects": [
+              {
+                "name": "Growth Hub",
+                "sales": 35000,
+                "valid": 1
+              },
+              {
+                "name": "J.P.コンサルティング_50コール課金",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 35000,
+            "valid": 2
+          },
+          {
+            "costRate": 50.9,
+            "name": "君塚綾子1104",
+            "projects": [
+              {
+                "name": "営業製作所",
+                "sales": 35000,
+                "valid": 1
+              }
+            ],
+            "sales": 35000,
+            "valid": 1
+          },
+          {
+            "costRate": 44.4,
+            "name": "安部聡一郎0922",
+            "projects": [
+              {
+                "name": "スパイダープラス_プラント担当",
+                "sales": 35000,
+                "valid": 1
+              }
+            ],
+            "sales": 35000,
+            "valid": 1
+          },
+          {
+            "costRate": 25.7,
+            "name": "横川祥玲0210",
+            "projects": [
+              {
+                "name": "シャノン",
+                "sales": 30000,
+                "valid": 1
+              }
+            ],
+            "sales": 30000,
+            "valid": 1
+          },
+          {
+            "costRate": 72.3,
+            "name": "橋本陽平0901",
+            "projects": [
+              {
+                "name": "かっこ②",
+                "sales": 27000,
+                "valid": 1
+              }
+            ],
+            "sales": 27000,
+            "valid": 1
+          },
+          {
+            "costRate": 79.5,
+            "name": "若松",
+            "projects": [
+              {
+                "name": "J.P.コンサルティング_50コール課金",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "デコラテックジャパン",
+                "sales": 25000,
+                "valid": 1
+              }
+            ],
+            "sales": 25000,
+            "valid": 2
+          },
+          {
+            "costRate": 83.7,
+            "name": "久保浩二0513",
+            "projects": [
+              {
+                "name": "NSDカレナ",
+                "sales": 20000,
+                "valid": 1
+              },
+              {
+                "name": "フジテックス_フレコン",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": 25000,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "山田健太0425",
+            "projects": [
+              {
+                "name": "MHRP人材紹介②",
+                "sales": 22000,
+                "valid": 1
+              }
+            ],
+            "sales": 22000,
+            "valid": 1
+          },
+          {
+            "costRate": 81.3,
+            "name": "石塚",
+            "projects": [
+              {
+                "name": "J.P.コンサルティング_30コール課金",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "スタンダードファクトリー",
+                "sales": 21000,
+                "valid": 1
+              }
+            ],
+            "sales": 21000,
+            "valid": 2
+          },
+          {
+            "costRate": 109.6,
+            "name": "加藤隆治0210",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": 18000,
+            "valid": 1
+          },
+          {
+            "costRate": 63.5,
+            "name": "船崎凜0916",
+            "projects": [
+              {
+                "name": "Seamth",
+                "sales": 18000,
+                "valid": 1
+              }
+            ],
+            "sales": 18000,
+            "valid": 1
+          },
+          {
+            "costRate": 148.2,
+            "name": "幸野有希子CRM",
+            "projects": [
+              {
+                "name": "HITO-Link26年",
+                "sales": 36000,
+                "valid": 2
+              }
+            ],
+            "sales": 11000,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "小橋正佳0706",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "★UPF新規",
+                "sales": 0,
+                "valid": 1
+              },
+              {
+                "name": "★プロベル",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 3
+          },
+          {
+            "costRate": null,
+            "name": "伏見優孝0304",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 2
+              }
+            ],
+            "sales": 0,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "竹内実範0703",
+            "projects": [
+              {
+                "name": "★TMCレガシード",
+                "sales": 0,
+                "valid": 2
+              }
+            ],
+            "sales": 0,
+            "valid": 2
+          },
+          {
+            "costRate": null,
+            "name": "佐藤誠0605",
+            "projects": [
+              {
+                "name": "★らくなげ",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "土屋知己0702",
+            "projects": [
+              {
+                "name": "★InnovationM&APartners",
+                "sales": 0,
+                "valid": 1
+              }
+            ],
+            "sales": 0,
+            "valid": 1
+          },
+          {
+            "costRate": null,
+            "name": "松浦美紀0423",
+            "projects": [],
+            "sales": 0,
+            "valid": 0
+          },
+          {
+            "costRate": null,
+            "name": "清水久美子0122",
+            "projects": [
+              {
+                "name": "フロム・エージャパン_people X",
+                "sales": 20000,
+                "valid": 1
+              }
+            ],
+            "sales": -2000,
+            "valid": 0
+          },
+          {
+            "costRate": null,
+            "name": "仁浦魁人0512",
+            "projects": [],
+            "sales": -23000,
+            "valid": -1
+          },
+          {
+            "costRate": null,
+            "name": "橋爪朝寿0209",
+            "projects": [],
+            "sales": -30000,
+            "valid": -1
+          },
+          {
+            "costRate": null,
+            "name": "平賀健介0202",
+            "projects": [],
+            "sales": -40000,
+            "valid": -2
+          }
+        ],
+        "date": "2026/06/10",
+        "day": "8営業日",
+        "max_valid": 8,
+        "ops": 34,
+        "sales": 1118000,
+        "top_projects": [
+          {
+            "name": "HITO-Link26年",
+            "sales": 144000,
+            "valid": 8
+          },
+          {
+            "name": "フジテックス_フレコン",
+            "sales": 140000,
+            "valid": 7
+          },
+          {
+            "name": "★TMCレガシード",
+            "sales": 0,
+            "valid": 5
+          },
+          {
+            "name": "スパイダープラス_プラント担当",
+            "sales": 175000,
+            "valid": 5
+          },
+          {
+            "name": "MHRP人材紹介②",
+            "sales": 66000,
+            "valid": 3
+          }
+        ],
+        "valid": 61
       }
     ],
     "remote": [
@@ -3856,6 +5237,7 @@
         "apo": 25,
         "calls": 0,
         "cancel": 1,
+        "daily_labor": 136314,
         "date": "2026/06/01",
         "day": "1営業日",
         "ops": 37,
@@ -3865,17 +5247,19 @@
       {
         "apo": 20,
         "calls": 0,
-        "cancel": 2,
+        "cancel": 3,
+        "daily_labor": 137963,
         "date": "2026/06/02",
         "day": "2営業日",
         "ops": 39,
-        "sales": 274000,
-        "valid": 18
+        "sales": 256000,
+        "valid": 17
       },
       {
         "apo": 19,
         "calls": 0,
         "cancel": 0,
+        "daily_labor": 115179,
         "date": "2026/06/03",
         "day": "3営業日",
         "ops": 32,
@@ -3886,6 +5270,7 @@
         "apo": 21,
         "calls": 0,
         "cancel": 1,
+        "daily_labor": 137792,
         "date": "2026/06/04",
         "day": "4営業日",
         "ops": 39,
@@ -3895,159 +5280,415 @@
       {
         "apo": 9,
         "calls": 0,
-        "cancel": 1,
+        "cancel": 3,
+        "daily_labor": 116073,
         "date": "2026/06/05",
         "day": "5営業日",
         "ops": 41,
-        "sales": 156000,
-        "valid": 8
+        "sales": 138000,
+        "valid": 6
       },
       {
-        "apo": 9,
+        "apo": 10,
         "calls": 0,
         "cancel": 8,
+        "daily_labor": 110112,
         "date": "2026/06/08",
         "day": "6営業日",
         "ops": 34,
-        "sales": 19000,
+        "sales": 41000,
+        "valid": 2
+      },
+      {
+        "apo": 12,
+        "calls": 0,
+        "cancel": 4,
+        "daily_labor": 120399,
+        "date": "2026/06/09",
+        "day": "7営業日",
+        "ops": 39,
+        "sales": 165000,
+        "valid": 8
+      },
+      {
+        "apo": 8,
+        "calls": 0,
+        "cancel": 3,
+        "daily_labor": 107950,
+        "date": "2026/06/10",
+        "day": "8営業日",
+        "ops": 34,
+        "sales": 103000,
+        "valid": 5
+      }
+    ],
+    "shinjuku": [
+      {
+        "apo": 59,
+        "calls": 0,
+        "cancel": 9,
+        "daily_labor": 501183,
+        "date": "2026/06/01",
+        "day": "1営業日",
+        "ops": 37,
+        "sales": 936000,
+        "valid": 50
+      },
+      {
+        "apo": 57,
+        "calls": 0,
+        "cancel": 13,
+        "daily_labor": 529950,
+        "date": "2026/06/02",
+        "day": "2営業日",
+        "ops": 39,
+        "sales": 956000,
+        "valid": 44
+      },
+      {
+        "apo": 65,
+        "calls": 0,
+        "cancel": 8,
+        "daily_labor": 467483,
+        "date": "2026/06/03",
+        "day": "3営業日",
+        "ops": 32,
+        "sales": 1467000,
+        "valid": 57
+      },
+      {
+        "apo": 76,
+        "calls": 0,
+        "cancel": 8,
+        "daily_labor": 543442,
+        "date": "2026/06/04",
+        "day": "4営業日",
+        "ops": 39,
+        "sales": 1616000,
+        "valid": 68
+      },
+      {
+        "apo": 62,
+        "calls": 0,
+        "cancel": 9,
+        "daily_labor": 592786,
+        "date": "2026/06/05",
+        "day": "5営業日",
+        "ops": 41,
+        "sales": 1264000,
+        "valid": 53
+      },
+      {
+        "apo": 71,
+        "calls": 0,
+        "cancel": 13,
+        "daily_labor": 526457,
+        "date": "2026/06/08",
+        "day": "6営業日",
+        "ops": 34,
+        "sales": 1260000,
+        "valid": 58
+      },
+      {
+        "apo": 66,
+        "calls": 0,
+        "cancel": 8,
+        "daily_labor": 569805,
+        "date": "2026/06/09",
+        "day": "7営業日",
+        "ops": 39,
+        "sales": 1358000,
+        "valid": 58
+      },
+      {
+        "apo": 58,
+        "calls": 0,
+        "cancel": 10,
+        "daily_labor": 524798,
+        "date": "2026/06/10",
+        "day": "8営業日",
+        "ops": 34,
+        "sales": 1015000,
+        "valid": 48
+      }
+    ]
+  },
+  "heatmap": {
+    "ai": [
+      {
+        "name": "★LOOV決裁者以外",
+        "pct": 0,
+        "rank": 1,
+        "sales": 0,
+        "valid": 3
+      },
+      {
+        "name": "★TMCChai",
+        "pct": 0,
+        "rank": 2,
+        "sales": 0,
+        "valid": 28
+      },
+      {
+        "name": "★TMCShiiilo",
+        "pct": 0,
+        "rank": 3,
+        "sales": 0,
+        "valid": 1
+      },
+      {
+        "name": "★TMCレガシード",
+        "pct": 0,
+        "rank": 4,
+        "sales": 0,
+        "valid": 24
+      },
+      {
+        "name": "★UPF新規",
+        "pct": 0,
+        "rank": 5,
+        "sales": 0,
+        "valid": 4
+      },
+      {
+        "name": "★makepower",
+        "pct": 0,
+        "rank": 6,
+        "sales": 0,
+        "valid": 2
+      },
+      {
+        "name": "★らくなげ",
+        "pct": 0,
+        "rank": 7,
+        "sales": 0,
+        "valid": 6
+      },
+      {
+        "name": "★プロベル",
+        "pct": 0,
+        "rank": 8,
+        "sales": 0,
+        "valid": 3
+      }
+    ],
+    "all": [
+      {
+        "name": "HITO-Link26年",
+        "pct": 10.3,
+        "rank": 1,
+        "sales": 1170000,
+        "valid": 65
+      },
+      {
+        "name": "DMM_EV事業部",
+        "pct": 7.7,
+        "rank": 2,
+        "sales": 874000,
+        "valid": 38
+      },
+      {
+        "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
+        "pct": 7.2,
+        "rank": 3,
+        "sales": 825000,
+        "valid": 11
+      },
+      {
+        "name": "キャディアン",
+        "pct": 5.7,
+        "rank": 4,
+        "sales": 650000,
+        "valid": 19
+      },
+      {
+        "name": "Seamth",
+        "pct": 4.7,
+        "rank": 5,
+        "sales": 540000,
+        "valid": 30
+      },
+      {
+        "name": "スタッフ満足",
+        "pct": 4.4,
+        "rank": 6,
+        "sales": 500000,
+        "valid": 20
+      },
+      {
+        "name": "フジテックス_フレコン",
+        "pct": 4.2,
+        "rank": 7,
+        "sales": 480000,
+        "valid": 24
+      },
+      {
+        "name": "DFA Robotics_清掃ロボット",
+        "pct": 3.7,
+        "rank": 8,
+        "sales": 420000,
+        "valid": 14
+      },
+      {
+        "name": "うるる入札",
+        "pct": 3.7,
+        "rank": 9,
+        "sales": 420000,
+        "valid": 21
+      },
+      {
+        "name": "MHRP人材紹介②",
+        "pct": 3.5,
+        "rank": 10,
+        "sales": 396000,
+        "valid": 18
+      }
+    ],
+    "remote": [
+      {
+        "name": "Seamth",
+        "pct": 32.4,
+        "rank": 1,
+        "sales": 540000,
+        "valid": 30
+      },
+      {
+        "name": "DMM_EV事業部",
+        "pct": 17.9,
+        "rank": 2,
+        "sales": 299000,
+        "valid": 13
+      },
+      {
+        "name": "センコン物流_危険品",
+        "pct": 7.5,
+        "rank": 3,
+        "sales": 125000,
+        "valid": 5
+      },
+      {
+        "name": "上武",
+        "pct": 7.2,
+        "rank": 4,
+        "sales": 120000,
+        "valid": 6
+      },
+      {
+        "name": "スタンダードファクトリー",
+        "pct": 6.3,
+        "rank": 5,
+        "sales": 105000,
+        "valid": 5
+      },
+      {
+        "name": "シャノン",
+        "pct": 5.4,
+        "rank": 6,
+        "sales": 90000,
+        "valid": 3
+      },
+      {
+        "name": "スタッフ満足",
+        "pct": 4.5,
+        "rank": 7,
+        "sales": 75000,
+        "valid": 3
+      },
+      {
+        "name": "HITO-Link26年",
+        "pct": 4.3,
+        "rank": 8,
+        "sales": 72000,
+        "valid": 4
+      },
+      {
+        "name": "パーソナルヘルステック",
+        "pct": 3.6,
+        "rank": 9,
+        "sales": 60000,
+        "valid": 3
+      },
+      {
+        "name": "スパイダープラス（工事部長・課長　100～299名）",
+        "pct": 2.7,
+        "rank": 10,
+        "sales": 45000,
         "valid": 1
       }
     ],
     "shinjuku": [
       {
-        "apo": 58,
-        "calls": 0,
-        "cancel": 8,
-        "date": "2026/06/01",
-        "day": "1営業日",
-        "ops": 37,
-        "sales": 961000,
-        "valid": 50
+        "name": "HITO-Link26年",
+        "pct": 9.8,
+        "rank": 1,
+        "sales": 936000,
+        "valid": 52
       },
       {
-        "apo": 56,
-        "calls": 0,
-        "cancel": 10,
-        "date": "2026/06/02",
-        "day": "2営業日",
-        "ops": 39,
-        "sales": 1064000,
-        "valid": 46
+        "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
+        "pct": 8.7,
+        "rank": 2,
+        "sales": 825000,
+        "valid": 11
       },
       {
-        "apo": 64,
-        "calls": 0,
-        "cancel": 7,
-        "date": "2026/06/03",
-        "day": "3営業日",
-        "ops": 32,
-        "sales": 1492000,
-        "valid": 57
+        "name": "キャディアン",
+        "pct": 6.8,
+        "rank": 3,
+        "sales": 650000,
+        "valid": 19
       },
       {
-        "apo": 75,
-        "calls": 0,
-        "cancel": 6,
-        "date": "2026/06/04",
-        "day": "4営業日",
-        "ops": 39,
-        "sales": 1636000,
-        "valid": 69
+        "name": "DMM_EV事業部",
+        "pct": 6,
+        "rank": 4,
+        "sales": 575000,
+        "valid": 25
       },
       {
-        "apo": 62,
-        "calls": 0,
-        "cancel": 6,
-        "date": "2026/06/05",
-        "day": "5営業日",
-        "ops": 41,
-        "sales": 1314000,
-        "valid": 56
+        "name": "フジテックス_フレコン",
+        "pct": 5,
+        "rank": 5,
+        "sales": 480000,
+        "valid": 24
       },
       {
-        "apo": 60,
-        "calls": 0,
-        "cancel": 12,
-        "date": "2026/06/08",
-        "day": "6営業日",
-        "ops": 34,
-        "sales": 1285000,
-        "valid": 48
+        "name": "スタッフ満足",
+        "pct": 4.5,
+        "rank": 6,
+        "sales": 425000,
+        "valid": 17
+      },
+      {
+        "name": "うるる入札",
+        "pct": 4.4,
+        "rank": 7,
+        "sales": 420000,
+        "valid": 21
+      },
+      {
+        "name": "DFA Robotics_清掃ロボット",
+        "pct": 4.4,
+        "rank": 8,
+        "sales": 420000,
+        "valid": 14
+      },
+      {
+        "name": "MHRP人材紹介②",
+        "pct": 4.2,
+        "rank": 9,
+        "sales": 396000,
+        "valid": 18
+      },
+      {
+        "name": "Nishika_SecureMemoCLハウスリスト",
+        "pct": 3.8,
+        "rank": 10,
+        "sales": 360000,
+        "valid": 24
       }
     ]
   },
-  "heatmap": [
-    {
-      "name": "DMM_EV事業部",
-      "pct": 10.4,
-      "rank": 1,
-      "sales": 943000,
-      "valid": 41
-    },
-    {
-      "name": "HITO-Link26年",
-      "pct": 10.1,
-      "rank": 2,
-      "sales": 918000,
-      "valid": 51
-    },
-    {
-      "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
-      "pct": 8.3,
-      "rank": 3,
-      "sales": 750000,
-      "valid": 10
-    },
-    {
-      "name": "キャディアン",
-      "pct": 7.2,
-      "rank": 4,
-      "sales": 650000,
-      "valid": 19
-    },
-    {
-      "name": "Seamth",
-      "pct": 6.4,
-      "rank": 5,
-      "sales": 576000,
-      "valid": 32
-    },
-    {
-      "name": "スタッフ満足",
-      "pct": 5,
-      "rank": 6,
-      "sales": 450000,
-      "valid": 18
-    },
-    {
-      "name": "うるる入札",
-      "pct": 4.2,
-      "rank": 7,
-      "sales": 380000,
-      "valid": 19
-    },
-    {
-      "name": "Nishika_SecureMemoCLハウスリスト",
-      "pct": 3.8,
-      "rank": 8,
-      "sales": 345000,
-      "valid": 23
-    },
-    {
-      "name": "DFA Robotics_清掃ロボット",
-      "pct": 3.6,
-      "rank": 9,
-      "sales": 330000,
-      "valid": 11
-    },
-    {
-      "name": "フジテックス_フレコン",
-      "pct": 3.5,
-      "rank": 10,
-      "sales": 320000,
-      "valid": 16
-    }
-  ],
   "incentive": {
     "中村光伸1017": 55622,
     "久保浩二0513": 95204,
@@ -4069,38 +5710,104 @@
     "青木くらら0607": 110970
   },
   "meta": {
-    "activeCount": 38,
-    "alertText": "06/08のデータを反映済みです（累計6営業日）。最終更新: 2026/06/09",
-    "elapsedDays": 6,
-    "enrollCount": 40,
-    "lastUpdate": "2026/06/09",
-    "lastUpdateLabel": "06/09（06/08分反映済）",
+    "activeBySite": {
+      "AI": 0,
+      "リモートSC": 10,
+      "六本木SC": 29
+    },
+    "activeCount": 39,
+    "alertText": "06/10のデータを反映済みです（累計8営業日）。最終更新: 2026/06/11",
+    "elapsedDays": 8,
+    "enrollBySite": {
+      "AI": 0,
+      "リモートSC": 11,
+      "六本木SC": 33
+    },
+    "enrollCount": 44,
+    "lastUpdate": "2026/06/11",
+    "lastUpdateLabel": "06/11（06/10分反映済）",
     "month": "2026年6月",
     "workPeriodWarning": null,
     "workingDays": 22
   },
   "operators": [
     {
-      "apo": 27,
-      "apoRate": 3.6,
-      "calls": 754,
-      "cancel": 3,
-      "costRate": 22.7,
-      "days": 5,
-      "incentive_daily": 57802,
-      "labor": 159969,
-      "labor_base": 102167,
+      "apo": 35,
+      "apoRate": 2.8,
+      "calls": 1232,
+      "cancel": 4,
+      "costRate": 22.6,
+      "days": 8,
+      "incentive_daily": 330,
+      "labor": 160163,
+      "labor_base": 159833,
+      "name": "土屋麻佳0405",
+      "projects": [
+        {
+          "name": "スタッフ満足",
+          "sales": 300000,
+          "valid": 12
+        },
+        {
+          "name": "フジテックス_フレコン",
+          "sales": 120000,
+          "valid": 6
+        },
+        {
+          "name": "DMM_EV事業部",
+          "sales": 115000,
+          "valid": 5
+        },
+        {
+          "name": "システムインテグレータOBPM Neo(研修)",
+          "sales": 60000,
+          "valid": 3
+        },
+        {
+          "name": "パソナ日本総務部",
+          "sales": 75000,
+          "valid": 3
+        },
+        {
+          "name": "うるる入札",
+          "sales": 40000,
+          "valid": 2
+        },
+        {
+          "name": "グリニッジ",
+          "sales": 20000,
+          "valid": 1
+        }
+      ],
+      "rank": "トップ",
+      "sales": 708000,
+      "sales_dash": 708000,
+      "site": "六本木SC",
+      "unitPerDay": 88500,
+      "valid": 31,
+      "workH": 63.9
+    },
+    {
+      "apo": 31,
+      "apoRate": 3.8,
+      "calls": 812,
+      "cancel": 7,
+      "costRate": 28.3,
+      "days": 6,
+      "incentive_daily": 77069,
+      "labor": 199819,
+      "labor_base": 122750,
       "name": "平賀健介0202",
       "projects": [
         {
           "name": "うるる入札",
-          "sales": 160000,
-          "valid": 8
+          "sales": 140000,
+          "valid": 7
         },
         {
           "name": "スポーツ総研",
-          "sales": 150000,
-          "valid": 5
+          "sales": 180000,
+          "valid": 6
         },
         {
           "name": "MBKデジタル",
@@ -4118,11 +5825,6 @@
           "valid": 2
         },
         {
-          "name": "営業製作所",
-          "sales": 70000,
-          "valid": 2
-        },
-        {
           "name": "JOKER'S",
           "sales": 30000,
           "valid": 1
@@ -4131,82 +5833,41 @@
           "name": "LISUTO",
           "sales": 18000,
           "valid": 1
+        },
+        {
+          "name": "スパイダープラス（工事主任・工事監督）",
+          "sales": 35000,
+          "valid": 1
+        },
+        {
+          "name": "営業製作所",
+          "sales": 35000,
+          "valid": 1
+        },
+        {
+          "name": "営業製作所（役員）",
+          "sales": 25000,
+          "valid": 1
         }
       ],
       "rank": "トップ",
       "sales": 706000,
       "sales_dash": 706000,
       "site": "六本木SC",
-      "unitPerDay": 141200,
+      "unitPerDay": 117667,
       "valid": 24,
-      "workH": 40.9
+      "workH": 49.1
     },
     {
-      "apo": 27,
-      "apoRate": 2.9,
-      "calls": 918,
+      "apo": 23,
+      "apoRate": 3.3,
+      "calls": 689,
       "cancel": 2,
-      "costRate": 28.9,
-      "days": 6,
-      "incentive_daily": 25965,
-      "labor": 149632,
-      "labor_base": 123667,
-      "name": "久保浩二0513",
-      "projects": [
-        {
-          "name": "エッジテクノロジー",
-          "sales": 198000,
-          "valid": 9
-        },
-        {
-          "name": "キャディアン",
-          "sales": 165000,
-          "valid": 5
-        },
-        {
-          "name": "Nishika_SecureMemoCLハウスリスト",
-          "sales": 60000,
-          "valid": 4
-        },
-        {
-          "name": "NSDカレナ",
-          "sales": 60000,
-          "valid": 3
-        },
-        {
-          "name": "フジテックス_フレコン",
-          "sales": 60000,
-          "valid": 3
-        },
-        {
-          "name": "日清食品オンラインセミナー",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "スタッフ満足",
-          "sales": 25000,
-          "valid": 1
-        }
-      ],
-      "rank": "トップ",
-      "sales": 518000,
-      "sales_dash": 538000,
-      "site": "六本木SC",
-      "unitPerDay": 86333,
-      "valid": 25,
-      "workH": 49.5
-    },
-    {
-      "apo": 17,
-      "apoRate": 3.1,
-      "calls": 540,
-      "cancel": 2,
-      "costRate": 28.4,
-      "days": 6,
-      "incentive_daily": 37243,
-      "labor": 140166,
-      "labor_base": 102923,
+      "costRate": 26.6,
+      "days": 8,
+      "incentive_daily": 49657,
+      "labor": 187157,
+      "labor_base": 137500,
       "name": "岡本章宏0423",
       "projects": [
         {
@@ -4215,45 +5876,60 @@
           "valid": 9
         },
         {
+          "name": "スパイダープラス_プラント担当",
+          "sales": 140000,
+          "valid": 4
+        },
+        {
           "name": "DMM_EV事業部",
           "sales": 69000,
           "valid": 3
         },
         {
-          "name": "スパイダープラス_プラント担当",
-          "sales": 70000,
-          "valid": 2
+          "name": "スパイダープラス_プラント責任者",
+          "sales": 135000,
+          "valid": 3
         },
         {
-          "name": "スパイダープラス_プラント責任者",
-          "sales": 45000,
+          "name": "チェスター",
+          "sales": 25000,
+          "valid": 1
+        },
+        {
+          "name": "チェスター池袋",
+          "sales": 25000,
           "valid": 1
         }
       ],
       "rank": "ミドル",
-      "sales": 494000,
-      "sales_dash": 494000,
+      "sales": 704000,
+      "sales_dash": 704000,
       "site": "六本木SC",
-      "unitPerDay": 82333,
-      "valid": 15,
-      "workH": 46.8
+      "unitPerDay": 88000,
+      "valid": 21,
+      "workH": 62.5
     },
     {
-      "apo": 11,
-      "apoRate": 3.2,
-      "calls": 345,
+      "apo": 14,
+      "apoRate": 3.3,
+      "calls": 423,
       "cancel": 1,
-      "costRate": 24.7,
-      "days": 6,
-      "incentive_daily": 11176,
-      "labor": 119301,
-      "labor_base": 108125,
+      "costRate": 26.8,
+      "days": 8,
+      "incentive_daily": 14902,
+      "labor": 164194,
+      "labor_base": 149292,
       "name": "松澤傑0115",
       "projects": [
         {
           "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
-          "sales": 375000,
-          "valid": 5
+          "sales": 450000,
+          "valid": 6
+        },
+        {
+          "name": "MIHA_インフルエンサーマーケティング",
+          "sales": 54000,
+          "valid": 2
         },
         {
           "name": "MissWH・Tiktokshop",
@@ -4272,116 +5948,131 @@
         }
       ],
       "rank": "トップ",
-      "sales": 483000,
-      "sales_dash": 483000,
+      "sales": 612000,
+      "sales_dash": 612000,
       "site": "六本木SC",
-      "unitPerDay": 80500,
-      "valid": 10,
-      "workH": 43.2
+      "unitPerDay": 76500,
+      "valid": 13,
+      "workH": 59.7
     },
     {
-      "apo": 23,
-      "apoRate": 2.3,
-      "calls": 1020,
+      "apo": 31,
+      "apoRate": 2.8,
+      "calls": 1107,
       "cancel": 3,
-      "costRate": 25.1,
-      "days": 6,
-      "incentive_daily": 248,
-      "labor": 118248,
-      "labor_base": 118000,
-      "name": "土屋麻佳0405",
+      "costRate": 34.3,
+      "days": 8,
+      "incentive_daily": 34620,
+      "labor": 199953,
+      "labor_base": 165333,
+      "name": "久保浩二0513",
       "projects": [
         {
-          "name": "スタッフ満足",
-          "sales": 250000,
-          "valid": 10
+          "name": "エッジテクノロジー",
+          "sales": 198000,
+          "valid": 9
         },
         {
-          "name": "DMM_EV事業部",
-          "sales": 138000,
-          "valid": 6
+          "name": "NSDカレナ",
+          "sales": 100000,
+          "valid": 5
+        },
+        {
+          "name": "キャディアン",
+          "sales": 165000,
+          "valid": 5
         },
         {
           "name": "フジテックス_フレコン",
-          "sales": 40000,
+          "sales": 100000,
+          "valid": 5
+        },
+        {
+          "name": "Nishika_SecureMemoCLハウスリスト",
+          "sales": 45000,
+          "valid": 3
+        },
+        {
+          "name": "日清食品オンラインセミナー",
+          "sales": 0,
           "valid": 2
         },
         {
-          "name": "うるる入札",
-          "sales": 20000,
-          "valid": 1
-        },
-        {
-          "name": "グリニッジ",
-          "sales": 20000,
-          "valid": 1
-        },
-        {
-          "name": "パソナ日本総務部",
+          "name": "スタッフ満足",
           "sales": 25000,
           "valid": 1
         }
       ],
       "rank": "トップ",
-      "sales": 471000,
-      "sales_dash": 471000,
+      "sales": 583000,
+      "sales_dash": 603000,
       "site": "六本木SC",
-      "unitPerDay": 78500,
-      "valid": 20,
-      "workH": 47.2
+      "unitPerDay": 72875,
+      "valid": 28,
+      "workH": 66.1
     },
     {
-      "apo": 17,
-      "apoRate": 2.8,
-      "calls": 605,
+      "apo": 23,
+      "apoRate": 2.3,
+      "calls": 1017,
       "cancel": 4,
-      "costRate": 26.5,
-      "days": 6,
+      "costRate": 45,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 118080,
-      "labor_base": 118080,
-      "name": "橋本陽平0901",
+      "labor": 250909,
+      "labor_base": 250909,
+      "name": "木村明日美1116",
       "projects": [
         {
-          "name": "Nishika_SecureMemoCLハウスリスト",
-          "sales": 150000,
-          "valid": 10
+          "name": "DFA Robotics_清掃ロボット",
+          "sales": 420000,
+          "valid": 14
         },
         {
-          "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
-          "sales": 300000,
-          "valid": 4
+          "name": "HITO-Link26年",
+          "sales": 108000,
+          "valid": 6
         },
         {
-          "name": "パソナ日本総務部",
-          "sales": 50000,
+          "name": "スパイダープラス_プラント責任者",
+          "sales": 90000,
           "valid": 2
+        },
+        {
+          "name": "スパイダープラス_プラント担当",
+          "sales": 35000,
+          "valid": 1
         }
       ],
-      "rank": "ミドル",
-      "sales": 445000,
-      "sales_dash": 445000,
+      "rank": "管理者",
+      "sales": 557000,
+      "sales_dash": 587000,
       "site": "六本木SC",
-      "unitPerDay": 74167,
-      "valid": 13,
-      "workH": 49.2
+      "unitPerDay": 69625,
+      "valid": 19,
+      "workH": 82.5
     },
     {
-      "apo": 18,
-      "apoRate": 2.1,
-      "calls": 855,
+      "apo": 24,
+      "apoRate": 2.3,
+      "calls": 1057,
       "cancel": 1,
-      "costRate": 31.5,
-      "days": 6,
-      "incentive_daily": 25720,
-      "labor": 134303,
-      "labor_base": 108583,
+      "costRate": 31.9,
+      "days": 8,
+      "incentive_daily": 34293,
+      "labor": 176126,
+      "labor_base": 141833,
       "name": "島田",
       "projects": [
         {
           "name": "ダイテック注文分譲北海道東北",
-          "sales": 147000,
-          "valid": 7
+          "sales": 168000,
+          "valid": 8
+        },
+        {
+          "name": "ダイテック注文分譲関西②",
+          "sales": 105000,
+          "valid": 5
         },
         {
           "name": "キャディアン",
@@ -4389,13 +6080,13 @@
           "valid": 5
         },
         {
-          "name": "ダイテック注文分譲関西②",
+          "name": "ダイテック注文分譲中部②",
           "sales": 63000,
           "valid": 3
         },
         {
-          "name": "ダイテック注文分譲中部②",
-          "sales": 21000,
+          "name": "イーテック",
+          "sales": 20000,
           "valid": 1
         },
         {
@@ -4410,34 +6101,116 @@
         }
       ],
       "rank": "トップ",
-      "sales": 427000,
-      "sales_dash": 427000,
+      "sales": 552000,
+      "sales_dash": 552000,
       "site": "六本木SC",
-      "unitPerDay": 71167,
-      "valid": 17,
-      "workH": 43.4
+      "unitPerDay": 69000,
+      "valid": 23,
+      "workH": 56.7
     },
     {
-      "apo": 23,
-      "apoRate": 3,
-      "calls": 763,
-      "cancel": 1,
-      "costRate": 30.5,
-      "days": 6,
+      "apo": 21,
+      "apoRate": 2.9,
+      "calls": 733,
+      "cancel": 6,
+      "costRate": 32.3,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 125625,
-      "labor_base": 125625,
-      "name": "木下翔太0424",
+      "labor": 157120,
+      "labor_base": 157120,
+      "name": "橋本陽平0901",
       "projects": [
         {
           "name": "Nishika_SecureMemoCLハウスリスト",
-          "sales": 135000,
-          "valid": 9
+          "sales": 165000,
+          "valid": 11
         },
         {
+          "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
+          "sales": 300000,
+          "valid": 4
+        },
+        {
+          "name": "パソナ日本総務部",
+          "sales": 50000,
+          "valid": 2
+        },
+        {
+          "name": "かっこ②",
+          "sales": 27000,
+          "valid": 1
+        },
+        {
+          "name": "グリニッジ",
+          "sales": 20000,
+          "valid": 1
+        },
+        {
+          "name": "システムインテグレータOBPM Neo(ツール)",
+          "sales": 15000,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 487000,
+      "sales_dash": 487000,
+      "site": "六本木SC",
+      "unitPerDay": 60875,
+      "valid": 15,
+      "workH": 65.5
+    },
+    {
+      "apo": 29,
+      "apoRate": 4.5,
+      "calls": 643,
+      "cancel": 2,
+      "costRate": 37.4,
+      "days": 8,
+      "incentive_daily": 20226,
+      "labor": 181601,
+      "labor_base": 161375,
+      "name": "中村光伸1017",
+      "projects": [
+        {
+          "name": "HITO-Link26年",
+          "sales": 468000,
+          "valid": 26
+        },
+        {
+          "name": "LISUTO",
+          "sales": 18000,
+          "valid": 1
+        }
+      ],
+      "rank": "トップ",
+      "sales": 486000,
+      "sales_dash": 486000,
+      "site": "六本木SC",
+      "unitPerDay": 60750,
+      "valid": 27,
+      "workH": 64.5
+    },
+    {
+      "apo": 26,
+      "apoRate": 2.7,
+      "calls": 963,
+      "cancel": 1,
+      "costRate": 35.8,
+      "days": 8,
+      "incentive_daily": 0,
+      "labor": 167000,
+      "labor_base": 167000,
+      "name": "木下翔太0424",
+      "projects": [
+        {
           "name": "フジテックス_フレコン",
-          "sales": 180000,
-          "valid": 9
+          "sales": 220000,
+          "valid": 11
+        },
+        {
+          "name": "Nishika_SecureMemoCLハウスリスト",
+          "sales": 150000,
+          "valid": 10
         },
         {
           "name": "スタッフ満足",
@@ -4456,96 +6229,29 @@
         }
       ],
       "rank": "トップ",
-      "sales": 412000,
-      "sales_dash": 412000,
+      "sales": 467000,
+      "sales_dash": 467000,
       "site": "六本木SC",
-      "unitPerDay": 68667,
-      "valid": 22,
-      "workH": 50.2
+      "unitPerDay": 58375,
+      "valid": 25,
+      "workH": 66.8
     },
     {
-      "apo": 23,
-      "apoRate": 4.6,
-      "calls": 501,
-      "cancel": 1,
-      "costRate": 34.4,
-      "days": 6,
-      "incentive_daily": 15170,
-      "labor": 136253,
-      "labor_base": 121083,
-      "name": "中村光伸1017",
-      "projects": [
-        {
-          "name": "HITO-Link26年",
-          "sales": 378000,
-          "valid": 21
-        },
-        {
-          "name": "LISUTO",
-          "sales": 18000,
-          "valid": 1
-        }
-      ],
-      "rank": "トップ",
-      "sales": 396000,
-      "sales_dash": 396000,
-      "site": "六本木SC",
-      "unitPerDay": 66000,
-      "valid": 22,
-      "workH": 48.4
-    },
-    {
-      "apo": 18,
-      "apoRate": 2.2,
-      "calls": 831,
+      "apo": 21,
+      "apoRate": 5.1,
+      "calls": 409,
       "cancel": 4,
-      "costRate": 48.6,
-      "days": 6,
+      "costRate": 61.6,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 188182,
-      "labor_base": 188182,
-      "name": "木村明日美1116",
-      "projects": [
-        {
-          "name": "DFA Robotics_清掃ロボット",
-          "sales": 330000,
-          "valid": 11
-        },
-        {
-          "name": "HITO-Link26年",
-          "sales": 108000,
-          "valid": 6
-        },
-        {
-          "name": "スパイダープラス_プラント責任者",
-          "sales": 45000,
-          "valid": 1
-        }
-      ],
-      "rank": "管理者",
-      "sales": 387000,
-      "sales_dash": 417000,
-      "site": "六本木SC",
-      "unitPerDay": 64500,
-      "valid": 14,
-      "workH": 62.7
-    },
-    {
-      "apo": 16,
-      "apoRate": 4.7,
-      "calls": 338,
-      "cancel": 3,
-      "costRate": 60.5,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 188182,
-      "labor_base": 188182,
+      "labor": 250909,
+      "labor_base": 250909,
       "name": "山田健太0425",
       "projects": [
         {
           "name": "MHRP人材紹介②",
-          "sales": 110000,
-          "valid": 5
+          "sales": 176000,
+          "valid": 8
         },
         {
           "name": "MHRP人材紹介",
@@ -4566,59 +6272,38 @@
           "name": "【スタッフ考慮】HITO-Linkエージェント申込獲得_クロージングまで一気通貫(口頭内諾)",
           "sales": 75000,
           "valid": 1
+        },
+        {
+          "name": "ゴールデザインフォース担当者",
+          "sales": 30000,
+          "valid": 1
         }
       ],
       "rank": "管理者",
-      "sales": 311000,
-      "sales_dash": 311000,
+      "sales": 407000,
+      "sales_dash": 407000,
       "site": "六本木SC",
-      "unitPerDay": 51833,
-      "valid": 13,
-      "workH": 62.2
+      "unitPerDay": 50875,
+      "valid": 17,
+      "workH": 81.9
     },
     {
-      "apo": 18,
-      "apoRate": 1.7,
-      "calls": 1038,
-      "cancel": 3,
-      "costRate": 31.6,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 88550,
-      "labor_base": 88550,
-      "name": "松浦美紀0423",
-      "projects": [
-        {
-          "name": "Seamth",
-          "sales": 234000,
-          "valid": 13
-        },
-        {
-          "name": "DMM_EV事業部",
-          "sales": 46000,
-          "valid": 2
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 280000,
-      "sales_dash": 280000,
-      "site": "リモートSC",
-      "unitPerDay": 56000,
-      "valid": 15,
-      "workH": 42.2
-    },
-    {
-      "apo": 18,
-      "apoRate": 2.1,
-      "calls": 873,
-      "cancel": 3,
-      "costRate": 63.8,
-      "days": 6,
-      "incentive_daily": 44603,
-      "labor": 178061,
-      "labor_base": 133458,
+      "apo": 25,
+      "apoRate": 2.2,
+      "calls": 1147,
+      "cancel": 5,
+      "costRate": 66.3,
+      "days": 8,
+      "incentive_daily": 59470,
+      "labor": 238053,
+      "labor_base": 178583,
       "name": "小林幸司0507",
       "projects": [
+        {
+          "name": "アレクシア",
+          "sales": 180000,
+          "valid": 6
+        },
         {
           "name": "DMM_EV事業部",
           "sales": 115000,
@@ -4627,17 +6312,12 @@
         {
           "name": "Facilo",
           "sales": 0,
-          "valid": 3
+          "valid": 4
         },
         {
-          "name": "アレクシア",
-          "sales": 90000,
+          "name": "パーソナルヘルステック",
+          "sales": 60000,
           "valid": 3
-        },
-        {
-          "name": "スタッフ満足",
-          "sales": 50000,
-          "valid": 2
         },
         {
           "name": "エッジテクノロジー",
@@ -4645,40 +6325,50 @@
           "valid": 2
         },
         {
-          "name": "snuggle",
-          "sales": 30000,
+          "name": "スタッフ満足",
+          "sales": 50000,
+          "valid": 2
+        },
+        {
+          "name": "うるる入札",
+          "sales": 20000,
           "valid": 1
         },
         {
-          "name": "パーソナルヘルステック",
-          "sales": 20000,
+          "name": "snuggle",
+          "sales": 30000,
           "valid": 1
         }
       ],
       "rank": "トップ",
-      "sales": 279000,
-      "sales_dash": 279000,
+      "sales": 359000,
+      "sales_dash": 394000,
       "site": "六本木SC",
-      "unitPerDay": 46500,
-      "valid": 15,
-      "workH": 53.4
+      "unitPerDay": 44875,
+      "valid": 20,
+      "workH": 71.4
     },
     {
-      "apo": 14,
+      "apo": 19,
       "apoRate": 1.6,
-      "calls": 866,
+      "calls": 1178,
       "cancel": 3,
-      "costRate": 40.4,
-      "days": 5,
-      "incentive_daily": 5699,
-      "labor": 105017,
-      "labor_base": 99318,
+      "costRate": 41.3,
+      "days": 7,
+      "incentive_daily": 7599,
+      "labor": 146644,
+      "labor_base": 139045,
       "name": "若松",
       "projects": [
         {
           "name": "営業製作所",
-          "sales": 105000,
-          "valid": 3
+          "sales": 175000,
+          "valid": 5
+        },
+        {
+          "name": "J.P.コンサルティング_50コール課金",
+          "sales": 0,
+          "valid": 4
         },
         {
           "name": "FacePeerティックトック",
@@ -4691,13 +6381,13 @@
           "valid": 2
         },
         {
-          "name": "J.P.コンサルティング_50コール課金",
-          "sales": 0,
-          "valid": 2
-        },
-        {
           "name": "J.P.コンサルティング_30コール課金",
           "sales": 0,
+          "valid": 1
+        },
+        {
+          "name": "デコラテックジャパン",
+          "sales": 25000,
           "valid": 1
         },
         {
@@ -4707,154 +6397,30 @@
         }
       ],
       "rank": "社員",
-      "sales": 260000,
-      "sales_dash": 260000,
+      "sales": 355000,
+      "sales_dash": 355000,
       "site": "六本木SC",
-      "unitPerDay": 52000,
-      "valid": 11,
-      "workH": 41.7
+      "unitPerDay": 50714,
+      "valid": 16,
+      "workH": 58
     },
     {
-      "apo": 17,
-      "apoRate": 4.9,
-      "calls": 347,
-      "cancel": 4,
-      "costRate": 52.5,
-      "days": 6,
-      "incentive_daily": 5195,
-      "labor": 122835,
-      "labor_base": 117640,
-      "name": "加藤隆治0210",
-      "projects": [
-        {
-          "name": "HITO-Link26年",
-          "sales": 234000,
-          "valid": 13
-        }
-      ],
-      "rank": "トップ",
-      "sales": 234000,
-      "sales_dash": 234000,
-      "site": "六本木SC",
-      "unitPerDay": 39000,
-      "valid": 13,
-      "workH": 49
-    },
-    {
-      "apo": 13,
-      "apoRate": 2.2,
-      "calls": 594,
-      "cancel": 1,
-      "costRate": 44.9,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 104208,
-      "labor_base": 104208,
-      "name": "原田航0225",
-      "projects": [
-        {
-          "name": "HITO-Link26年",
-          "sales": 90000,
-          "valid": 5
-        },
-        {
-          "name": "グリニッジ",
-          "sales": 100000,
-          "valid": 5
-        },
-        {
-          "name": "スタンダードファクトリー",
-          "sales": 42000,
-          "valid": 2
-        }
-      ],
-      "rank": "トップ",
-      "sales": 232000,
-      "sales_dash": 232000,
-      "site": "六本木SC",
-      "unitPerDay": 46400,
-      "valid": 12,
-      "workH": 41.7
-    },
-    {
-      "apo": 11,
-      "apoRate": 1.9,
-      "calls": 594,
+      "apo": 14,
+      "apoRate": 1.5,
+      "calls": 949,
       "cancel": 0,
-      "costRate": 36.1,
-      "days": 4,
+      "costRate": 39.3,
+      "days": 7,
       "incentive_daily": 0,
-      "labor": 81625,
-      "labor_base": 81625,
-      "name": "内藤公誉1212",
-      "projects": [
-        {
-          "name": "うるる入札",
-          "sales": 120000,
-          "valid": 6
-        },
-        {
-          "name": "アイ・ピー・アイ",
-          "sales": 60000,
-          "valid": 3
-        },
-        {
-          "name": "DMM_EV事業部",
-          "sales": 46000,
-          "valid": 2
-        }
-      ],
-      "rank": "トップ",
-      "sales": 226000,
-      "sales_dash": 226000,
-      "site": "六本木SC",
-      "unitPerDay": 56500,
-      "valid": 11,
-      "workH": 32.6
-    },
-    {
-      "apo": 9,
-      "apoRate": 2.5,
-      "calls": 360,
-      "cancel": 0,
-      "costRate": 34.5,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 69350,
-      "labor_base": 69350,
-      "name": "大友晶五0317",
-      "projects": [
-        {
-          "name": "MHRP人材紹介②",
-          "sales": 132000,
-          "valid": 6
-        },
-        {
-          "name": "DMM_EV事業部",
-          "sales": 69000,
-          "valid": 3
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 201000,
-      "sales_dash": 201000,
-      "site": "六本木SC",
-      "unitPerDay": 40200,
-      "valid": 9,
-      "workH": 36.5
-    },
-    {
-      "apo": 9,
-      "apoRate": 1.2,
-      "calls": 760,
-      "cancel": 0,
-      "costRate": 54.3,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 102583,
-      "labor_base": 102583,
+      "labor": 137125,
+      "labor_base": 137125,
       "name": "坂本杏奈1208",
       "projects": [
+        {
+          "name": "スパイダープラス_プラント担当",
+          "sales": 140000,
+          "valid": 4
+        },
         {
           "name": "DMM_EV事業部",
           "sales": 69000,
@@ -4872,28 +6438,193 @@
         },
         {
           "name": "ＥＳオフラインマーケ",
-          "sales": 20000,
-          "valid": 1
+          "sales": 40000,
+          "valid": 2
         }
       ],
       "rank": "トップ",
-      "sales": 189000,
-      "sales_dash": 189000,
+      "sales": 349000,
+      "sales_dash": 349000,
       "site": "六本木SC",
-      "unitPerDay": 37800,
-      "valid": 9,
-      "workH": 41
+      "unitPerDay": 49857,
+      "valid": 14,
+      "workH": 54.8
     },
     {
-      "apo": 7,
+      "apo": 19,
+      "apoRate": 2.4,
+      "calls": 791,
+      "cancel": 1,
+      "costRate": 47.7,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 164659,
+      "labor_base": 164659,
+      "name": "原田航0225",
+      "projects": [
+        {
+          "name": "HITO-Link26年",
+          "sales": 162000,
+          "valid": 9
+        },
+        {
+          "name": "グリニッジ",
+          "sales": 120000,
+          "valid": 6
+        },
+        {
+          "name": "スタンダードファクトリー",
+          "sales": 63000,
+          "valid": 3
+        }
+      ],
+      "rank": "トップ",
+      "sales": 345000,
+      "sales_dash": 345000,
+      "site": "六本木SC",
+      "unitPerDay": 49286,
+      "valid": 18,
+      "workH": 57.9
+    },
+    {
+      "apo": 14,
+      "apoRate": 2.9,
+      "calls": 475,
+      "cancel": 1,
+      "costRate": 35.3,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 100193,
+      "labor_base": 100193,
+      "name": "大友晶五0317",
+      "projects": [
+        {
+          "name": "MHRP人材紹介②",
+          "sales": 220000,
+          "valid": 10
+        },
+        {
+          "name": "DMM_EV事業部",
+          "sales": 46000,
+          "valid": 2
+        },
+        {
+          "name": "LISUTO",
+          "sales": 18000,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 284000,
+      "sales_dash": 284000,
+      "site": "六本木SC",
+      "unitPerDay": 40571,
+      "valid": 13,
+      "workH": 52.7
+    },
+    {
+      "apo": 21,
+      "apoRate": 4.8,
+      "calls": 438,
+      "cancel": 6,
+      "costRate": 60.7,
+      "days": 8,
+      "incentive_daily": 6927,
+      "labor": 163847,
+      "labor_base": 156920,
+      "name": "加藤隆治0210",
+      "projects": [
+        {
+          "name": "HITO-Link26年",
+          "sales": 270000,
+          "valid": 15
+        }
+      ],
+      "rank": "トップ",
+      "sales": 270000,
+      "sales_dash": 270000,
+      "site": "六本木SC",
+      "unitPerDay": 33750,
+      "valid": 15,
+      "workH": 65.4
+    },
+    {
+      "apo": 20,
       "apoRate": 1.4,
-      "calls": 510,
+      "calls": 1382,
+      "cancel": 6,
+      "costRate": 46.9,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 122990,
+      "labor_base": 122990,
+      "name": "松浦美紀0423",
+      "projects": [
+        {
+          "name": "Seamth",
+          "sales": 216000,
+          "valid": 12
+        },
+        {
+          "name": "DMM_EV事業部",
+          "sales": 46000,
+          "valid": 2
+        }
+      ],
+      "rank": "トップ",
+      "sales": 262000,
+      "sales_dash": 262000,
+      "site": "リモートSC",
+      "unitPerDay": 37429,
+      "valid": 14,
+      "workH": 58.6
+    },
+    {
+      "apo": 12,
+      "apoRate": 1.9,
+      "calls": 641,
       "cancel": 0,
-      "costRate": 34.4,
+      "costRate": 41.4,
       "days": 5,
       "incentive_daily": 0,
-      "labor": 63677,
-      "labor_base": 63677,
+      "labor": 101750,
+      "labor_base": 101750,
+      "name": "内藤公誉1212",
+      "projects": [
+        {
+          "name": "うるる入札",
+          "sales": 140000,
+          "valid": 7
+        },
+        {
+          "name": "アイ・ピー・アイ",
+          "sales": 60000,
+          "valid": 3
+        },
+        {
+          "name": "DMM_EV事業部",
+          "sales": 46000,
+          "valid": 2
+        }
+      ],
+      "rank": "トップ",
+      "sales": 246000,
+      "sales_dash": 246000,
+      "site": "六本木SC",
+      "unitPerDay": 49200,
+      "valid": 12,
+      "workH": 40.7
+    },
+    {
+      "apo": 9,
+      "apoRate": 1.4,
+      "calls": 633,
+      "cancel": 0,
+      "costRate": 34.2,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 83767,
+      "labor_base": 83767,
       "name": "横川祥玲0210",
       "projects": [
         {
@@ -4903,8 +6634,8 @@
         },
         {
           "name": "シャノン",
-          "sales": 30000,
-          "valid": 1
+          "sales": 90000,
+          "valid": 3
         },
         {
           "name": "スパイダープラス（工事部長・課長　100～299名）",
@@ -4918,68 +6649,144 @@
         }
       ],
       "rank": "ミドル",
-      "sales": 185000,
-      "sales_dash": 185000,
+      "sales": 245000,
+      "sales_dash": 245000,
       "site": "リモートSC",
-      "unitPerDay": 37000,
-      "valid": 7,
-      "workH": 45.5
+      "unitPerDay": 35000,
+      "valid": 9,
+      "workH": 59.8
     },
     {
-      "apo": 8,
-      "apoRate": 0.9,
-      "calls": 870,
-      "cancel": 0,
-      "costRate": 46.9,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 79653,
-      "labor_base": 79653,
-      "name": "坪井有美0922",
+      "apo": 30,
+      "apoRate": 2.5,
+      "calls": 1204,
+      "cancel": 4,
+      "costRate": 58.4,
+      "days": 8,
+      "incentive_daily": 3976,
+      "labor": 142401,
+      "labor_base": 138425,
+      "name": "守繁日美子0707",
       "projects": [
         {
-          "name": "上武",
-          "sales": 120000,
-          "valid": 6
+          "name": "日清食品オンラインセミナー",
+          "sales": 0,
+          "valid": 9
         },
         {
-          "name": "クレイン工芸社",
-          "sales": 25000,
+          "name": "インテグリティ・ヘルスケア　（イベント追客）",
+          "sales": 40000,
+          "valid": 8
+        },
+        {
+          "name": "センコン物流_危険品",
+          "sales": 125000,
+          "valid": 5
+        },
+        {
+          "name": "Seamth",
+          "sales": 36000,
+          "valid": 2
+        },
+        {
+          "name": "DGコミュニケーションズ",
+          "sales": 15000,
           "valid": 1
         },
         {
-          "name": "スタッフ満足",
-          "sales": 25000,
+          "name": "エムシーファッション",
+          "sales": 28000,
           "valid": 1
         }
       ],
-      "rank": "ミドル",
-      "sales": 170000,
-      "sales_dash": 170000,
+      "rank": "トップ",
+      "sales": 244000,
+      "sales_dash": 244000,
       "site": "リモートSC",
-      "unitPerDay": 28333,
-      "valid": 8,
-      "workH": 49.8
+      "unitPerDay": 30500,
+      "valid": 26,
+      "workH": 65.9
     },
     {
-      "apo": 10,
-      "apoRate": 1.4,
-      "calls": 696,
+      "apo": 13,
+      "apoRate": 2.3,
+      "calls": 561,
       "cancel": 1,
-      "costRate": 75.6,
-      "days": 6,
+      "costRate": 42.1,
+      "days": 4,
+      "incentive_daily": 16474,
+      "labor": 95057,
+      "labor_base": 78583,
+      "name": "外山哲朗1205",
+      "projects": [
+        {
+          "name": "ダイテック注文分譲中国九州",
+          "sales": 63000,
+          "valid": 3
+        },
+        {
+          "name": "パソナ日本総務部",
+          "sales": 50000,
+          "valid": 2
+        },
+        {
+          "name": "J.P.コンサルティング_30コール課金",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "ブレイベリー",
+          "sales": 40000,
+          "valid": 2
+        },
+        {
+          "name": "TRYESサポート",
+          "sales": 30000,
+          "valid": 1
+        },
+        {
+          "name": "コロニー",
+          "sales": 22000,
+          "valid": 1
+        },
+        {
+          "name": "ダイテック注文分譲関東③",
+          "sales": 21000,
+          "valid": 1
+        }
+      ],
+      "rank": "トップ",
+      "sales": 226000,
+      "sales_dash": 226000,
+      "site": "六本木SC",
+      "unitPerDay": 56500,
+      "valid": 12,
+      "workH": 31.4
+    },
+    {
+      "apo": 14,
+      "apoRate": 1.6,
+      "calls": 869,
+      "cancel": 1,
+      "costRate": 74.1,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 124660,
-      "labor_base": 124660,
+      "labor": 166673,
+      "labor_base": 166673,
       "name": "川村義之0108",
       "projects": [
         {
           "name": "ボルテックス2",
-          "sales": 75000,
-          "valid": 3
+          "sales": 100000,
+          "valid": 4
         },
         {
           "name": "J.P.コンサルティング_30コール課金",
+          "sales": 0,
+          "valid": 3
+        },
+        {
+          "name": "J.P.コンサルティング_50コール課金",
           "sales": 0,
           "valid": 2
         },
@@ -4989,8 +6796,8 @@
           "valid": 1
         },
         {
-          "name": "J.P.コンサルティング_50コール課金",
-          "sales": 0,
+          "name": "Growth Hub",
+          "sales": 35000,
           "valid": 1
         },
         {
@@ -5010,64 +6817,105 @@
         }
       ],
       "rank": "ミドル",
-      "sales": 165000,
-      "sales_dash": 210000,
+      "sales": 225000,
+      "sales_dash": 270000,
       "site": "六本木SC",
-      "unitPerDay": 27500,
-      "valid": 9,
-      "workH": 54.2
+      "unitPerDay": 28125,
+      "valid": 13,
+      "workH": 72.5
     },
     {
-      "apo": 10,
-      "apoRate": 0.8,
-      "calls": 1194,
-      "cancel": 1,
-      "costRate": null,
-      "days": 0,
+      "apo": 14,
+      "apoRate": 1.1,
+      "calls": 1297,
+      "cancel": 2,
+      "costRate": 41.6,
+      "days": 7,
       "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
+      "labor": 89893,
+      "labor_base": 89893,
       "name": "久保園大士0601",
       "projects": [
         {
           "name": "Seamth",
-          "sales": 162000,
-          "valid": 9
+          "sales": 216000,
+          "valid": 12
         }
       ],
       "rank": "ルーキー",
-      "sales": 162000,
-      "sales_dash": 162000,
+      "sales": 216000,
+      "sales_dash": 216000,
       "site": "リモートSC",
-      "unitPerDay": 0,
-      "valid": 9,
-      "workH": null
+      "unitPerDay": 30857,
+      "valid": 12,
+      "workH": 56.2
     },
     {
-      "apo": 8,
+      "apo": 10,
       "apoRate": 0.9,
-      "calls": 881,
+      "calls": 1069,
       "cancel": 0,
-      "costRate": 54.9,
-      "days": 5,
+      "costRate": 50.6,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 85120,
-      "labor_base": 85120,
+      "labor": 106160,
+      "labor_base": 106160,
+      "name": "坪井有美0922",
+      "projects": [
+        {
+          "name": "上武",
+          "sales": 120000,
+          "valid": 6
+        },
+        {
+          "name": "パーソナルヘルステック",
+          "sales": 40000,
+          "valid": 2
+        },
+        {
+          "name": "スタッフ満足",
+          "sales": 25000,
+          "valid": 1
+        },
+        {
+          "name": "クレイン工芸社",
+          "sales": 25000,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 210000,
+      "sales_dash": 210000,
+      "site": "リモートSC",
+      "unitPerDay": 26250,
+      "valid": 10,
+      "workH": 66.3
+    },
+    {
+      "apo": 14,
+      "apoRate": 1.3,
+      "calls": 1101,
+      "cancel": 2,
+      "costRate": 59.1,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 119385,
+      "labor_base": 119385,
       "name": "石塚",
       "projects": [
         {
-          "name": "HROTTI",
-          "sales": 56000,
-          "valid": 2
+          "name": "パソナ日本総務部",
+          "sales": 125000,
+          "valid": 5
         },
         {
           "name": "J.P.コンサルティング_30コール課金",
           "sales": 0,
-          "valid": 2
+          "valid": 4
         },
         {
-          "name": "パソナ日本総務部",
-          "sales": 50000,
+          "name": "HROTTI",
+          "sales": 56000,
           "valid": 2
         },
         {
@@ -5082,100 +6930,54 @@
         }
       ],
       "rank": "ミドル",
-      "sales": 155000,
-      "sales_dash": 155000,
+      "sales": 202000,
+      "sales_dash": 202000,
       "site": "六本木SC",
-      "unitPerDay": 31000,
-      "valid": 8,
-      "workH": 40.5
+      "unitPerDay": 28857,
+      "valid": 12,
+      "workH": 56.9
     },
     {
-      "apo": 10,
-      "apoRate": 2,
-      "calls": 508,
-      "cancel": 3,
-      "costRate": 60.3,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 92800,
-      "labor_base": 92800,
-      "name": "仁浦魁人0512",
+      "apo": 7,
+      "apoRate": 1.6,
+      "calls": 450,
+      "cancel": 0,
+      "costRate": 86.9,
+      "days": 5,
+      "incentive_daily": 40353,
+      "labor": 143433,
+      "labor_base": 103080,
+      "name": "青木くらら0607",
       "projects": [
         {
           "name": "DMM_EV事業部",
-          "sales": 161000,
-          "valid": 7
-        },
-        {
-          "name": "アイ・ピー・アイ",
-          "sales": 20000,
-          "valid": 1
-        },
-        {
-          "name": "スタッフ満足",
-          "sales": 25000,
-          "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 154000,
-      "sales_dash": 154000,
-      "site": "リモートSC",
-      "unitPerDay": 25667,
-      "valid": 7,
-      "workH": 46.4
-    },
-    {
-      "apo": 23,
-      "apoRate": 2.3,
-      "calls": 1004,
-      "cancel": 1,
-      "costRate": 73.6,
-      "days": 6,
-      "incentive_daily": 2982,
-      "labor": 106792,
-      "labor_base": 103810,
-      "name": "守繁日美子0707",
-      "projects": [
-        {
-          "name": "日清食品オンラインセミナー",
-          "sales": 0,
-          "valid": 8
-        },
-        {
-          "name": "インテグリティ・ヘルスケア　（イベント追客）",
-          "sales": 40000,
-          "valid": 8
-        },
-        {
-          "name": "Seamth",
-          "sales": 90000,
+          "sales": 115000,
           "valid": 5
         },
         {
-          "name": "DGコミュニケーションズ",
-          "sales": 15000,
-          "valid": 1
+          "name": "使えるねっとOA機器",
+          "sales": 50000,
+          "valid": 2
         }
       ],
       "rank": "ミドル",
-      "sales": 145000,
-      "sales_dash": 145000,
-      "site": "リモートSC",
-      "unitPerDay": 24167,
-      "valid": 22,
-      "workH": 49.4
+      "sales": 165000,
+      "sales_dash": 165000,
+      "site": "六本木SC",
+      "unitPerDay": 33000,
+      "valid": 7,
+      "workH": 43
     },
     {
-      "apo": 8,
-      "apoRate": 1.3,
-      "calls": 633,
+      "apo": 9,
+      "apoRate": 1.2,
+      "calls": 765,
       "cancel": 2,
-      "costRate": 33.3,
-      "days": 5,
+      "costRate": 41.8,
+      "days": 7,
       "incentive_daily": 0,
-      "labor": 46970,
-      "labor_base": 46970,
+      "labor": 67223,
+      "labor_base": 67223,
       "name": "柿﨑貴美子0512",
       "projects": [
         {
@@ -5192,166 +6994,42 @@
           "name": "スタッフ満足",
           "sales": 25000,
           "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 141000,
-      "sales_dash": 141000,
-      "site": "リモートSC",
-      "unitPerDay": 28200,
-      "valid": 6,
-      "workH": 33.5
-    },
-    {
-      "apo": 8,
-      "apoRate": 2.5,
-      "calls": 322,
-      "cancel": 1,
-      "costRate": 38.6,
-      "days": 2,
-      "incentive_daily": 12356,
-      "labor": 51689,
-      "labor_base": 39333,
-      "name": "外山哲朗1205",
-      "projects": [
-        {
-          "name": "ブレイベリー",
-          "sales": 40000,
-          "valid": 2
         },
         {
-          "name": "J.P.コンサルティング_30コール課金",
-          "sales": 0,
-          "valid": 1
-        },
-        {
-          "name": "TRYESサポート",
-          "sales": 30000,
-          "valid": 1
-        },
-        {
-          "name": "コロニー",
-          "sales": 22000,
-          "valid": 1
-        },
-        {
-          "name": "ダイテック注文分譲中国九州",
-          "sales": 21000,
-          "valid": 1
-        },
-        {
-          "name": "ダイテック注文分譲関東③",
-          "sales": 21000,
-          "valid": 1
-        }
-      ],
-      "rank": "トップ",
-      "sales": 134000,
-      "sales_dash": 134000,
-      "site": "六本木SC",
-      "unitPerDay": 67000,
-      "valid": 7,
-      "workH": 15.7
-    },
-    {
-      "apo": 8,
-      "apoRate": 1.5,
-      "calls": 539,
-      "cancel": 3,
-      "costRate": 96.1,
-      "days": 5,
-      "incentive_daily": 924,
-      "labor": 110549,
-      "labor_base": 109625,
-      "name": "清水久美子0122",
-      "projects": [
-        {
-          "name": "MissWH・Tiktokshop",
-          "sales": 110000,
-          "valid": 5
-        },
-        {
-          "name": "フロム・エージャパン_people X",
+          "name": "パーソナルヘルステック",
           "sales": 20000,
           "valid": 1
         }
       ],
-      "rank": "トップ",
-      "sales": 115000,
-      "sales_dash": 115000,
-      "site": "六本木SC",
-      "unitPerDay": 23000,
-      "valid": 5,
-      "workH": 43.9
-    },
-    {
-      "apo": 5,
-      "apoRate": 1.3,
-      "calls": 384,
-      "cancel": 0,
-      "costRate": 98.3,
-      "days": 4,
-      "incentive_daily": 30265,
-      "labor": 113025,
-      "labor_base": 82760,
-      "name": "青木くらら0607",
-      "projects": [
-        {
-          "name": "DMM_EV事業部",
-          "sales": 115000,
-          "valid": 5
-        }
-      ],
       "rank": "ミドル",
-      "sales": 115000,
-      "sales_dash": 115000,
-      "site": "六本木SC",
-      "unitPerDay": 28750,
-      "valid": 5,
-      "workH": 34.5
-    },
-    {
-      "apo": 5,
-      "apoRate": 1,
-      "calls": 518,
-      "cancel": 0,
-      "costRate": 44.7,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 46908,
-      "labor_base": 46908,
-      "name": "岡崎裕美0818",
-      "projects": [
-        {
-          "name": "スタンダードファクトリー",
-          "sales": 105000,
-          "valid": 5
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 105000,
-      "sales_dash": 105000,
+      "sales": 161000,
+      "sales_dash": 183000,
       "site": "リモートSC",
-      "unitPerDay": 17500,
-      "valid": 5,
-      "workH": 36.1
+      "unitPerDay": 23000,
+      "valid": 7,
+      "workH": 48
     },
     {
-      "apo": 9,
-      "apoRate": 1.5,
-      "calls": 599,
-      "cancel": 5,
-      "costRate": 93.5,
-      "days": 4,
-      "incentive_daily": 11433,
-      "labor": 96308,
-      "labor_base": 84875,
+      "apo": 12,
+      "apoRate": 1.8,
+      "calls": 676,
+      "cancel": 6,
+      "costRate": 80.9,
+      "days": 5,
+      "incentive_daily": 15244,
+      "labor": 121286,
+      "labor_base": 106042,
       "name": "硴塚",
       "projects": [
         {
+          "name": "チェスター",
+          "sales": 50000,
+          "valid": 2
+        },
+        {
           "name": "チェスター池袋",
-          "sales": 75000,
-          "valid": 3
+          "sales": 50000,
+          "valid": 2
         },
         {
           "name": "フジテックス_フレコン",
@@ -5364,44 +7042,54 @@
           "valid": 1
         },
         {
-          "name": "チェスター",
-          "sales": 25000,
+          "name": "ペルソナファースト",
+          "sales": 22000,
           "valid": 1
         },
         {
           "name": "メドケア",
           "sales": 20000,
           "valid": 1
+        },
+        {
+          "name": "リビコー",
+          "sales": 25000,
+          "valid": 1
         }
       ],
       "rank": "トップ",
-      "sales": 103000,
-      "sales_dash": 103000,
+      "sales": 150000,
+      "sales_dash": 150000,
       "site": "六本木SC",
-      "unitPerDay": 25750,
-      "valid": 4,
-      "workH": 34
+      "unitPerDay": 30000,
+      "valid": 6,
+      "workH": 42.4
     },
     {
-      "apo": 7,
-      "apoRate": 1.3,
-      "calls": 540,
+      "apo": 9,
+      "apoRate": 1.4,
+      "calls": 636,
       "cancel": 3,
-      "costRate": 124.6,
-      "days": 5,
-      "incentive_daily": 9528,
-      "labor": 103403,
-      "labor_base": 93875,
+      "costRate": 86.9,
+      "days": 6,
+      "incentive_daily": 12704,
+      "labor": 126871,
+      "labor_base": 114167,
       "name": "土屋大興0512",
       "projects": [
+        {
+          "name": "営業製作所",
+          "sales": 70000,
+          "valid": 2
+        },
         {
           "name": "日本電産中日本",
           "sales": 34000,
           "valid": 2
         },
         {
-          "name": "エムシーファッション決裁者",
-          "sales": 35000,
+          "name": "エムシーファッション",
+          "sales": 28000,
           "valid": 1
         },
         {
@@ -5410,7 +7098,7 @@
           "valid": 1
         },
         {
-          "name": "営業製作所",
+          "name": "エムシーファッション決裁者",
           "sales": 35000,
           "valid": 1
         },
@@ -5426,25 +7114,92 @@
         }
       ],
       "rank": "ミドル",
-      "sales": 83000,
-      "sales_dash": 83000,
+      "sales": 146000,
+      "sales_dash": 146000,
       "site": "六本木SC",
-      "unitPerDay": 16600,
-      "valid": 4,
-      "workH": 37.6
+      "unitPerDay": 24333,
+      "valid": 6,
+      "workH": 45.7
     },
     {
-      "apo": 4,
-      "apoRate": 0.4,
-      "calls": 1103,
-      "cancel": 1,
-      "costRate": 102.8,
-      "days": 5,
+      "apo": 10,
+      "apoRate": 1.6,
+      "calls": 626,
+      "cancel": 5,
+      "costRate": 83.4,
+      "days": 7,
       "incentive_daily": 0,
-      "labor": 77100,
-      "labor_base": 77100,
+      "labor": 109200,
+      "labor_base": 109200,
+      "name": "仁浦魁人0512",
+      "projects": [
+        {
+          "name": "DMM_EV事業部",
+          "sales": 138000,
+          "valid": 6
+        },
+        {
+          "name": "アイ・ピー・アイ",
+          "sales": 20000,
+          "valid": 1
+        },
+        {
+          "name": "スタッフ満足",
+          "sales": 25000,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 131000,
+      "sales_dash": 131000,
+      "site": "リモートSC",
+      "unitPerDay": 18714,
+      "valid": 5,
+      "workH": 54.6
+    },
+    {
+      "apo": 5,
+      "apoRate": 0.8,
+      "calls": 614,
+      "cancel": 0,
+      "costRate": 56.2,
+      "days": 8,
+      "incentive_daily": 0,
+      "labor": 59020,
+      "labor_base": 59020,
+      "name": "岡崎裕美0818",
+      "projects": [
+        {
+          "name": "スタンダードファクトリー",
+          "sales": 105000,
+          "valid": 5
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 105000,
+      "sales_dash": 105000,
+      "site": "リモートSC",
+      "unitPerDay": 13125,
+      "valid": 5,
+      "workH": 45.4
+    },
+    {
+      "apo": 5,
+      "apoRate": 0.3,
+      "calls": 1429,
+      "cancel": 1,
+      "costRate": 104.6,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 109833,
+      "labor_base": 109833,
       "name": "橋爪朝寿0209",
       "projects": [
+        {
+          "name": "アレクシア",
+          "sales": 30000,
+          "valid": 1
+        },
         {
           "name": "フォレスト",
           "sales": 30000,
@@ -5462,457 +7217,100 @@
         }
       ],
       "rank": "ルーキー",
-      "sales": 75000,
-      "sales_dash": 75000,
+      "sales": 105000,
+      "sales_dash": 105000,
       "site": "六本木SC",
       "unitPerDay": 15000,
-      "valid": 3,
-      "workH": 38.5
+      "valid": 4,
+      "workH": 54.9
     },
     {
       "apo": 3,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "幸野有希子",
-      "projects": [
-        {
-          "name": "HITO-Link26年",
-          "sales": 36000,
-          "valid": 2
-        },
-        {
-          "name": "パーソルプロセス＆テクノロジーHITO-Manager",
-          "sales": 25000,
-          "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 61000,
-      "sales_dash": 61000,
-      "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": 3,
-      "workH": null
-    },
-    {
-      "apo": 6,
-      "apoRate": 0.9,
-      "calls": 639,
-      "cancel": 3,
-      "costRate": 106.1,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 57283,
-      "labor_base": 57283,
-      "name": "船崎凜0916",
-      "projects": [
-        {
-          "name": "Seamth",
-          "sales": 54000,
-          "valid": 3
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 54000,
-      "sales_dash": 54000,
-      "site": "リモートSC",
-      "unitPerDay": 10800,
-      "valid": 3,
-      "workH": 40.9
-    },
-    {
-      "apo": 2,
       "apoRate": 0.3,
-      "calls": 705,
+      "calls": 893,
       "cancel": 0,
-      "costRate": 186.8,
-      "days": 6,
+      "costRate": 146.5,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 93385,
-      "labor_base": 93385,
+      "labor": 124513,
+      "labor_base": 124513,
       "name": "安部聡一郎0922",
       "projects": [
         {
           "name": "使えるねっとOA機器",
           "sales": 50000,
           "valid": 2
+        },
+        {
+          "name": "スパイダープラス_プラント担当",
+          "sales": 35000,
+          "valid": 1
         }
       ],
       "rank": "ルーキープラス",
-      "sales": 50000,
-      "sales_dash": 50000,
+      "sales": 85000,
+      "sales_dash": 85000,
       "site": "六本木SC",
-      "unitPerDay": 8333,
-      "valid": 2,
-      "workH": 49.1
-    },
-    {
-      "apo": 1,
-      "apoRate": 0.2,
-      "calls": 434,
-      "cancel": 0,
-      "costRate": 181.6,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 32695,
-      "labor_base": 32695,
-      "name": "日高竹晴0825",
-      "projects": [
-        {
-          "name": "Seamth",
-          "sales": 18000,
-          "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 18000,
-      "sales_dash": 18000,
-      "site": "リモートSC",
-      "unitPerDay": 3600,
-      "valid": 1,
-      "workH": 25.1
-    },
-    {
-      "apo": 1,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": " 久保園大士0601",
-      "projects": [
-        {
-          "name": "Seamth",
-          "sales": 18000,
-          "valid": 1
-        }
-      ],
-      "rank": "",
-      "sales": 18000,
-      "sales_dash": 18000,
-      "site": "",
-      "unitPerDay": 0,
-      "valid": 1,
-      "workH": null
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "大原昌彦0609",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 4,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 1,
-      "costRate": null,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 52845,
-      "labor_base": 52845,
-      "name": "佐藤誠0605",
-      "projects": [
-        {
-          "name": "★らくなげ",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
+      "unitPerDay": 10625,
       "valid": 3,
-      "workH": 40.6
+      "workH": 65.5
     },
     {
-      "apo": 11,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 6,
+      "apo": 8,
+      "apoRate": 1,
+      "calls": 819,
+      "cancel": 4,
+      "costRate": 111.4,
+      "days": 7,
       "incentive_daily": 0,
-      "labor": 77280,
-      "labor_base": 77280,
-      "name": "田中千賀0209",
+      "labor": 80173,
+      "labor_base": 80173,
+      "name": "船崎凜0916",
       "projects": [
         {
-          "name": "★TMCレガシード",
-          "sales": 0,
+          "name": "Seamth",
+          "sales": 72000,
           "valid": 4
-        },
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 3
-        },
-        {
-          "name": "★LOOV決裁者以外",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★らくなげ",
-          "sales": 0,
-          "valid": 2
-        }
-      ],
-      "rank": "ルーキー",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 11,
-      "workH": 42.9
-    },
-    {
-      "apo": 12,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 1,
-      "costRate": null,
-      "days": 6,
-      "incentive_daily": 44477,
-      "labor": 138568,
-      "labor_base": 94091,
-      "name": "竹内実範0703",
-      "projects": [
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 6
-        },
-        {
-          "name": "★LOOV決裁者以外",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCShiiilo",
-          "sales": 0,
-          "valid": 1
-        },
-        {
-          "name": "★UPF新規",
-          "sales": 0,
-          "valid": 1
-        }
-      ],
-      "rank": "社員",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 11,
-      "workH": 50.7
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "中島翔太朗0924",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 7,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 64285,
-      "labor_base": 64285,
-      "name": "津田唯佳0916",
-      "projects": [
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 4
-        },
-        {
-          "name": "★LOOV決裁者",
-          "sales": 0,
-          "valid": 1
-        },
-        {
-          "name": "★UPF新規",
-          "sales": 0,
-          "valid": 1
-        },
-        {
-          "name": "★らくなげ",
-          "sales": 0,
-          "valid": 1
         }
       ],
       "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
+      "sales": 72000,
+      "sales_dash": 72000,
       "site": "リモートSC",
-      "unitPerDay": 0,
-      "valid": 7,
-      "workH": 49.5
+      "unitPerDay": 10286,
+      "valid": 4,
+      "workH": 57.3
     },
     {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "山崎琴美1117",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "リモートSC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 10,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
+      "apo": 9,
+      "apoRate": 1.3,
+      "calls": 670,
+      "cancel": 6,
+      "costRate": 288.9,
       "days": 6,
-      "incentive_daily": 15746,
-      "labor": 119101,
-      "labor_base": 103355,
-      "name": "伏見優孝0304",
+      "incentive_daily": 1232,
+      "labor": 132899,
+      "labor_base": 131667,
+      "name": "清水久美子0122",
       "projects": [
         {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 8
+          "name": "MissWH・Tiktokshop",
+          "sales": 88000,
+          "valid": 4
         },
         {
-          "name": "★TMCレガシード",
-          "sales": 0,
+          "name": "フロム・エージャパン_people X",
+          "sales": 40000,
           "valid": 2
         }
       ],
-      "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 10,
-      "workH": 49.2
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "合田",
-      "projects": [],
       "rank": "トップ",
-      "sales": 0,
-      "sales_dash": 0,
+      "sales": 46000,
+      "sales_dash": 46000,
       "site": "六本木SC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "髙橋千里1217",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "リモートSC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
-    },
-    {
-      "apo": 0,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 0,
-      "incentive_daily": 0,
-      "labor": 0,
-      "labor_base": 0,
-      "name": "岡本美穂0901",
-      "projects": [],
-      "rank": "",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "リモートSC",
-      "unitPerDay": 0,
-      "valid": 0,
-      "workH": null
+      "unitPerDay": 7667,
+      "valid": 3,
+      "workH": 52.7
     },
     {
       "apo": 0,
@@ -5955,15 +7353,86 @@
       "workH": null
     },
     {
-      "apo": 16,
+      "apo": 0,
       "apoRate": null,
       "calls": 0,
       "cancel": 0,
       "costRate": null,
-      "days": 6,
+      "days": 0,
       "incentive_daily": 0,
-      "labor": 108130,
-      "labor_base": 108130,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "山崎琴美1117",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "リモートSC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 2,
+      "apoRate": 0.5,
+      "calls": 411,
+      "cancel": 2,
+      "costRate": null,
+      "days": 3,
+      "incentive_daily": 0,
+      "labor": 53025,
+      "labor_base": 53025,
+      "name": "君塚綾子1104",
+      "projects": [],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": 25.2
+    },
+    {
+      "apo": 12,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 7,
+      "incentive_daily": 20995,
+      "labor": 141535,
+      "labor_base": 120540,
+      "name": "伏見優孝0304",
+      "projects": [
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 8
+        },
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 4
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 12,
+      "workH": 57.4
+    },
+    {
+      "apo": 22,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 1,
+      "costRate": null,
+      "days": 8,
+      "incentive_daily": 0,
+      "labor": 144357,
+      "labor_base": 144357,
       "name": "小橋正佳0706",
       "projects": [
         {
@@ -5974,15 +7443,391 @@
         {
           "name": "★TMCレガシード",
           "sales": 0,
-          "valid": 4
+          "valid": 7
+        },
+        {
+          "name": "★UPF新規",
+          "sales": 0,
+          "valid": 3
         },
         {
           "name": "★プロベル",
           "sales": 0,
-          "valid": 2
+          "valid": 3
         },
         {
           "name": "★LOOV決裁者以外",
+          "sales": 0,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 21,
+      "workH": 65.6
+    },
+    {
+      "apo": 1,
+      "apoRate": 0.2,
+      "calls": 497,
+      "cancel": 1,
+      "costRate": null,
+      "days": 6,
+      "incentive_daily": 0,
+      "labor": 39238,
+      "labor_base": 39238,
+      "name": "日高竹晴0825",
+      "projects": [],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "リモートSC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": 30.2
+    },
+    {
+      "apo": 0,
+      "apoRate": 0,
+      "calls": 791,
+      "cancel": 0,
+      "costRate": null,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 164659,
+      "labor_base": 164659,
+      "name": "原田航0225",
+      "projects": [],
+      "rank": "トップ",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": 57.9
+    },
+    {
+      "apo": 14,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 1,
+      "costRate": null,
+      "days": 8,
+      "incentive_daily": 59303,
+      "labor": 184758,
+      "labor_base": 125455,
+      "name": "竹内実範0703",
+      "projects": [
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 6
+        },
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 4
+        },
+        {
+          "name": "★LOOV決裁者以外",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★TMCShiiilo",
+          "sales": 0,
+          "valid": 1
+        },
+        {
+          "name": "★UPF新規",
+          "sales": 0,
+          "valid": 1
+        }
+      ],
+      "rank": "社員",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 13,
+      "workH": 67.6
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "髙橋千里1217",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "リモートSC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "合田",
+      "projects": [],
+      "rank": "トップ",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 8,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 6,
+      "incentive_daily": 0,
+      "labor": 60503,
+      "labor_base": 60503,
+      "name": "中井歩0707",
+      "projects": [
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 5
+        },
+        {
+          "name": "★らくなげ",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 8,
+      "workH": 43.2
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "岡本美穂0901",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "リモートSC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "中島翔太朗0924",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 0,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 0,
+      "incentive_daily": 0,
+      "labor": 0,
+      "labor_base": 0,
+      "name": "大原昌彦0609",
+      "projects": [],
+      "rank": "",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 0,
+      "workH": null
+    },
+    {
+      "apo": 7,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 1,
+      "costRate": null,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 74598,
+      "labor_base": 74598,
+      "name": "佐藤誠0605",
+      "projects": [
+        {
+          "name": "★らくなげ",
+          "sales": 0,
+          "valid": 4
+        },
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 1
+        },
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 6,
+      "workH": 57.4
+    },
+    {
+      "apo": 6,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 7,
+      "incentive_daily": 0,
+      "labor": 63175,
+      "labor_base": 63175,
+      "name": "佐々木真美0922",
+      "projects": [
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 3
+        },
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★らくなげ",
+          "sales": 0,
+          "valid": 1
+        }
+      ],
+      "rank": "ミドル",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "AI",
+      "unitPerDay": 0,
+      "valid": 6,
+      "workH": 42.1
+    },
+    {
+      "apo": 11,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 8,
+      "incentive_daily": 0,
+      "labor": 102930,
+      "labor_base": 102930,
+      "name": "田中千賀0209",
+      "projects": [
+        {
+          "name": "★TMCレガシード",
+          "sales": 0,
+          "valid": 4
+        },
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 3
+        },
+        {
+          "name": "★LOOV決裁者以外",
+          "sales": 0,
+          "valid": 2
+        },
+        {
+          "name": "★らくなげ",
+          "sales": 0,
+          "valid": 2
+        }
+      ],
+      "rank": "ルーキー",
+      "sales": 0,
+      "sales_dash": 0,
+      "site": "六本木SC",
+      "unitPerDay": 0,
+      "valid": 11,
+      "workH": 57.2
+    },
+    {
+      "apo": 8,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 0,
+      "costRate": null,
+      "days": 8,
+      "incentive_daily": 0,
+      "labor": 85692,
+      "labor_base": 85692,
+      "name": "津田唯佳0916",
+      "projects": [
+        {
+          "name": "★TMCChai",
+          "sales": 0,
+          "valid": 4
+        },
+        {
+          "name": "★LOOV決裁者",
+          "sales": 0,
+          "valid": 1
+        },
+        {
+          "name": "★TMCレガシード",
           "sales": 0,
           "valid": 1
         },
@@ -6000,57 +7845,21 @@
       "rank": "ミドル",
       "sales": 0,
       "sales_dash": 0,
-      "site": "AI",
+      "site": "リモートSC",
       "unitPerDay": 0,
-      "valid": 16,
-      "workH": 49.1
+      "valid": 8,
+      "workH": 65.9
     },
     {
-      "apo": 5,
+      "apo": 10,
       "apoRate": null,
       "calls": 0,
       "cancel": 0,
       "costRate": null,
-      "days": 5,
+      "days": 6,
       "incentive_daily": 0,
-      "labor": 49817,
-      "labor_base": 49817,
-      "name": "中井歩0707",
-      "projects": [
-        {
-          "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★らくなげ",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 1
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 5,
-      "workH": 35.6
-    },
-    {
-      "apo": 8,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 5,
-      "incentive_daily": 0,
-      "labor": 54325,
-      "labor_base": 54325,
+      "labor": 65400,
+      "labor_base": 65400,
       "name": "上田奈津子1014",
       "projects": [
         {
@@ -6059,48 +7868,17 @@
           "valid": 4
         },
         {
+          "name": "★らくなげ",
+          "sales": 0,
+          "valid": 3
+        },
+        {
           "name": "★makepower",
           "sales": 0,
           "valid": 2
         },
         {
-          "name": "★らくなげ",
-          "sales": 0,
-          "valid": 2
-        }
-      ],
-      "rank": "ミドル",
-      "sales": 0,
-      "sales_dash": 0,
-      "site": "AI",
-      "unitPerDay": 0,
-      "valid": 8,
-      "workH": 36.2
-    },
-    {
-      "apo": 5,
-      "apoRate": null,
-      "calls": 0,
-      "cancel": 0,
-      "costRate": null,
-      "days": 6,
-      "incentive_daily": 0,
-      "labor": 52300,
-      "labor_base": 52300,
-      "name": "佐々木真美0922",
-      "projects": [
-        {
-          "name": "★TMCChai",
-          "sales": 0,
-          "valid": 2
-        },
-        {
           "name": "★TMCレガシード",
-          "sales": 0,
-          "valid": 2
-        },
-        {
-          "name": "★らくなげ",
           "sales": 0,
           "valid": 1
         }
@@ -6110,145 +7888,150 @@
       "sales_dash": 0,
       "site": "AI",
       "unitPerDay": 0,
-      "valid": 5,
-      "workH": 34.9
+      "valid": 10,
+      "workH": 43.6
     },
     {
-      "apo": 0,
-      "apoRate": 0,
-      "calls": 216,
-      "cancel": 2,
+      "apo": 6,
+      "apoRate": null,
+      "calls": 0,
+      "cancel": 8,
       "costRate": null,
-      "days": 1,
+      "days": 8,
       "incentive_daily": 0,
-      "labor": 17465,
-      "labor_base": 17465,
-      "name": "君塚綾子1104",
-      "projects": [],
+      "labor": 129267,
+      "labor_base": 129267,
+      "name": "幸野有希子CRM",
+      "projects": [
+        {
+          "name": "HITO-Link26年",
+          "sales": 90000,
+          "valid": 5
+        }
+      ],
       "rank": "ミドル",
-      "sales": -70000,
-      "sales_dash": -70000,
+      "sales": -85000,
+      "sales_dash": -85000,
       "site": "六本木SC",
       "unitPerDay": 0,
       "valid": -2,
-      "workH": 8.3
+      "workH": 64.6
     }
   ],
   "prev_calls": {
-    " 久保園大士0601": 0,
     "上田奈津子1014": 0,
     "中井歩0707": 0,
     "中島翔太朗0924": 0,
-    "中村光伸1017": 501,
-    "久保園大士0601": 1194,
-    "久保浩二0513": 918,
-    "仁浦魁人0512": 508,
+    "中村光伸1017": 643,
+    "久保園大士0601": 1297,
+    "久保浩二0513": 1107,
+    "仁浦魁人0512": 626,
     "伏見優孝0304": 0,
     "佐々木真美0922": 0,
     "佐藤誠0605": 0,
-    "内藤公誉1212": 594,
-    "加藤隆治0210": 347,
-    "原田航0225": 594,
+    "内藤公誉1212": 641,
+    "加藤隆治0210": 438,
+    "原田航0225": 791,
     "合田": 0,
-    "君塚綾子1104": 216,
-    "土屋大興0512": 540,
-    "土屋麻佳0405": 1020,
-    "坂本杏奈1208": 760,
-    "坪井有美0922": 870,
-    "外山哲朗1205": 322,
+    "君塚綾子1104": 411,
+    "土屋大興0512": 636,
+    "土屋麻佳0405": 1232,
+    "坂本杏奈1208": 949,
+    "坪井有美0922": 1069,
+    "外山哲朗1205": 561,
     "大原昌彦0609": 0,
-    "大友晶五0317": 360,
+    "大友晶五0317": 475,
     "大木勇武0316": 0,
-    "守繁日美子0707": 1004,
-    "安部聡一郎0922": 705,
-    "小林幸司0507": 873,
+    "守繁日美子0707": 1204,
+    "安部聡一郎0922": 893,
+    "小林幸司0507": 1147,
     "小橋正佳0706": 0,
     "山崎琴美1117": 0,
-    "山田健太0425": 338,
-    "岡崎裕美0818": 518,
-    "岡本章宏0423": 540,
+    "山田健太0425": 409,
+    "岡崎裕美0818": 614,
+    "岡本章宏0423": 689,
     "岡本美穂0901": 0,
-    "島田": 855,
-    "川村義之0108": 696,
-    "平賀健介0202": 754,
-    "幸野有希子": 0,
-    "日高竹晴0825": 434,
-    "木下翔太0424": 763,
-    "木村明日美1116": 831,
-    "松浦美紀0423": 1038,
-    "松澤傑0115": 345,
-    "柿﨑貴美子0512": 633,
-    "横川祥玲0210": 510,
-    "橋本陽平0901": 605,
-    "橋爪朝寿0209": 1103,
+    "島田": 1057,
+    "川村義之0108": 869,
+    "平賀健介0202": 812,
+    "幸野有希子CRM": 0,
+    "日高竹晴0825": 497,
+    "木下翔太0424": 963,
+    "木村明日美1116": 1017,
+    "松浦美紀0423": 1382,
+    "松澤傑0115": 423,
+    "柿﨑貴美子0512": 765,
+    "横川祥玲0210": 633,
+    "橋本陽平0901": 733,
+    "橋爪朝寿0209": 1429,
     "津田唯佳0916": 0,
-    "清水久美子0122": 539,
+    "清水久美子0122": 670,
     "田中千賀0209": 0,
-    "石塚": 881,
-    "硴塚": 599,
+    "石塚": 1101,
+    "硴塚": 676,
     "竹内実範0703": 0,
-    "船崎凜0916": 639,
-    "若松": 866,
+    "船崎凜0916": 819,
+    "若松": 1178,
     "長友郁真0412": 0,
-    "青木くらら0607": 384,
+    "青木くらら0607": 450,
     "髙橋千里1217": 0
   },
   "sites": {
     "ai": {
-      "apo": 71,
+      "apo": 72,
       "apoRate": 0,
       "calls": 0,
       "cancel": 2,
       "cancelRate": 2.8,
       "costRate": 0,
-      "gross": -652366,
-      "labor": 652366,
+      "gross": -659728,
+      "labor": 659728,
       "ops": 34,
       "sales": 0,
       "unit": 0,
-      "valid": 69
+      "valid": 70
     },
     "all": {
-      "apo": 550,
-      "apoRate": 2.14,
-      "calls": 25690,
-      "cancel": 69,
-      "cancelRate": 12.5,
-      "costRate": 50.2,
-      "gross": 4512697,
-      "labor": 4546303,
+      "apo": 710,
+      "apoRate": 2.07,
+      "calls": 34341,
+      "cancel": 108,
+      "cancelRate": 15.2,
+      "costRate": 55.3,
+      "gross": 5095523,
+      "labor": 6292477,
       "ops": 34,
-      "sales": 9059000,
-      "unit": 46448,
-      "valid": 481
+      "sales": 11388000,
+      "unit": 44642,
+      "valid": 602
     },
     "remote": {
-      "apo": 103,
-      "apoRate": 0,
-      "calls": 0,
-      "cancel": 13,
-      "cancelRate": 12.6,
-      "costRate": 48.1,
-      "gross": 734387,
-      "labor": 679613,
+      "apo": 124,
+      "apoRate": 1.39,
+      "calls": 8906,
+      "cancel": 24,
+      "cancelRate": 19.4,
+      "costRate": 59.9,
+      "gross": 660243,
+      "labor": 985757,
       "ops": 34,
-      "sales": 1414000,
-      "unit": 25551,
-      "valid": 90
+      "sales": 1646000,
+      "unit": 24939,
+      "valid": 100
     },
     "shinjuku": {
-      "apo": 375,
-      "apoRate": 0,
-      "calls": 0,
-      "cancel": 49,
-      "cancelRate": 13.1,
-      "costRate": 41.5,
-      "gross": 4537676,
-      "labor": 3214324,
+      "apo": 514,
+      "apoRate": 2.22,
+      "calls": 23191,
+      "cancel": 82,
+      "cancelRate": 16,
+      "costRate": 47.7,
+      "gross": 5095008,
+      "labor": 4646992,
       "ops": 34,
-      "sales": 7752000,
-      "unit": 53608,
-      "valid": 326
+      "sales": 9742000,
+      "unit": 51450,
+      "valid": 432
     }
   },
   "targets": {
