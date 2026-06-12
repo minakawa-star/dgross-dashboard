@@ -8042,17 +8042,17 @@
     },
     "all": {
       "costRate": 50,
-      "sales": 33000000,
+      "sales": 30000000,
       "unit": 35000
     },
     "remote": {
       "costRate": 50,
-      "sales": 8910000,
+      "sales": 5160000,
       "unit": 25000
     },
     "shinjuku": {
       "costRate": 50,
-      "sales": 24090000,
+      "sales": 24840000,
       "unit": 45000
     }
   }
