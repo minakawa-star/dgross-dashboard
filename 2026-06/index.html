@@ -236,7 +236,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
           <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
         </div>
         <div class="card">
-          <div class="card-title">案件 TOP5（累計売上）</div>
+          <div class="card-title">案件 TOP20（累計売上）</div>
           <div id="heatmap-list"></div>
         </div>
       </div>
@@ -434,7 +434,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       <button onclick="closeProjectModal()" style="background:none;border:none;font-size:18px;color:var(--text3);cursor:pointer;padding:4px">✕</button>
     </div>
     <table class="data-table" style="width:100%">
-      <thead><tr><th>案件名</th><th class="r">有効</th><th class="r">売上</th></tr></thead>
+      <thead><tr><th>案件名</th><th class="r">獲得</th><th class="r">CXL</th><th class="r">有効</th><th class="r">売上</th></tr></thead>
       <tbody id="proj-modal-tbody"></tbody>
     </table>
   </div>
@@ -985,18 +985,18 @@ function closeMemberModal(e) {
 }
 
 function renderHeatmap() {
-  // サイト別案件TOP5（heatmapデータから取得）
+  // サイト別案件TOP20（heatmapデータから取得）
   var hm = PT_DATA.heatmap;
-  var top5;
+  var top20;
   if (hm && typeof hm === 'object' && !Array.isArray(hm)) {
     // サイト別heatmap（新形式）
-    top5 = (hm[currentSite] || hm['all'] || []).slice(0, 5);
+    top20 = (hm[currentSite] || hm['all'] || []).slice(0, 20);
   } else {
     // 旧形式（配列）後方互換
-    top5 = (hm || []).slice(0, 5);
+    top20 = (hm || []).slice(0, 20);
   }
-  var maxSales = top5.length > 0 ? top5[0].sales : 1;
-  var html = top5.map(function(h) {
+  var maxSales = top20.length > 0 ? top20[0].sales : 1;
+  var html = top20.map(function(h) {
     var pct = Math.round(h.sales / maxSales * 100);
     return '<div class="hm-row"><div class="hm-rank">' + h.rank + '</div>' +
       '<div class="hm-name">' + h.name + '</div>' +
@@ -1251,7 +1251,9 @@ function openProjectModal(name) {
   var html = op.projects.map(function(p, i) {
     return '<tr>' +
       '<td><span style="font-size:10px;color:var(--text3);margin-right:4px">' + (i+1) + '</span>' + p.name + '</td>' +
-      '<td class="r" style="font-weight:500">' + p.valid + '件</td>' +
+      '<td class="r">' + (p.apo || 0) + '</td>' +
+      '<td class="r" style="color:var(--red)">' + (p.cxl || 0) + '</td>' +
+      '<td class="r" style="font-weight:500">' + p.valid + '</td>' +
       '<td class="r">' + fc(p.sales) + '</td></tr>';
   }).join('');
   document.getElementById('proj-modal-tbody').innerHTML = html;
