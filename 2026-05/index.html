@@ -1948,7 +1948,7 @@ function exportCSV() {
   if (st) st.textContent = '✅ ' + fname + ' をダウンロードしました';
 }
 var GITHUB_OWNER  = 'DGLOSS-2009';
-var GITHUB_REPO   = 'dgloss-dashboard';
+var GITHUB_REPO   = 'dgross-dashboard';
 var GITHUB_BRANCH = 'main';
 
 function getGithubPat() {
@@ -1988,9 +1988,9 @@ function autoSavePtData(successMsg) {
 function goTop() {
   // window.location.href で遷移（ポップアップブロック回避）
   if (window.location.href.indexOf('github.io') >= 0) {
-    window.location.href = 'https://DGLOSS-2009.github.io/dgloss-dashboard/';
+    window.location.href = 'https://DGLOSS-2009.github.io/dgross-dashboard/';
   } else {
-    window.open('https://DGLOSS-2009.github.io/dgloss-dashboard/', '_blank');
+    window.open('https://DGLOSS-2009.github.io/dgross-dashboard/', '_blank');
   }
 }
 function goToMonth(val) {
@@ -1998,7 +1998,7 @@ function goToMonth(val) {
   if (window.location.href.indexOf('github.io') >= 0) {
     window.location.href = '../' + val + '/';
   } else {
-    window.open('https://DGLOSS-2009.github.io/dgloss-dashboard/' + val + '/', '_blank');
+    window.open('https://DGLOSS-2009.github.io/dgross-dashboard/' + val + '/', '_blank');
   }
 }
 
