@@ -2061,6 +2061,12 @@ function githubHeaders() {
   var authPrefix = pat.indexOf('github_pat_') === 0 ? 'Bearer' : 'token';
   return {'Authorization': authPrefix+' '+pat, 'Content-Type':'application/json', 'Accept':'application/vnd.github.v3+json'};
 }
+function githubGetFile(path) {
+  return fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+path, {headers:githubHeaders()})
+  .then(function(r){ if(r.status===404) return null; return r.json(); })
+  .then(function(d){ return d && d.sha ? d : null; })
+  .catch(function(){ return null; });
+}
 function githubPutFile(path, content, message) {
   return fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+path, {headers:githubHeaders()})
   .then(function(r){return r.json();})
