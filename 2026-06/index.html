@@ -561,6 +561,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
       <!-- 設定タブ -->
       <div style="display:flex;gap:2px;background:#EDEDEB;border-radius:7px;padding:3px;margin-bottom:14px;width:fit-content">
         <div class="site-tab active" id="stab-target" onclick="switchSettingTab('target',this)">目標設定</div>
+        <div class="site-tab" id="stab-site" onclick="switchSettingTab('site',this)">サイト設定</div>
         <div class="site-tab" id="stab-staff" onclick="switchSettingTab('staff',this)">スタッフ管理</div>
       </div>
 
@@ -592,6 +593,35 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
             <span id="next-month-status" style="font-size:12px;color:var(--text3)"></span>
           </div>
           <div id="next-month-result" style="display:none;margin-top:10px"></div>
+        </div>
+      </div>
+
+      <!-- サイト設定 -->
+      <div id="stab-panel-site" style="display:none">
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+            サイト名マッピング
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-secondary" onclick="addSiteMappingRow()">＋ 行追加</button>
+              <button class="btn btn-primary" onclick="saveSiteMapping()">保存する</button>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:12px">
+            スタッフマスターの「サイト列の値」と「ダッシュボードの表示名」の対応表です。<br>
+            マスターのサイト名が変わった場合はここを更新してください（コード修正不要）。
+          </div>
+          <table class="data-table" id="site-mapping-table">
+            <thead><tr>
+              <th>マスターのサイト列の値</th>
+              <th>ダッシュボード表示名</th>
+              <th>集計対象</th>
+              <th>操作</th>
+            </tr></thead>
+            <tbody id="site-mapping-tbody"></tbody>
+          </table>
+          <div style="font-size:11px;color:var(--text3);margin-top:10px">
+            ※「集計対象」をOFFにするとダッシュボードの全体集計から除外されます（AIサイト等）
+          </div>
         </div>
       </div>
 
@@ -1512,8 +1542,80 @@ function switchSettingTab(tab, el) {
   document.querySelectorAll('#page-settings .site-tab').forEach(function(t){ t.classList.remove('active'); });
   if (el) el.classList.add('active');
   document.getElementById('stab-panel-target').style.display = tab === 'target' ? 'block' : 'none';
+  document.getElementById('stab-panel-site').style.display   = tab === 'site'   ? 'block' : 'none';
   document.getElementById('stab-panel-staff').style.display  = tab === 'staff'  ? 'block' : 'none';
   if (tab === 'staff') loadStaff();
+  if (tab === 'site')  loadSiteMapping();
+}
+
+// ===== サイトマッピング管理 =====
+var DEFAULT_SITE_MAPPING = [
+  { raw: '現場G',  label: '六本木SC', include: true },
+  { raw: '在宅G',  label: 'リモートSC', include: true },
+  { raw: 'AI',     label: 'AI',       include: false },
+];
+
+function getSiteMapping() {
+  return (PT_DATA.siteMapping && PT_DATA.siteMapping.length > 0)
+    ? PT_DATA.siteMapping
+    : DEFAULT_SITE_MAPPING;
+}
+
+function loadSiteMapping() {
+  var mapping = getSiteMapping();
+  renderSiteMappingTable(mapping);
+}
+
+function renderSiteMappingTable(mapping) {
+  var tbody = document.getElementById('site-mapping-tbody');
+  tbody.innerHTML = mapping.map(function(row, i) {
+    return '<tr>' +
+      '<td><input type="text" value="' + (row.raw || '') + '" class="setting-input" id="sm-raw-' + i + '" style="width:140px"></td>' +
+      '<td><input type="text" value="' + (row.label || '') + '" class="setting-input" id="sm-label-' + i + '" style="width:140px"></td>' +
+      '<td style="text-align:center"><input type="checkbox" id="sm-include-' + i + '"' + (row.include !== false ? ' checked' : '') + '></td>' +
+      '<td><button onclick="removeSiteMappingRow(' + i + ')" style="font-size:11px;padding:2px 8px;border:1px solid var(--red);border-radius:4px;color:var(--red);background:#fff;cursor:pointer">削除</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function addSiteMappingRow() {
+  var mapping = getCurrentSiteMappingFromUI();
+  mapping.push({ raw: '', label: '', include: true });
+  renderSiteMappingTable(mapping);
+}
+
+function removeSiteMappingRow(idx) {
+  var mapping = getCurrentSiteMappingFromUI();
+  mapping.splice(idx, 1);
+  renderSiteMappingTable(mapping);
+}
+
+function getCurrentSiteMappingFromUI() {
+  var rows = document.querySelectorAll('#site-mapping-tbody tr');
+  var result = [];
+  rows.forEach(function(_, i) {
+    var raw     = document.getElementById('sm-raw-' + i);
+    var label   = document.getElementById('sm-label-' + i);
+    var include = document.getElementById('sm-include-' + i);
+    if (raw) result.push({
+      raw:     raw.value.trim(),
+      label:   label ? label.value.trim() : '',
+      include: include ? include.checked : true
+    });
+  });
+  return result;
+}
+
+function saveSiteMapping() {
+  var mapping = getCurrentSiteMappingFromUI();
+  if (mapping.some(function(r){ return !r.raw || !r.label; })) {
+    alert('マスターの値と表示名は必須です'); return;
+  }
+  PT_DATA.siteMapping = mapping;
+  autoSavePtData('サイトマッピング更新').then(function(r) {
+    if (r && r.ok) alert('保存しました');
+    else alert('保存しました（PAT未設定のためGitHub保存はスキップ）');
+  });
 }
 
 function loadStaff() {
