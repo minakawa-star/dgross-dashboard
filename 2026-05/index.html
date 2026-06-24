@@ -2132,13 +2132,122 @@ function prepareNextMonth() {
 function _doGenerateNextMonth(nextKey, nextLabel, pat, statusEl, resultEl) {
   statusEl.textContent = nextLabel + 'のHTMLを生成・保存中...';
 
-  // 現在のHTMLソースを取得
   fetch(window.location.href)
     .then(function(r){ return r.text(); })
     .then(function(src) {
-      // mgmtスクリプトブロックを除去
-      var patched = src
-        .replace(/<script id="mgmt">[\s\S]*?<\/script>/g, '')
-        .replace(/
+      // remove mgmt block using split/join to avoid HTML parser issues
+      var SE = '</' + 'script>';
+      var patched = src;
+      var ms = '<scr' + 'ipt id="mgmt">';
+      while (patched.indexOf(ms) >= 0) {
+        var si = patched.indexOf(ms);
+        var ei = patched.indexOf(SE, si);
+        if (ei < 0) break;
+        patched = patched.slice(0, si) + patched.slice(ei + SE.length);
+      }
+      var cs = '<!-- ===== \u7ba1\u7406\u6a5f\u80fd\u30b9\u30af\u30ea\u30d7\u30c8';
+      while (patched.indexOf(cs) >= 0) {
+        var si2 = patched.indexOf(cs);
+        var ei2 = patched.indexOf(SE, si2);
+        if (ei2 < 0) break;
+        patched = patched.slice(0, si2) + patched.slice(ei2 + SE.length);
+      }
+
+      // HTML/JS分離
+      var stag = '<scr' + 'ipt>';
+      var sidx = patched.indexOf(stag);
+      var hp = sidx >= 0 ? patched.slice(0, sidx) : patched;
+      var jp = sidx >= 0 ? patched.slice(sidx) : '';
+
+      // HTML加工
+      hp = hp.replace(/(<option\b[^>]*) selected([^>]*>)/g, '$1$2');
+      hp = hp.split('<option value="AI">AI</option>').join('');
+      var atk = "switchSite('ai'";
+      while (hp.indexOf(atk) >= 0) {
+        var ts = hp.lastIndexOf('<div', hp.indexOf(atk));
+        var te = hp.indexOf('</div>', hp.indexOf(atk)) + 6;
+        if (ts < 0 || te < 6) break;
+        hp = hp.slice(0, ts) + hp.slice(te);
+      }
+
+      // siteKey置換
+      jp = jp.replace(
+        /^function siteKey\(s\)[^\n]+$/m,
+        "function siteKey(s){return{all:null,shinjuku:'\u516d\u672c\u6728SC',remote:'\u30ea\u30e2\u30fcSC'}[s];}"
+      );
+
+      var finalHtml = hp + jp;
+
+      // 翌月空データ
+      var emptyPt = JSON.stringify({
+        meta:{month:nextLabel,lastUpdate:null,lastUpdateLabel:'\u672a\u53d6\u8fbc',elapsedDays:0,
+              enrollCount:0,activeCount:0,workingDays:0,alertText:null,
+              workPeriodWarning:null,enrollBySite:null,activeBySite:null},
+        sites:{all:{sales:0,apo:0,cancel:0,valid:0,cancelRate:0,labor:0,costRate:0,gross:0,ops:0,unit:0,calls:0,apoRate:0},
+               shinjuku:{sales:0,apo:0,cancel:0,valid:0,cancelRate:0,labor:0,costRate:0,gross:0,ops:0,unit:0,calls:0,apoRate:0},
+               remote:{sales:0,apo:0,cancel:0,valid:0,cancelRate:0,labor:0,costRate:0,gross:0,ops:0,unit:0,calls:0,apoRate:0},
+               ai:{sales:0,apo:0,cancel:0,valid:0,cancelRate:0,labor:0,costRate:0,gross:0,ops:0,unit:0,calls:0,apoRate:0}},
+        daily:{all:[],shinjuku:[],remote:[],ai:[]},
+        chart:{data:[],labels:[],bySite:{all:[],shinjuku:[],remote:[],ai:[]}},
+        heatmap:{all:[],shinjuku:[],remote:[],ai:[]},
+        operators:[],
+        targets:{all:{sales:0,costRate:50,unit:0},shinjuku:{sales:0,costRate:50,unit:0},
+                 remote:{sales:0,costRate:50,unit:0},ai:{sales:0,costRate:0,unit:0}},
+        incentive:{},additionalRevenues:[],additionalTotal:0,prev_calls:{},siteMapping:[]
+      }, null, 2);
+
+      return Promise.all([
+        githubPutFile(nextKey + '/index.html',    finalHtml, nextLabel + ' HTML\u751f\u6210'),
+        githubPutFile(nextKey + '/pt_data.json',  emptyPt,   nextLabel + ' \u521d\u671f\u30c7\u30fc\u30bf\u751f\u6210'),
+      ]);
+    })
+    .then(function() {
+      statusEl.textContent = '';
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = '<div class="alert" style="border-color:var(--green)">' +
+        nextLabel + '\u306e\u6e96\u5099\u5b8c\u4e86\uff01<a href="../' + nextKey + '/">\u3053\u3061\u3089</a></div>';
+      document.getElementById('btn-next-month').onclick = prepareNextMonth;
+    })
+    .catch(function(e) {
+      statusEl.textContent = '';
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = '<div class="alert" style="border-color:var(--red)">\u30a8\u30e9\u30fc: ' + e.message + '</div>';
+    });
+}
+
+function goToMonth(val) {
+  if (!val) return;
+  if (window.location.href.indexOf('github.io') >= 0) {
+    window.location.href = '../' + val + '/';
+  } else {
+    window.open('https://dgloss-2009.github.io/dgross-dashboard/' + val + '/', '_blank');
+  }
+}
+
+function buildMonthSelect() {
+  var sel = document.getElementById('monthSelect');
+  if (!sel) return;
+  var mm = (PT_DATA.meta.month || '').match(/(\d{4})\u5e74(\d+)\u6708/);
+  if (!mm) return;
+  var y = parseInt(mm[1]), m = parseInt(mm[2]);
+  sel.innerHTML = '';
+  var cy = 2026, cm = 5;
+  while (cy < y || (cy === y && cm <= m)) {
+    var key = cy + '-' + String(cm).padStart(2,'0');
+    var opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = cy + '\u5e74' + cm + '\u6708';
+    sel.appendChild(opt);
+    cm++; if (cm > 12) { cm = 1; cy++; }
+  }
+  sel.value = y + '-' + String(m).padStart(2,'0');
+}
+
+(function(){
+  window._onPtDataReady = window._onPtDataReady || [];
+  window._onPtDataReady.push(buildMonthSelect);
+})();
+
+</script>
 </body>
 </html>
