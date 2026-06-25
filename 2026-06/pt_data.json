@@ -1,6 +1,22 @@
 {
-  "additionalRevenues": [],
-  "additionalTotal": 0,
+  "additionalRevenues": [
+    {
+      "type": "BPO通話料",
+      "name": "S-FIX TMCAI make power LOOV シコメル",
+      "amount": 552000
+    },
+    {
+      "type": "BPO固定費",
+      "name": "S-FIX LOOV TMC コミクス make power",
+      "amount": 550000
+    },
+    {
+      "type": "DP",
+      "name": "本間さん分",
+      "amount": 60000
+    }
+  ],
+  "additionalTotal": 1162000,
   "chart": {
     "bySite": {
       "ai": [
@@ -15124,11 +15140,11 @@
       "calls": 65734,
       "cancel": 262,
       "cancelRate": 19,
-      "costRate": 49.7,
-      "gross": 12559996,
+      "costRate": 47.5,
+      "gross": 13721996,
       "labor": 12414504,
       "ops": 35,
-      "sales": 24974500,
+      "sales": 26136500,
       "unit": 44348,
       "valid": 1118
     },
@@ -15182,5 +15198,7 @@
       "sales": 24840000,
       "unit": 45000
     }
-  }
+  },
+  "_baseSales": 24974500,
+  "_baseGross": 12559996
 }
