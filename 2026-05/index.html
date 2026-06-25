@@ -1503,6 +1503,11 @@ function runUpdate() {
     form.append('work',   selectedFiles['work']);
     if (selectedFiles['master']) form.append('master', selectedFiles['master']);
     if (selectedFiles['inc'])    form.append('inc',    selectedFiles['inc']);
+    // 送信前にローカルの追加収益をPT_DATAに同期（リロード後も引き継ぎ）
+    if (additionalRevenues.length > 0) {
+      PT_DATA.additionalRevenues = additionalRevenues;
+      PT_DATA.additionalTotal    = additionalRevenues.reduce(function(s,r){return s+(r.amount||0);},0);
+    }
     var ptBlob = new Blob([JSON.stringify(PT_DATA)], {type:'application/json'});
     form.append('prev', ptBlob, 'pt_data.json');
 
@@ -1527,7 +1532,17 @@ function runUpdate() {
       status.textContent = '画面に反映中...';
 
       PT_DATA = data.data;
-      if (additionalRevenues.length > 0) PT_DATA.additionalRevenues = additionalRevenues;
+      // 追加収益を復元して売上・粗利・原価率に反映
+      if (additionalRevenues.length > 0) {
+        PT_DATA.additionalRevenues = additionalRevenues;
+        PT_DATA.additionalTotal    = additionalRevenues.reduce(function(s,r){return s+(r.amount||0);},0);
+        PT_DATA._baseSales         = PT_DATA.sites.all.sales;
+        PT_DATA._baseGross         = PT_DATA.sites.all.gross;
+        PT_DATA.sites.all.sales    = PT_DATA._baseSales + PT_DATA.additionalTotal;
+        PT_DATA.sites.all.gross    = PT_DATA._baseGross + PT_DATA.additionalTotal;
+        PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
+          ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10 : 0;
+      }
       renderDashboard(currentSite); renderDaily(currentSite); renderOpSummary(currentSite); renderOpTable(currentSite); renderChart2();
       document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
       document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
@@ -1597,7 +1612,16 @@ function _retryUpdate(form, btn, status, result, attempt) {
           setStep(4, 'active');
           status.textContent = '画面に反映中...';
           PT_DATA = data.data;
-          if (additionalRevenues.length > 0) PT_DATA.additionalRevenues = additionalRevenues;
+          if (additionalRevenues.length > 0) {
+            PT_DATA.additionalRevenues = additionalRevenues;
+            PT_DATA.additionalTotal    = additionalRevenues.reduce(function(s,r){return s+(r.amount||0);},0);
+            PT_DATA._baseSales         = PT_DATA.sites.all.sales;
+            PT_DATA._baseGross         = PT_DATA.sites.all.gross;
+            PT_DATA.sites.all.sales    = PT_DATA._baseSales + PT_DATA.additionalTotal;
+            PT_DATA.sites.all.gross    = PT_DATA._baseGross + PT_DATA.additionalTotal;
+            PT_DATA.sites.all.costRate = PT_DATA.sites.all.sales > 0
+              ? Math.round(PT_DATA.sites.all.labor / PT_DATA.sites.all.sales * 1000) / 10 : 0;
+          }
           renderDashboard(currentSite); renderDaily(currentSite); renderOpSummary(currentSite); renderOpTable(currentSite); renderChart2();
           document.getElementById('updateTime').textContent = '最終更新: ' + PT_DATA.meta.lastUpdateLabel;
           document.getElementById('alertText').textContent  = PT_DATA.meta.alertText;
