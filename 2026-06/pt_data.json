@@ -15928,11 +15928,11 @@
       "calls": 0,
       "cancel": 268,
       "cancelRate": 18.1,
-      "costRate": 48.3,
-      "gross": 13981741,
+      "costRate": 46.2,
+      "gross": 15203741,
       "labor": 13059759,
       "ops": 0,
-      "sales": 27041500,
+      "sales": 28263500,
       "unit": 45588,
       "valid": 1216
     },
@@ -15986,5 +15986,7 @@
       "sales": 24922800,
       "unit": 45000
     }
-  }
+  },
+  "_baseSales": 27041500,
+  "_baseGross": 13981741
 }
