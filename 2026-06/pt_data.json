@@ -15145,11 +15145,11 @@
       "calls": 65734,
       "cancel": 262,
       "cancelRate": 19,
-      "costRate": 47.2,
-      "gross": 13823324,
+      "costRate": 49.5,
+      "gross": 12601324,
       "labor": 12373176,
       "ops": 35,
-      "sales": 26196500,
+      "sales": 24974500,
       "unit": 44348,
       "valid": 1118
     },
@@ -15190,20 +15190,18 @@
     },
     "all": {
       "costRate": 50,
-      "sales": 30000000,
+      "sales": 30100000,
       "unit": 35000
     },
     "remote": {
       "costRate": 50,
-      "sales": 5160000,
+      "sales": 5177200,
       "unit": 25000
     },
     "shinjuku": {
       "costRate": 50,
-      "sales": 24840000,
+      "sales": 24922800,
       "unit": 45000
     }
-  },
-  "_baseSales": 24974500,
-  "_baseGross": 12601324
+  }
 }
