@@ -15145,11 +15145,11 @@
       "calls": 65734,
       "cancel": 262,
       "cancelRate": 19,
-      "costRate": 49.5,
-      "gross": 12601324,
+      "costRate": 47.2,
+      "gross": 13823324,
       "labor": 12373176,
       "ops": 35,
-      "sales": 24974500,
+      "sales": 26196500,
       "unit": 44348,
       "valid": 1118
     },
@@ -15203,5 +15203,7 @@
       "sales": 24840000,
       "unit": 45000
     }
-  }
+  },
+  "_baseSales": 24974500,
+  "_baseGross": 12601324
 }
